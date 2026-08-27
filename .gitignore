@@ -1,0 +1,71 @@
+# PHP & Composer
+/vendor
+/auth.json
+
+# Node & Frontend Build
+/node_modules
+/public/build
+/public/hot
+/public/fonts-manifest.dev.json
+/bootstrap/ssr
+
+# Laravel Wayfinder (Auto-generated TypeScript routes/actions)
+/resources/js/actions
+/resources/js/routes
+/resources/js/wayfinder
+
+# Environment & Secrets
+.env
+.env.backup
+.env.production
+.env.local
+.env.*.local
+.env.dusk.*
+
+# Storage & Runtime Keys
+/public/storage
+/storage/*.key
+/storage/pail
+
+# Databases (Local SQLite & Dumps)
+/database/*.sqlite
+/database/*.sqlite-journal
+/database/*.sqlite-shm
+/database/*.sqlite-wal
+*.sql
+*.sqlite
+
+# Testing & Static Analysis Caches
+/.phpunit.cache
+.phpunit.result.cache
+.phpstan.cache
+phpstan.cache
+/.pest
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE & Editor Configs
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+.phpactor.json
+Homestead.json
+Homestead.yaml
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# AI Agents & Workspaces
+/.agents
+
+/.docs
