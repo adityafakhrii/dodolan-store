@@ -379,7 +379,6 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                         <div className="lg:col-span-7 space-y-6 z-10">
                             <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-400">
-                                <Flame className="h-4 w-4" />
                                 <span>Solusi Keselamatan Pengemudi</span>
                             </div>
                             <h2 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
@@ -500,29 +499,29 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                             return (
                                 <div
                                     key={idx}
-                                    className="rounded-2xl bg-slate-950 p-7 text-white border border-slate-800 shadow-md flex flex-col justify-between space-y-6 group hover:border-slate-700 transition"
+                                    className="rounded-2xl bg-white p-7 text-slate-900 border border-slate-200 shadow-sm flex flex-col justify-between space-y-6 group hover:border-emerald-400 hover:shadow-md transition"
                                 >
                                     <div className="space-y-3">
                                         <div className="flex items-center justify-between">
-                                            <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400">
+                                            <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">
                                                 {svc.category}
                                             </span>
-                                            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 border border-slate-800 text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition">
-                                                <IconComp className="h-4 w-4" />
+                                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition">
+                                                <IconComp className="h-5 w-5" />
                                             </div>
                                         </div>
-                                        <h3 className="text-lg font-bold text-white leading-snug">
+                                        <h3 className="text-lg font-bold text-slate-900 group-hover:text-emerald-700 transition leading-snug">
                                             {svc.title}
                                         </h3>
-                                        <p className="text-xs text-slate-400 leading-relaxed">
+                                        <p className="text-xs text-slate-500 leading-relaxed">
                                             {svc.description}
                                         </p>
                                     </div>
 
-                                    <div className="pt-3 border-t border-slate-900 flex items-center justify-between">
+                                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
                                         <Link
                                             href={svc.link}
-                                            className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 hover:text-emerald-300 transition"
+                                            className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-700 transition"
                                         >
                                             <span>{svc.linkText}</span>
                                             <ArrowRight className="h-3.5 w-3.5" />

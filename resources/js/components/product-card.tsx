@@ -54,14 +54,14 @@ export function ProductCard({ product, showBadge, discountPercent }: ProductCard
     };
 
     return (
-        <div className="group relative flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-all duration-300 hover:border-slate-300 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900">
+        <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:border-slate-300 hover:shadow-lg">
             {/* Image Box */}
-            <div className="relative aspect-4/3 w-full overflow-hidden bg-slate-950">
-                <Link href={`/produk/${product.slug}`} className="block h-full w-full">
+            <div className="relative aspect-4/3 w-full overflow-hidden bg-slate-50 border-b border-slate-100 p-3 flex items-center justify-center">
+                <Link href={`/produk/${product.slug}`} className="block h-full w-full flex items-center justify-center">
                     <img
                         src={product.image_url}
                         alt={product.name}
-                        className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                        className="h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
                     />
                 </Link>
@@ -95,8 +95,8 @@ export function ProductCard({ product, showBadge, discountPercent }: ProductCard
                     <button
                         type="button"
                         onClick={handleToggleLike}
-                        className={`flex h-7 w-7 items-center justify-center rounded-full bg-white/90 shadow-sm backdrop-blur-xs transition hover:bg-white dark:bg-slate-900/90 ${
-                            liked ? 'text-rose-600' : 'text-slate-600 hover:text-rose-600 dark:text-slate-300'
+                        className={`flex h-7 w-7 items-center justify-center rounded-full bg-white shadow-sm border border-slate-200 transition hover:bg-slate-50 ${
+                            liked ? 'text-rose-600' : 'text-slate-600 hover:text-rose-600'
                         }`}
                         title="Simpan ke Wishlist"
                     >
@@ -104,7 +104,7 @@ export function ProductCard({ product, showBadge, discountPercent }: ProductCard
                     </button>
                     <Link
                         href={`/produk/${product.slug}`}
-                        className="flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-slate-600 shadow-sm backdrop-blur-xs transition hover:bg-white hover:text-emerald-600 dark:bg-slate-900/90 dark:text-slate-300"
+                        className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-slate-600 shadow-sm border border-slate-200 transition hover:bg-slate-50 hover:text-emerald-600"
                         title="Lihat Detail Produk"
                     >
                         <Eye className="h-3.5 w-3.5" />
@@ -121,7 +121,7 @@ export function ProductCard({ product, showBadge, discountPercent }: ProductCard
                             ? 'bg-slate-800/90 text-slate-400 cursor-not-allowed translate-y-full group-hover:translate-y-0'
                             : added
                             ? 'bg-emerald-600 text-white translate-y-0'
-                            : 'bg-slate-900/95 text-white hover:bg-emerald-600 translate-y-full group-hover:translate-y-0 backdrop-blur-xs shadow-lg'
+                            : 'bg-slate-900 text-white hover:bg-emerald-600 translate-y-full group-hover:translate-y-0 shadow-lg'
                     }`}
                 >
                     {added ? (
@@ -142,13 +142,13 @@ export function ProductCard({ product, showBadge, discountPercent }: ProductCard
             <div className="flex flex-1 flex-col p-4 space-y-2">
                 {/* Category Pill */}
                 {product.category && (
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600">
                         {product.category.name}
                     </span>
                 )}
 
                 {/* Title */}
-                <h3 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-2 min-h-10 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition leading-snug">
+                <h3 className="text-sm font-bold text-slate-900 line-clamp-2 min-h-10 group-hover:text-emerald-600 transition leading-snug">
                     <Link href={`/produk/${product.slug}`}>
                         {product.name}
                     </Link>
@@ -156,7 +156,7 @@ export function ProductCard({ product, showBadge, discountPercent }: ProductCard
 
                 {/* Price Line */}
                 <div className="flex items-baseline gap-2 pt-1">
-                    <span className="text-base font-black text-rose-600 dark:text-rose-500">
+                    <span className="text-base font-black text-rose-600">
                         {formatRupiah(product.price)}
                     </span>
                     {originalPrice && (

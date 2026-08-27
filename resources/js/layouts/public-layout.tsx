@@ -9,7 +9,7 @@ interface PublicLayoutProps extends PropsWithChildren {
 
 export function PublicLayout({ children }: PublicLayoutProps) {
     return (
-        <div className="min-h-screen flex flex-col bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 selection:bg-emerald-500 selection:text-white">
+        <div className="min-h-screen flex flex-col bg-white text-slate-900 selection:bg-emerald-500 selection:text-white">
             <StoreHeader />
             <main className="flex-1">
                 {children}
