@@ -107,4 +107,15 @@
         @apply bg-background text-foreground antialiased;
         font-feature-settings: "rlig" 1, "calt" 1;
     }
+
+    button, 
+    a, 
+    input[type="checkbox"], 
+    input[type="radio"], 
+    input[type="submit"], 
+    input[type="button"], 
+    [role="button"], 
+    select {
+        cursor: pointer;
+    }
 }

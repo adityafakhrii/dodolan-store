@@ -20,7 +20,7 @@ export default function Contact() {
 
             {/* Header */}
             <div className="bg-slate-900 text-white py-16 border-b border-slate-800">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
                     <div className="max-w-3xl space-y-3">
                         <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-semibold text-emerald-400">
                             Pusat Layanan &amp; Informasi
@@ -36,7 +36,7 @@ export default function Contact() {
             </div>
 
             {/* Contact Details & Fast Chat Form */}
-            <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-[1440px] px-4 py-16 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
                     {/* Left: Contact Info Cards */}
                     <div className="lg:col-span-5 space-y-6">

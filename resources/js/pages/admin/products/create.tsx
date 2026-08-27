@@ -1,6 +1,7 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 import { AdminLayout } from '@/layouts/admin-layout';
+import { CustomSelect } from '@/components/ui/custom-select';
 import { ChevronLeft, Plus, Trash2, Upload, Loader2, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -93,16 +94,12 @@ export default function ProductCreate({ categories }: CreateProductProps) {
                                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
                                     Kategori <span className="text-rose-500">*</span>
                                 </label>
-                                <select
-                                    required
+                                <CustomSelect
                                     value={data.category_id}
-                                    onChange={(e) => setData('category_id', e.target.value)}
-                                    className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white font-semibold"
-                                >
-                                    {categories.map((c) => (
-                                        <option key={c.id} value={c.id}>{c.name}</option>
-                                    ))}
-                                </select>
+                                    onChange={(val) => setData('category_id', val)}
+                                    className="w-full"
+                                    options={categories.map((c) => ({ value: String(c.id), label: c.name }))}
+                                />
                                 {errors.category_id && <p className="mt-1 text-xs text-rose-500">{errors.category_id}</p>}
                             </div>
 

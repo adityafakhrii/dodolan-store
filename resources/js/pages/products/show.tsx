@@ -2,17 +2,17 @@ import { Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
 import { PublicLayout } from '@/layouts/public-layout';
 import { ProductCard } from '@/components/product-card';
-import { 
-    ShoppingBag, 
-    Check, 
-    PhoneCall, 
-    ShieldCheck, 
-    Truck, 
-    ChevronRight, 
-    Minus, 
-    Plus, 
-    Sparkles, 
-    Layers 
+import {
+    ShoppingBag,
+    Check,
+    PhoneCall,
+    ShieldCheck,
+    Truck,
+    ChevronRight,
+    Minus,
+    Plus,
+    Sparkles,
+    Layers
 } from 'lucide-react';
 import { formatRupiah, getWhatsAppLink } from '@/lib/format';
 import { useCart } from '@/hooks/use-cart';
@@ -79,25 +79,23 @@ export default function ProductShow({ product, specification, relatedProducts }:
 
             {/* Breadcrumb Navigation */}
             <div className="border-b border-slate-200 bg-slate-50 py-3 text-xs text-slate-500 dark:border-slate-800 dark:bg-slate-900/50">
-                <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto flex max-w-[1440px] items-center gap-2 px-4 sm:px-6 lg:px-8">
                     <Link href="/" className="hover:text-emerald-600 transition">Beranda</Link>
                     <ChevronRight className="h-3 w-3 text-slate-400" />
-                    <Link href="/produk" className="hover:text-emerald-600 transition">Produk</Link>
-                    {product.category && (
-                        <>
-                            <ChevronRight className="h-3 w-3 text-slate-400" />
-                            <Link href={`/produk?category=${product.category.slug}`} className="hover:text-emerald-600 transition">
-                                {product.category.name}
-                            </Link>
-                        </>
-                    )}
+                    <Link href="/produk" className="hover:text-emerald-600 transition">Katalog Produk</Link>
                     <ChevronRight className="h-3 w-3 text-slate-400" />
-                    <span className="text-slate-900 font-semibold truncate max-w-xs dark:text-white">{product.name}</span>
+                    <Link href={`/produk?category=${product.category?.slug}`} className="hover:text-emerald-600 transition">
+                        {product.category?.name}
+                    </Link>
+                    <ChevronRight className="h-3 w-3 text-slate-400" />
+                    <span className="text-slate-900 dark:text-white font-semibold truncate max-w-xs sm:max-w-md">
+                        {product.name}
+                    </span>
                 </div>
             </div>
 
             {/* Main Product Info Container */}
-            <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
                     {/* Left: Product Images Gallery */}
                     <div className="lg:col-span-6 space-y-4">
@@ -130,9 +128,8 @@ export default function ProductShow({ product, specification, relatedProducts }:
                             <div className="flex items-center gap-3 overflow-x-auto pb-2">
                                 <button
                                     onClick={() => setSelectedImage(product.image_url)}
-                                    className={`h-20 w-20 shrink-0 overflow-hidden rounded-xl border-2 transition ${
-                                        selectedImage === product.image_url ? 'border-emerald-600' : 'border-slate-200 dark:border-slate-800 opacity-60'
-                                    }`}
+                                    className={`h-20 w-20 shrink-0 overflow-hidden rounded-xl border-2 transition ${selectedImage === product.image_url ? 'border-emerald-600' : 'border-slate-200 dark:border-slate-800 opacity-60'
+                                        }`}
                                 >
                                     <img src={product.image_url} alt="Thumbnail main" className="h-full w-full object-cover" />
                                 </button>
@@ -140,9 +137,8 @@ export default function ProductShow({ product, specification, relatedProducts }:
                                     <button
                                         key={img.id}
                                         onClick={() => setSelectedImage(img.image_url)}
-                                        className={`h-20 w-20 shrink-0 overflow-hidden rounded-xl border-2 transition ${
-                                            selectedImage === img.image_url ? 'border-emerald-600' : 'border-slate-200 dark:border-slate-800 opacity-60'
-                                        }`}
+                                        className={`h-20 w-20 shrink-0 overflow-hidden rounded-xl border-2 transition ${selectedImage === img.image_url ? 'border-emerald-600' : 'border-slate-200 dark:border-slate-800 opacity-60'
+                                            }`}
                                     >
                                         <img src={img.image_url} alt="Thumbnail" className="h-full w-full object-cover" />
                                     </button>
@@ -271,7 +267,6 @@ export default function ProductShow({ product, specification, relatedProducts }:
                     <div className="mt-16 border-t border-slate-200 pt-12 dark:border-slate-800">
                         <div className="max-w-3xl">
                             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
-                                <Sparkles className="h-5 w-5 text-emerald-600" />
                                 <span>Spesifikasi Teknis Hardware</span>
                             </h2>
                             <div className="overflow-hidden rounded-xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900 shadow-xs">

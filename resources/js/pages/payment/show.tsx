@@ -72,7 +72,7 @@ export default function PaymentShow({ order }: PaymentShowProps) {
 
             {/* Header */}
             <div className="bg-slate-900 text-white py-12 border-b border-slate-800">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+                <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 text-center">
                     <div className="inline-flex items-center justify-center h-16 w-16 rounded-full mb-4 shadow-lg">
                         {isPaid ? (
                             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">

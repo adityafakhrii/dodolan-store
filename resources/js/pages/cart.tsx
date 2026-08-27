@@ -19,7 +19,7 @@ export default function Cart() {
 
             {/* Header */}
             <div className="bg-slate-900 text-white py-10 border-b border-slate-800">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
                     <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
                         Keranjang Belanja
                     </h1>
@@ -29,7 +29,7 @@ export default function Cart() {
                 </div>
             </div>
 
-            <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-[1440px] px-4 py-12 sm:px-6 lg:px-8">
                 {items.length > 0 ? (
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                         {/* Cart Items List */}

@@ -1,6 +1,7 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
 import { AdminLayout } from '@/layouts/admin-layout';
+import { CustomSelect } from '@/components/ui/custom-select';
 import { formatDate, getWhatsAppLink } from '@/lib/format';
 import { Search, Wrench, Phone, Mail, MapPin, CheckCircle2, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -86,28 +87,32 @@ export default function ServiceRequestsIndex({ requests, filters }: ServiceReque
                         <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
                     </form>
 
-                    <div className="flex items-center gap-2 w-full sm:w-auto">
-                        <select
+                    <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
+                        <CustomSelect
                             value={filters.service_type || ''}
-                            onChange={(e) => handleFilterChange('service_type', e.target.value)}
-                            className="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 text-xs text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 font-semibold"
-                        >
-                            <option value="">Semua Jenis Layanan</option>
-                            <option value="Instalasi">Instalasi</option>
-                            <option value="Survey">Survey</option>
-                            <option value="Maintenance">Maintenance</option>
-                        </select>
+                            onChange={(val) => handleFilterChange('service_type', val)}
+                            size="sm"
+                            className="w-full sm:w-44"
+                            options={[
+                                { value: '', label: 'Semua Layanan' },
+                                { value: 'Instalasi', label: 'Instalasi' },
+                                { value: 'Survey', label: 'Survey' },
+                                { value: 'Maintenance', label: 'Maintenance' },
+                            ]}
+                        />
 
-                        <select
+                        <CustomSelect
                             value={filters.status || ''}
-                            onChange={(e) => handleFilterChange('status', e.target.value)}
-                            className="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 text-xs text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 font-semibold"
-                        >
-                            <option value="">Semua Status</option>
-                            <option value="Baru">Baru (Belum Ditindaklanjuti)</option>
-                            <option value="Diproses">Diproses</option>
-                            <option value="Selesai">Selesai</option>
-                        </select>
+                            onChange={(val) => handleFilterChange('status', val)}
+                            size="sm"
+                            className="w-full sm:w-44"
+                            options={[
+                                { value: '', label: 'Semua Status' },
+                                { value: 'Baru', label: 'Baru' },
+                                { value: 'Diproses', label: 'Diproses' },
+                                { value: 'Selesai', label: 'Selesai' },
+                            ]}
+                        />
                     </div>
                 </div>
 
@@ -153,21 +158,17 @@ export default function ServiceRequestsIndex({ requests, filters }: ServiceReque
                                                 {req.note && <div className="text-[10px] italic text-slate-400 mt-0.5">Catatan: {req.note}</div>}
                                             </td>
                                             <td className="px-5 py-4">
-                                                <select
+                                                <CustomSelect
                                                     value={req.status}
-                                                    onChange={(e) => handleStatusUpdate(req, e.target.value)}
-                                                    className={`rounded-lg border px-2.5 py-1 text-[11px] font-bold ${
-                                                        req.status === 'Baru'
-                                                            ? 'border-rose-300 bg-rose-50 text-rose-700 dark:bg-rose-950 dark:text-rose-400'
-                                                            : req.status === 'Diproses'
-                                                            ? 'border-blue-300 bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-400'
-                                                            : 'border-emerald-300 bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400'
-                                                    }`}
-                                                >
-                                                    <option value="Baru">Baru</option>
-                                                    <option value="Diproses">Diproses</option>
-                                                    <option value="Selesai">Selesai</option>
-                                                </select>
+                                                    onChange={(val) => handleStatusUpdate(req, val)}
+                                                    size="sm"
+                                                    className="w-32"
+                                                    options={[
+                                                        { value: 'Baru', label: 'Baru' },
+                                                        { value: 'Diproses', label: 'Diproses' },
+                                                        { value: 'Selesai', label: 'Selesai' },
+                                                    ]}
+                                                />
                                             </td>
                                             <td className="px-5 py-4 text-slate-400">
                                                 {formatDate(req.created_at)}

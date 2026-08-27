@@ -2,6 +2,7 @@ import { Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
 import { PublicLayout } from '@/layouts/public-layout';
 import { ProductCard } from '@/components/product-card';
+import { CustomSelect } from '@/components/ui/custom-select';
 import { Search, SlidersHorizontal, X, ArrowUpDown, ChevronLeft, ChevronRight, Layers, Filter } from 'lucide-react';
 
 interface Category {
@@ -81,7 +82,7 @@ export default function ProductsIndex({ products, categories, filters }: Product
 
             {/* Page Header Banner */}
             <div className="bg-slate-900 text-white py-12 border-b border-slate-800">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         <div>
                             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-400">
@@ -125,7 +126,7 @@ export default function ProductsIndex({ products, categories, filters }: Product
             </div>
 
             {/* Main Content Grid */}
-            <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8">
                 <div className="flex flex-col lg:flex-row gap-8">
                     {/* Desktop Sidebar Filter */}
                     <aside className="hidden lg:block w-64 shrink-0 space-y-6">
@@ -216,16 +217,18 @@ export default function ProductsIndex({ products, categories, filters }: Product
                             {/* Sort Dropdown */}
                             <div className="flex items-center gap-2 ml-auto">
                                 <span className="text-xs font-semibold text-slate-400 hidden sm:inline">Urutkan:</span>
-                                <select
+                                <CustomSelect
                                     value={filters.sort || 'latest'}
-                                    onChange={(e) => applyFilter('sort', e.target.value)}
-                                    className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 focus:border-emerald-500 focus:outline-hidden focus:ring-1 focus:ring-emerald-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
-                                >
-                                    <option value="latest">Produk Terbaru</option>
-                                    <option value="price_asc">Harga: Terendah ke Tertinggi</option>
-                                    <option value="price_desc">Harga: Tertinggi ke Terendah</option>
-                                    <option value="name_asc">Nama: A - Z</option>
-                                </select>
+                                    onChange={(val) => applyFilter('sort', val)}
+                                    size="sm"
+                                    className="w-48 sm:w-56"
+                                    options={[
+                                        { value: 'latest', label: 'Produk Terbaru' },
+                                        { value: 'price_asc', label: 'Harga: Terendah ke Tertinggi' },
+                                        { value: 'price_desc', label: 'Harga: Tertinggi ke Terendah' },
+                                        { value: 'name_asc', label: 'Nama: A - Z' },
+                                    ]}
+                                />
                             </div>
                         </div>
 

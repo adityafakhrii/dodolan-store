@@ -99,7 +99,7 @@ export default function ServicesIndex({ selectedType = 'Instalasi' }: ServicesIn
 
             {/* Hero Header */}
             <div className="bg-slate-900 text-white py-16 lg:py-20 border-b border-slate-800">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
                     <div className="max-w-3xl space-y-4">
                         <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-semibold text-emerald-400">
                             Technical Engineering Services
@@ -116,7 +116,7 @@ export default function ServicesIndex({ selectedType = 'Instalasi' }: ServicesIn
 
             {/* 3 Pillars Overview */}
             <div className="py-16 lg:py-20">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
+                <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 space-y-12">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {servicePillars.map((pillar) => {
                             const IconComponent = pillar.icon;

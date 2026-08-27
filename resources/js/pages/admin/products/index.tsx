@@ -1,6 +1,7 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
 import { AdminLayout } from '@/layouts/admin-layout';
+import { CustomSelect } from '@/components/ui/custom-select';
 import { formatRupiah } from '@/lib/format';
 import { Plus, Search, Edit2, Trash2, Package, Eye, Filter } from 'lucide-react';
 import { toast } from 'sonner';
@@ -98,16 +99,16 @@ export default function ProductIndex({ products, categories, filters }: ProductI
                     </form>
 
                     <div className="flex items-center gap-2 w-full sm:w-auto">
-                        <select
+                        <CustomSelect
                             value={filters.category_id || ''}
-                            onChange={(e) => handleCategoryFilter(e.target.value)}
-                            className="w-full sm:w-48 rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 text-xs text-slate-700 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 font-semibold"
-                        >
-                            <option value="">Semua Kategori</option>
-                            {categories.map((c) => (
-                                <option key={c.id} value={c.id}>{c.name}</option>
-                            ))}
-                        </select>
+                            onChange={(val) => handleCategoryFilter(val)}
+                            className="w-full sm:w-52"
+                            size="sm"
+                            options={[
+                                { value: '', label: 'Semua Kategori' },
+                                ...categories.map((c) => ({ value: String(c.id), label: c.name })),
+                            ]}
+                        />
                     </div>
                 </div>
 

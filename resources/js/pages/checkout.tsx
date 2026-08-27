@@ -100,7 +100,7 @@ export default function Checkout() {
 
             {/* Header */}
             <div className="bg-slate-900 text-white py-10 border-b border-slate-800">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center gap-2 text-xs text-slate-400 mb-2">
                         <Link href="/keranjang" className="hover:text-emerald-400 flex items-center gap-1">
                             <ChevronLeft className="h-3.5 w-3.5" /> Kembali ke Keranjang
@@ -112,7 +112,7 @@ export default function Checkout() {
                 </div>
             </div>
 
-            <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-[1440px] px-4 py-12 sm:px-6 lg:px-8">
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
                     {/* Left: Customer Information Form */}
                     <div className="lg:col-span-7 space-y-6">

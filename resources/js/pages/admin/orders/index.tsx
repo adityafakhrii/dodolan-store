@@ -1,6 +1,7 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
 import { AdminLayout } from '@/layouts/admin-layout';
+import { CustomSelect } from '@/components/ui/custom-select';
 import { formatRupiah, formatDate } from '@/lib/format';
 import { Search, ShoppingCart, Eye, Filter } from 'lucide-react';
 
@@ -77,29 +78,33 @@ export default function OrdersIndex({ orders, filters }: OrdersIndexProps) {
                         <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
                     </form>
 
-                    <div className="flex items-center gap-2 w-full sm:w-auto">
-                        <select
+                    <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
+                        <CustomSelect
                             value={filters.payment_status || ''}
-                            onChange={(e) => handleFilterChange('payment_status', e.target.value)}
-                            className="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 text-xs text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 font-semibold"
-                        >
-                            <option value="">Semua Status Bayar</option>
-                            <option value="Pending">Pending (Belum Bayar)</option>
-                            <option value="Paid">Paid (Lunas)</option>
-                        </select>
+                            onChange={(val) => handleFilterChange('payment_status', val)}
+                            size="sm"
+                            className="w-full sm:w-48"
+                            options={[
+                                { value: '', label: 'Semua Status Bayar' },
+                                { value: 'Pending', label: 'Pending (Belum Bayar)' },
+                                { value: 'Paid', label: 'Paid (Lunas)' },
+                            ]}
+                        />
 
-                        <select
+                        <CustomSelect
                             value={filters.order_status || ''}
-                            onChange={(e) => handleFilterChange('order_status', e.target.value)}
-                            className="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 text-xs text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 font-semibold"
-                        >
-                            <option value="">Semua Status Pesanan</option>
-                            <option value="Menunggu Pembayaran">Menunggu Pembayaran</option>
-                            <option value="Dibayar">Dibayar</option>
-                            <option value="Diproses">Diproses</option>
-                            <option value="Dikirim">Dikirim</option>
-                            <option value="Selesai">Selesai</option>
-                        </select>
+                            onChange={(val) => handleFilterChange('order_status', val)}
+                            size="sm"
+                            className="w-full sm:w-48"
+                            options={[
+                                { value: '', label: 'Semua Status Pesanan' },
+                                { value: 'Menunggu Pembayaran', label: 'Menunggu Pembayaran' },
+                                { value: 'Dibayar', label: 'Dibayar' },
+                                { value: 'Diproses', label: 'Diproses' },
+                                { value: 'Dikirim', label: 'Dikirim' },
+                                { value: 'Selesai', label: 'Selesai' },
+                            ]}
+                        />
                     </div>
                 </div>
 

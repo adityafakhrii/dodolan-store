@@ -33,8 +33,8 @@ export function StoreHeader() {
     return (
         <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/95">
             {/* Top Announcement Bar */}
-            <div className="bg-slate-950 px-4 py-2 text-xs text-slate-300 border-b border-slate-800">
-                <div className="mx-auto flex max-w-7xl items-center justify-between">
+            <div className="bg-slate-950 border-b border-slate-800 text-xs text-slate-300">
+                <div className="mx-auto flex max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8 py-2">
                     <div className="flex items-center gap-2">
                         <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                         <span>Promo Spesial: Diskon Hardware IoT &amp; Gratis Biaya Survey Armada di Wilayah Jawa Timur</span>
@@ -57,7 +57,7 @@ export function StoreHeader() {
             </div>
 
             {/* Main Navbar */}
-            <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
                 {/* Brand Logo */}
                 <Link href="/" className="flex items-center gap-3 shrink-0 group">
                     <img

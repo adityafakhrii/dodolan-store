@@ -1,6 +1,7 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
 import { AdminLayout } from '@/layouts/admin-layout';
+import { CustomSelect } from '@/components/ui/custom-select';
 import { formatRupiah, formatDate, getWhatsAppLink } from '@/lib/format';
 import { ChevronLeft, Phone, Mail, MapPin, CreditCard, ShoppingCart, CheckCircle2, Truck, RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
@@ -173,17 +174,18 @@ export default function OrderShow({ order }: OrderShowProps) {
                                     <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
                                         Status Progres Saat Ini
                                     </label>
-                                    <select
+                                    <CustomSelect
                                         value={status}
-                                        onChange={(e) => setStatus(e.target.value)}
-                                        className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-xs font-bold text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-                                    >
-                                        <option value="Menunggu Pembayaran">Menunggu Pembayaran</option>
-                                        <option value="Dibayar">Dibayar (Lunas)</option>
-                                        <option value="Diproses">Diproses (Packing &amp; QC)</option>
-                                        <option value="Dikirim">Dikirim (Dalam Ekspedisi)</option>
-                                        <option value="Selesai">Selesai (Pesanan Tuntas)</option>
-                                    </select>
+                                        onChange={(val) => setStatus(val)}
+                                        className="w-full"
+                                        options={[
+                                            { value: 'Menunggu Pembayaran', label: 'Menunggu Pembayaran' },
+                                            { value: 'Dibayar', label: 'Dibayar (Lunas)' },
+                                            { value: 'Diproses', label: 'Diproses (Packing & QC)' },
+                                            { value: 'Dikirim', label: 'Dikirim (Dalam Ekspedisi)' },
+                                            { value: 'Selesai', label: 'Selesai (Pesanan Tuntas)' },
+                                        ]}
+                                    />
                                 </div>
 
                                 <button

@@ -10,7 +10,7 @@ export default function About() {
 
             {/* Header Hero */}
             <div className="bg-slate-900 text-white py-16 lg:py-20 border-b border-slate-800">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
                     <div className="max-w-3xl space-y-4">
                         <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-semibold text-emerald-400">
                             Profil Perusahaan
@@ -27,7 +27,7 @@ export default function About() {
 
             {/* Vision and Mission */}
             <div className="py-16 lg:py-20">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                         <div className="space-y-6">
                             <div>
@@ -92,7 +92,7 @@ export default function About() {
 
             {/* CTA */}
             <div className="border-t border-slate-200 bg-slate-50 py-12 dark:border-slate-800 dark:bg-slate-900/50">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+                <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 text-center">
                     <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
                         Ingin Mengetahui Lebih Jauh Tentang Layanan Kami?
                     </h2>

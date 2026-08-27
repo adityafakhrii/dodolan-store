@@ -22,7 +22,9 @@ interface AdminLayoutProps extends PropsWithChildren {
 }
 
 export function AdminLayout({ children, title }: AdminLayoutProps) {
-    const { url, auth } = usePage<any>().props;
+    const { url, props } = usePage<any>();
+    const auth = props?.auth;
+    const currentUrl = url || '';
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const navItems = [
@@ -36,8 +38,8 @@ export function AdminLayout({ children, title }: AdminLayoutProps) {
     ];
 
     const isActive = (href: string) => {
-        if (href === '/admin/dashboard') return url === '/admin/dashboard';
-        return url.startsWith(href);
+        if (href === '/admin/dashboard') return currentUrl === '/admin/dashboard';
+        return currentUrl.startsWith(href);
     };
 
     const handleLogout = () => {

@@ -1,27 +1,28 @@
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import { PublicLayout } from '@/layouts/public-layout';
 import { ProductCard } from '@/components/product-card';
-import { 
-    ChevronRight, 
-    ChevronLeft, 
-    ShieldCheck, 
-    Cpu, 
-    Radio, 
-    Camera, 
-    BatteryCharging, 
-    Gauge, 
-    Wrench, 
-    Search, 
-    Activity, 
-    PhoneCall, 
-    Layers, 
+import {
+    ChevronRight,
+    ChevronLeft,
+    ShieldCheck,
+    Cpu,
+    Radio,
+    Camera,
+    BatteryCharging,
+    Gauge,
+    Wrench,
+    Search,
+    Activity,
+    PhoneCall,
+    Layers,
     ArrowRight,
     Truck,
     Headphones,
     Award,
     Sparkles,
-    Flame
+    Flame,
+    CheckCircle2
 } from 'lucide-react';
 import { formatRupiah, getWhatsAppLink } from '@/lib/format';
 
@@ -51,27 +52,6 @@ interface HomeProps {
 export default function Home({ banners, featuredProducts, categories }: HomeProps) {
     const [currentBanner, setCurrentBanner] = useState(0);
 
-    // Flash sale countdown timer state
-    const [timeLeft, setTimeLeft] = useState({
-        days: 3,
-        hours: 14,
-        minutes: 28,
-        seconds: 45,
-    });
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setTimeLeft((prev) => {
-                if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-                if (prev.minutes > 0) return { ...prev, minutes: 59, seconds: 59 };
-                if (prev.hours > 0) return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
-                if (prev.days > 0) return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 };
-                return prev;
-            });
-        }, 1000);
-        return () => clearInterval(timer);
-    }, []);
-
     // Auto-advance hero banner
     useEffect(() => {
         if (banners.length <= 1) return;
@@ -89,7 +69,6 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
         image_url: '/assets/images/banners/banner-1.svg',
     };
 
-    // Helper to get category icon
     const getCategoryIcon = (slug: string) => {
         switch (slug) {
             case 'gps-tracker':
@@ -109,15 +88,54 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
         }
     };
 
-    const flashSaleProducts = featuredProducts.slice(0, 4);
+    const latestProducts = featuredProducts.slice(0, 4);
     const bestSellingProducts = featuredProducts.slice(2, 6);
     const exploreProducts = featuredProducts;
+
+    const technicalServices = [
+        {
+            title: 'Layanan Instalasi & Kelistrikan Armada',
+            category: 'Pemasangan On-Site',
+            description: 'Instalasi rapi dan terstandarisasi untuk unit GPS Tracker, AI MDVR, sensor BBM, dan dashcam berstandar keselamatan otomotif.',
+            icon: Wrench,
+            color: 'emerald',
+            link: '/layanan?type=Instalasi',
+            linkText: 'Ajukan Instalasi Sekarang',
+        },
+        {
+            title: 'Telematika & Platform Cloud Monitoring',
+            category: 'Integrasi Sistem',
+            description: 'Integrasi telemetri armada real-time via REST API & MQTT ke server perusahaan untuk pelacakan live, rute, dan konsumsi BBM.',
+            icon: Cpu,
+            color: 'blue',
+            link: '/portfolio',
+            linkText: 'Lihat Portfolio Proyek',
+        },
+        {
+            title: 'Sensor Suhu & Monitoring Cold-Chain',
+            category: 'Sensor Industri',
+            description: 'Pemantauan temperatur dan kelembaban berkala dengan sensor BLE presisi tinggi untuk armada logistik farmasi dan makanan beku.',
+            icon: Gauge,
+            color: 'indigo',
+            link: '/produk?category=iot-sensors',
+            linkText: 'Eksplor Sensor Suhu',
+        },
+        {
+            title: 'Survey Teknis & Audit Kelayakan BoQ',
+            category: 'Audit & Konsultasi',
+            description: 'Pemeriksaan voltase aki (12V/24V), dimensi tangki bahan bakar, dan pemetaan blind-spot sebelum implementasi pengadaan massal.',
+            icon: Search,
+            color: 'rose',
+            link: '/layanan?type=Survey',
+            linkText: 'Jadwalkan Survey Lokasi',
+        },
+    ];
 
     return (
         <PublicLayout>
             <Head title="Dodolan Store — Penyedia Produk IoT, GPS Tracking & AI MDVR Fleet" />
 
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-16 py-6 sm:py-8">
+            <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 space-y-16 py-6 sm:py-8">
 
                 {/* =========================================================================
                     HERO SECTION: Sidebar Categories + Hero Carousel (Exclusive Reference Style)
@@ -163,7 +181,6 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                             {/* Content */}
                             <div className="relative z-10 max-w-lg space-y-4">
                                 <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400">
-                                    <Sparkles className="h-3.5 w-3.5" />
                                     <span>Enterprise IoT &amp; Telematics Hardware</span>
                                 </div>
                                 <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
@@ -197,9 +214,8 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                                         <button
                                             key={idx}
                                             onClick={() => setCurrentBanner(idx)}
-                                            className={`h-2 rounded-full transition-all duration-300 ${
-                                                currentBanner === idx ? 'w-8 bg-emerald-500' : 'w-2 bg-slate-600'
-                                            }`}
+                                            className={`h-2 rounded-full transition-all duration-300 ${currentBanner === idx ? 'w-8 bg-emerald-500' : 'w-2 bg-slate-600'
+                                                }`}
                                             aria-label={`Slide ${idx + 1}`}
                                         />
                                     ))}
@@ -228,84 +244,49 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
 
 
                 {/* =========================================================================
-                    SECTION 1: Flash Sales / Promo Hari Ini (with Countdown Timer)
+                    SECTION 1: Produk Terbaru Dodolan (Latest Products Section)
                 ========================================================================== */}
                 <section className="space-y-6 pt-4 border-t border-slate-100 dark:border-slate-800/60">
                     <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                         <div className="space-y-2">
                             {/* Section Pill Label */}
                             <div className="flex items-center gap-2.5">
-                                <div className="h-8 w-4 rounded-xs bg-rose-600" />
-                                <span className="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-500">
-                                    Promo Terbatas
+                                <div className="h-8 w-4 rounded-xs bg-emerald-600" />
+                                <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                                    Rilis Terbaru
                                 </span>
                             </div>
-                            <div className="flex flex-wrap items-baseline gap-6">
+                            <div className="space-y-1">
                                 <h2 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
-                                    Flash Sale Hardware IoT
+                                    Produk Hardware Terbaru
                                 </h2>
-                                {/* Countdown Timer */}
-                                <div className="flex items-center gap-3 font-mono">
-                                    <div className="text-center">
-                                        <span className="text-[10px] text-slate-400 font-sans block uppercase font-bold">Hari</span>
-                                        <span className="text-xl font-black text-slate-900 dark:text-white">{String(timeLeft.days).padStart(2, '0')}</span>
-                                    </div>
-                                    <span className="text-rose-600 font-bold text-lg">:</span>
-                                    <div className="text-center">
-                                        <span className="text-[10px] text-slate-400 font-sans block uppercase font-bold">Jam</span>
-                                        <span className="text-xl font-black text-slate-900 dark:text-white">{String(timeLeft.hours).padStart(2, '0')}</span>
-                                    </div>
-                                    <span className="text-rose-600 font-bold text-lg">:</span>
-                                    <div className="text-center">
-                                        <span className="text-[10px] text-slate-400 font-sans block uppercase font-bold">Menit</span>
-                                        <span className="text-xl font-black text-slate-900 dark:text-white">{String(timeLeft.minutes).padStart(2, '0')}</span>
-                                    </div>
-                                    <span className="text-rose-600 font-bold text-lg">:</span>
-                                    <div className="text-center">
-                                        <span className="text-[10px] text-slate-400 font-sans block uppercase font-bold">Detik</span>
-                                        <span className="text-xl font-black text-rose-600">{String(timeLeft.seconds).padStart(2, '0')}</span>
-                                    </div>
-                                </div>
+                                <p className="text-xs text-slate-500">
+                                    Inovasi perangkat IoT dan telemetri generasi terbaru dengan spesifikasi berstandar industri.
+                                </p>
                             </div>
                         </div>
 
-                        {/* Navigation Arrows */}
+                        {/* Navigation Actions */}
                         <div className="flex items-center gap-2">
                             <Link
                                 href="/produk"
-                                className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
+                                className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 mr-2"
                             >
-                                <ChevronLeft className="h-4 w-4" />
-                            </Link>
-                            <Link
-                                href="/produk"
-                                className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
-                            >
-                                <ChevronRight className="h-4 w-4" />
+                                <span>Lihat Semua Produk</span>
+                                <ArrowRight className="h-3.5 w-3.5" />
                             </Link>
                         </div>
                     </div>
 
                     {/* Products Grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                        {flashSaleProducts.map((product, idx) => (
+                        {latestProducts.map((product) => (
                             <ProductCard
                                 key={product.id}
                                 product={product}
-                                discountPercent={15 + idx * 5}
-                                showBadge={idx === 0 ? 'FLASH DEAL' : undefined}
+                                showBadge="TERBARU"
                             />
                         ))}
-                    </div>
-
-                    {/* Center View All Button */}
-                    <div className="text-center pt-4">
-                        <Link
-                            href="/produk"
-                            className="inline-flex items-center justify-center rounded-xl bg-rose-600 px-8 py-3 text-xs font-bold text-white shadow-md hover:bg-rose-500 transition active:scale-95"
-                        >
-                            <span>Lihat Semua Produk Promo</span>
-                        </Link>
                     </div>
                 </section>
 
@@ -455,8 +436,8 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                     <div className="flex items-center justify-between">
                         <div className="space-y-2">
                             <div className="flex items-center gap-2.5">
-                                <div className="h-8 w-4 rounded-xs bg-rose-600" />
-                                <span className="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-500">
+                                <div className="h-8 w-4 rounded-xs bg-emerald-600" />
+                                <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                                     Katalog Lengkap
                                 </span>
                             </div>
@@ -478,7 +459,7 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                     <div className="text-center pt-4">
                         <Link
                             href="/produk"
-                            className="inline-flex items-center justify-center rounded-xl bg-rose-600 px-8 py-3.5 text-xs font-bold text-white shadow-md hover:bg-rose-500 transition active:scale-95"
+                            className="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-8 py-3.5 text-xs font-bold text-white shadow-md hover:bg-emerald-500 transition active:scale-95"
                         >
                             <span>Lihat Semua Koleksi Produk</span>
                         </Link>
@@ -487,90 +468,69 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
 
 
                 {/* =========================================================================
-                    SECTION 6: Bento Grid Solutions & Services (New Arrival Style)
+                    SECTION 6: Symmetrical Balanced 2x2 Grid Solutions & Technical Services
                 ========================================================================== */}
                 <section className="space-y-6 pt-8 border-t border-slate-200 dark:border-slate-800">
-                    <div className="space-y-2">
-                        <div className="flex items-center gap-2.5">
-                            <div className="h-8 w-4 rounded-xs bg-rose-600" />
-                            <span className="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-500">
-                                Solusi &amp; Rekam Jejak
-                            </span>
+                    <div className="flex items-end justify-between gap-4">
+                        <div className="space-y-2">
+                            <div className="flex items-center gap-2.5">
+                                <div className="h-8 w-4 rounded-xs bg-emerald-600" />
+                                <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                                    Solusi &amp; Rekam Jejak
+                                </span>
+                            </div>
+                            <h2 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+                                Layanan Teknis &amp; Portofolio Proyek
+                            </h2>
                         </div>
-                        <h2 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
-                            Layanan Teknis &amp; Portofolio Proyek
-                        </h2>
+
+                        <Link
+                            href="/layanan"
+                            className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:underline"
+                        >
+                            <span>Semua Layanan</span>
+                            <ArrowRight className="h-3.5 w-3.5" />
+                        </Link>
                     </div>
 
-                    {/* Bento Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {/* Large Bento Card (2 cols, 2 rows) */}
-                        <div className="lg:col-span-2 rounded-2xl bg-slate-950 p-8 text-white border border-slate-800 relative overflow-hidden flex flex-col justify-between min-h-[360px] shadow-lg group">
-                            <div className="relative z-10 space-y-2 max-w-sm">
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400">Pilar Utama</span>
-                                <h3 className="text-2xl font-extrabold text-white leading-tight">
-                                    Layanan Instalasi &amp; Kelistrikan Armada
-                                </h3>
-                                <p className="text-xs text-slate-400 leading-relaxed">
-                                    Teknisi bersertifikasi untuk pemasangan GPS, AI MDVR, sensor BBM, dan dashcam berstandar keselamatan otomotif.
-                                </p>
-                            </div>
-                            <div className="relative z-10 pt-4">
-                                <Link
-                                    href="/layanan?type=Instalasi"
-                                    className="inline-flex items-center gap-1 text-xs font-bold text-emerald-400 hover:text-emerald-300 underline"
+                    {/* Symmetrical 2x2 Grid (4 balanced cards, 0 empty holes) */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {technicalServices.map((svc, idx) => {
+                            const IconComp = svc.icon;
+                            return (
+                                <div
+                                    key={idx}
+                                    className="rounded-2xl bg-slate-950 p-7 text-white border border-slate-800 shadow-md flex flex-col justify-between space-y-6 group hover:border-slate-700 transition"
                                 >
-                                    <span>Ajukan Survey &amp; Instalasi</span>
-                                    <ArrowRight className="h-3.5 w-3.5" />
-                                </Link>
-                            </div>
-                        </div>
+                                    <div className="space-y-3">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400">
+                                                {svc.category}
+                                            </span>
+                                            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 border border-slate-800 text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition">
+                                                <IconComp className="h-4 w-4" />
+                                            </div>
+                                        </div>
+                                        <h3 className="text-lg font-bold text-white leading-snug">
+                                            {svc.title}
+                                        </h3>
+                                        <p className="text-xs text-slate-400 leading-relaxed">
+                                            {svc.description}
+                                        </p>
+                                    </div>
 
-                        {/* Top Right Card (2 cols) */}
-                        <div className="lg:col-span-2 rounded-2xl bg-slate-900 p-8 text-white border border-slate-800 relative overflow-hidden flex flex-col justify-between min-h-[170px] shadow-md group">
-                            <div className="relative z-10 space-y-2 max-w-md">
-                                <span className="text-[10px] font-bold uppercase tracking-widest text-blue-400">Platform IoT</span>
-                                <h3 className="text-xl font-bold text-white">
-                                    Telematika &amp; Cloud Tracking
-                                </h3>
-                                <p className="text-xs text-slate-400">
-                                    Integrasi data sensor suhu, level bahan bakar, dan kecepatan armada secara real-time via API &amp; MQTT.
-                                </p>
-                            </div>
-                            <div className="relative z-10 pt-3">
-                                <Link
-                                    href="/portfolio"
-                                    className="inline-flex items-center gap-1 text-xs font-bold text-blue-400 hover:text-blue-300 underline"
-                                >
-                                    <span>Lihat Portofolio Proyek</span>
-                                    <ArrowRight className="h-3.5 w-3.5" />
-                                </Link>
-                            </div>
-                        </div>
-
-                        {/* Bottom Right Card 1 */}
-                        <div className="lg:col-span-1 rounded-2xl bg-slate-900 p-6 text-white border border-slate-800 flex flex-col justify-between min-h-[170px] shadow-sm">
-                            <div className="space-y-1.5">
-                                <span className="text-[10px] font-bold uppercase text-emerald-400">Cold-Chain</span>
-                                <h4 className="text-sm font-bold text-white">Sensor Suhu Logistik</h4>
-                                <p className="text-[11px] text-slate-400">Akurasi tinggi untuk truk pendingin &amp; farmasi.</p>
-                            </div>
-                            <Link href="/produk?category=iot-sensors" className="text-xs font-bold text-emerald-400 underline pt-2">
-                                Detail Produk &rarr;
-                            </Link>
-                        </div>
-
-                        {/* Bottom Right Card 2 */}
-                        <div className="lg:col-span-1 rounded-2xl bg-slate-900 p-6 text-white border border-slate-800 flex flex-col justify-between min-h-[170px] shadow-sm">
-                            <div className="space-y-1.5">
-                                <span className="text-[10px] font-bold uppercase text-rose-400">Audit Armada</span>
-                                <h4 className="text-sm font-bold text-white">Survey Teknis BoQ</h4>
-                                <p className="text-[11px] text-slate-400">Pemeriksaan aki, tangki BBM, &amp; sinyal GPS.</p>
-                            </div>
-                            <Link href="/layanan?type=Survey" className="text-xs font-bold text-rose-400 underline pt-2">
-                                Ajukan Survey &rarr;
-                            </Link>
-                        </div>
+                                    <div className="pt-3 border-t border-slate-900 flex items-center justify-between">
+                                        <Link
+                                            href={svc.link}
+                                            className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 hover:text-emerald-300 transition"
+                                        >
+                                            <span>{svc.linkText}</span>
+                                            <ArrowRight className="h-3.5 w-3.5" />
+                                        </Link>
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
                 </section>
 

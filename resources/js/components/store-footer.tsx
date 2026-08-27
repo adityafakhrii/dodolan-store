@@ -7,7 +7,7 @@ export function StoreFooter() {
         <footer className="border-t border-slate-200 bg-slate-900 text-slate-300 dark:border-slate-800">
             {/* Features Bar */}
             <div className="border-b border-slate-800 bg-slate-950/60 py-8">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         <div className="flex items-center gap-4">
                             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400">
@@ -41,7 +41,7 @@ export function StoreFooter() {
             </div>
 
             {/* Main Footer Links */}
-            <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-[1440px] px-4 py-12 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-5">
                     {/* Brand Column */}
                     <div className="lg:col-span-2 space-y-4">
@@ -113,7 +113,7 @@ export function StoreFooter() {
 
             {/* Bottom Sub-footer */}
             <div className="border-t border-slate-800 bg-slate-950 py-6 text-xs text-slate-500">
-                <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6 lg:px-8">
+                <div className="mx-auto flex max-w-[1440px] flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6 lg:px-8">
                     <p>© 2026 Dodolan Store. All rights reserved.</p>
                     <div className="flex items-center gap-4">
                         <Link href="/login" className="hover:text-slate-300 transition">Portal Internal Admin</Link>

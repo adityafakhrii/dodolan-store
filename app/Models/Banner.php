@@ -41,8 +41,16 @@ class Banner extends Model
 
     public function getImageUrlAttribute(): string
     {
+        if (! $this->image) {
+            return '/assets/images/placeholder-banner.svg';
+        }
+
         if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
             return $this->image;
+        }
+
+        if (str_starts_with($this->image, 'assets/') || str_starts_with($this->image, '/assets/')) {
+            return str_starts_with($this->image, '/') ? $this->image : '/' . $this->image;
         }
 
         return Storage::url($this->image);

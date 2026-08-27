@@ -1,7 +1,6 @@
 import { Link } from '@inertiajs/react';
-import AppLogoIcon from '@/components/app-logo-icon';
-import { home } from '@/routes';
 import type { AuthLayoutProps } from '@/types';
+import { ChevronLeft } from 'lucide-react';
 
 export default function AuthSimpleLayout({
     children,
@@ -9,28 +8,53 @@ export default function AuthSimpleLayout({
     description,
 }: AuthLayoutProps) {
     return (
-        <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
+        <div className="flex min-h-svh flex-col items-center justify-center bg-slate-50 p-6 md:p-10 dark:bg-slate-950">
             <div className="w-full max-w-sm">
-                <div className="flex flex-col gap-8">
-                    <div className="flex flex-col items-center gap-4">
+                <div className="flex flex-col gap-6">
+                    {/* Brand Logo & Header */}
+                    <div className="flex flex-col items-center gap-3 text-center">
                         <Link
-                            href={home()}
-                            className="flex flex-col items-center gap-2 font-medium"
+                            href="/"
+                            className="flex flex-col items-center gap-2 group transition"
+                            title="Kembali ke Dodolan Store"
                         >
-                            <div className="mb-1 flex h-9 w-9 items-center justify-center rounded-md">
-                                <AppLogoIcon className="size-9 fill-current text-[var(--foreground)] dark:text-white" />
-                            </div>
-                            <span className="sr-only">{title}</span>
+                            <img
+                                src="/assets/logo/logo-dark.png"
+                                alt="Dodolan Store"
+                                className="h-10 w-auto object-contain dark:hidden"
+                            />
+                            <img
+                                src="/assets/logo/logo-white.png"
+                                alt="Dodolan Store"
+                                className="hidden h-10 w-auto object-contain dark:block"
+                            />
                         </Link>
 
-                        <div className="space-y-2 text-center">
-                            <h1 className="text-xl font-medium">{title}</h1>
-                            <p className="text-center text-sm text-muted-foreground">
-                                {description}
+                        <div className="space-y-1 mt-2">
+                            <h1 className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                                {title || 'Masuk ke Panel Administrator'}
+                            </h1>
+                            <p className="text-xs text-slate-500 max-w-xs mx-auto leading-relaxed">
+                                {description || 'Portal manajemen katalog, pesanan, dan layanan Dodolan Store'}
                             </p>
                         </div>
                     </div>
-                    {children}
+
+                    {/* Card Body */}
+                    <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                        {children}
+                    </div>
+
+                    {/* Back to Home Link */}
+                    <div className="text-center">
+                        <Link
+                            href="/"
+                            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition"
+                        >
+                            <ChevronLeft className="h-3.5 w-3.5" />
+                            <span>Kembali ke Beranda Toko</span>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
