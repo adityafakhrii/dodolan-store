@@ -1,44 +1,10 @@
 import { Link } from '@inertiajs/react';
-import { Phone, Mail, MapPin, ShieldCheck, Truck, Headphones, ChevronRight } from 'lucide-react';
+import { Phone, Mail, MapPin, ChevronRight } from 'lucide-react';
 import { getWhatsAppLink } from '@/lib/format';
 
 export function StoreFooter() {
     return (
         <footer className="border-t border-slate-200 bg-slate-900 text-slate-300 dark:border-slate-800">
-            {/* Features Bar */}
-            <div className="border-b border-slate-800 bg-slate-950/60 py-8">
-                <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        <div className="flex items-center gap-4">
-                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400">
-                                <ShieldCheck className="h-6 w-6" />
-                            </div>
-                            <div>
-                                <h4 className="font-semibold text-white">Garansi &amp; Bersertifikasi</h4>
-                                <p className="text-xs text-slate-400">Hardware teruji dengan sertifikasi resmi dan garansi unit.</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400">
-                                <Truck className="h-6 w-6" />
-                            </div>
-                            <div>
-                                <h4 className="font-semibold text-white">Layanan Instalasi Nasional</h4>
-                                <p className="text-xs text-slate-400">Teknisi profesional siap survey dan pasang di lokasi Anda.</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-rose-500/10 text-rose-400">
-                                <Headphones className="h-6 w-6" />
-                            </div>
-                            <div>
-                                <h4 className="font-semibold text-white">Dukungan Teknis Cepat</h4>
-                                <p className="text-xs text-slate-400">Konsultasi teknis dan integrasi API / Telemetri 24/7.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             {/* Main Footer Links */}
             <div className="mx-auto max-w-[1440px] px-4 py-12 sm:px-6 lg:px-8">

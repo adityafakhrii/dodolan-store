@@ -86,11 +86,10 @@ export function StoreHeader() {
                             <Link
                                 key={link.name}
                                 href={link.href}
-                                className={`px-3 py-1.5 text-xs font-semibold transition rounded-lg ${
-                                    active
+                                className={`px-3 py-1.5 text-xs font-semibold transition rounded-lg ${active
                                         ? 'text-emerald-700 bg-emerald-50 dark:bg-emerald-950/60 dark:text-emerald-400'
                                         : 'text-slate-700 hover:text-emerald-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-900'
-                                }`}
+                                    }`}
                             >
                                 {link.name}
                             </Link>
@@ -180,11 +179,10 @@ export function StoreHeader() {
                                     key={link.name}
                                     href={link.href}
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className={`px-3 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-between ${
-                                        active
+                                    className={`px-3 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-between ${active
                                             ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400'
                                             : 'text-slate-800 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-900'
-                                    }`}
+                                        }`}
                                 >
                                     <span>{link.name}</span>
                                     <ChevronRight className="h-4 w-4 text-slate-400" />
