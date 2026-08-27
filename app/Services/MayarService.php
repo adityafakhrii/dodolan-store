@@ -17,12 +17,12 @@ class MayarService
     public function __construct()
     {
         $this->apiKey = (string) (config('services.mayar.api_key') ?? env('MAYAR_API_KEY', ''));
-        $this->apiUrl = (string) (config('services.mayar.api_url') ?? env('MAYAR_API_URL', 'https://pub-api.mayar.id/hl/v1'));
+        $this->apiUrl = rtrim((string) (config('services.mayar.api_url') ?? env('MAYAR_API_URL', 'https://api.mayar.id/hl/v2')), '/');
         $this->webhookSecret = (string) (config('services.mayar.webhook_secret') ?? env('MAYAR_WEBHOOK_SECRET', ''));
     }
 
     /**
-     * Create a payment transaction for an Order.
+     * Create a Mayar API v2 Invoice payment transaction for an Order.
      *
      * @return array{success: bool, payment_reference: string, payment_url: string, raw_response: array}
      */
@@ -30,7 +30,32 @@ class MayarService
     {
         $paymentReference = 'MYR-' . strtoupper(Str::random(12));
 
-        // If no real API key is configured (local dev/sandbox mode), return a local simulation URL
+        // Format items array according to Mayar API v2 specs: items[].quantity, items[].rate, items[].description
+        $items = [];
+        foreach ($order->items as $item) {
+            $items[] = [
+                'quantity' => (int) $item->quantity,
+                'rate' => (int) $item->unit_price,
+                'description' => (string) $item->product_name,
+            ];
+        }
+
+        // Fallback if items were empty on the model relation
+        if (empty($items)) {
+            $items[] = [
+                'quantity' => 1,
+                'rate' => (int) $order->total,
+                'description' => "Pesanan {$order->order_number} Dodolan Store",
+            ];
+        }
+
+        // Clean customer mobile number (digits only, e.g. 081234567890)
+        $mobile = preg_replace('/[^0-9]/', '', $order->customer_phone);
+        if (str_starts_with($mobile, '62') && strlen($mobile) > 9) {
+            $mobile = '0' . substr($mobile, 2);
+        }
+
+        // If no real API key is configured (local dev/sandbox simulation mode), return local payment page
         if (empty($this->apiKey) || str_starts_with($this->apiKey, 'test_placeholder')) {
             return [
                 'success' => true,
@@ -40,46 +65,99 @@ class MayarService
                     'mode' => 'sandbox_simulation',
                     'order_id' => $order->id,
                     'amount' => $order->total,
+                    'items' => $items,
                 ],
             ];
         }
 
         try {
+            // Determine v2 vs v1 endpoint based on apiUrl
+            $endpoint = str_contains($this->apiUrl, '/v2') 
+                ? $this->apiUrl . '/invoices/create'
+                : $this->apiUrl . '/payment/create';
+
+            $payload = [
+                'name' => $order->customer_name,
+                'email' => $order->customer_email,
+                'mobile' => ! empty($mobile) ? $mobile : '081234567890',
+                'description' => "Pembayaran Pesanan {$order->order_number} - Dodolan Store",
+                'expiredAt' => now()->addDays(2)->toIso8601String(),
+                'items' => $items,
+                'extraData' => [
+                    'order_number' => $order->order_number,
+                    'order_id' => (string) $order->id,
+                ],
+            ];
+
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $this->apiKey,
                 'Content-Type' => 'application/json',
-            ])->post($this->apiUrl . '/payment/create', [
-                'name' => $order->customer_name,
-                'email' => $order->customer_email,
-                'mobile' => $order->customer_phone,
-                'amount' => (int) $order->total,
-                'description' => "Pembayaran Pesanan {$order->order_number} - Dodolan Store",
-                'redirectUrl' => $returnUrl,
-                'referenceId' => $order->order_number,
-            ]);
+            ])->timeout(15)->post($endpoint, $payload);
 
             if ($response->successful()) {
                 $data = $response->json();
+                $dataPayload = $data['data'] ?? [];
+
+                $ref = $dataPayload['id'] ?? $dataPayload['transactionId'] ?? $paymentReference;
+                $link = $dataPayload['link'] ?? route('payment.show', ['orderNumber' => $order->order_number]);
+
+                Log::info("Mayar API v2 Invoice Created successfully for order {$order->order_number}", [
+                    'id' => $ref,
+                    'link' => $link,
+                ]);
+
                 return [
                     'success' => true,
-                    'payment_reference' => $data['data']['id'] ?? $paymentReference,
-                    'payment_url' => $data['data']['link'] ?? $returnUrl,
+                    'payment_reference' => (string) $ref,
+                    'payment_url' => (string) $link,
                     'raw_response' => $data,
                 ];
             }
 
-            Log::error('Mayar Payment API Error: ' . $response->body());
+            Log::error('Mayar API Error Response: ' . $response->status() . ' - ' . $response->body());
         } catch (\Throwable $e) {
             Log::error('Mayar Payment Exception: ' . $e->getMessage());
         }
 
-        // Fallback gracefully to local payment page
+        // Graceful fallback to store payment page if remote API call fails
         return [
             'success' => true,
             'payment_reference' => $paymentReference,
             'payment_url' => route('payment.show', ['orderNumber' => $order->order_number]),
             'raw_response' => ['fallback' => true],
         ];
+    }
+
+    /**
+     * Actively query Mayar API v2 to check the current status of an invoice.
+     *
+     * @return string|null e.g. 'paid', 'unpaid', 'closed' or null if not available
+     */
+    public function checkInvoiceStatus(string $invoiceId): ?string
+    {
+        if (empty($this->apiKey) || str_starts_with($this->apiKey, 'test_placeholder') || str_starts_with($invoiceId, 'MYR-')) {
+            return null;
+        }
+
+        try {
+            $endpoint = str_contains($this->apiUrl, '/v2')
+                ? $this->apiUrl . '/invoices/' . $invoiceId
+                : $this->apiUrl . '/payment/' . $invoiceId;
+
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $this->apiKey,
+                'Content-Type' => 'application/json',
+            ])->timeout(8)->get($endpoint);
+
+            if ($response->successful()) {
+                $data = $response->json();
+                return $data['data']['status'] ?? null;
+            }
+        } catch (\Throwable $e) {
+            Log::debug('Mayar checkInvoiceStatus exception: ' . $e->getMessage());
+        }
+
+        return null;
     }
 
     /**

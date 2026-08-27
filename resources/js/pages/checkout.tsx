@@ -1,14 +1,19 @@
 import { Head, Link, router } from '@inertiajs/react';
-import { useState, useEffect } from 'react';
 import { PublicLayout } from '@/layouts/public-layout';
 import { useCart } from '@/hooks/use-cart';
 import { formatRupiah } from '@/lib/format';
-import { ShieldCheck, ArrowRight, ChevronLeft, Loader2, CreditCard, ShoppingBag } from 'lucide-react';
+import { 
+    ChevronLeft, 
+    ShieldCheck, 
+    CreditCard, 
+    ArrowRight, 
+    Loader2 
+} from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
 export default function Checkout() {
-    const { items, subtotal, itemCount, clearCart } = useCart();
-    const [submitting, setSubmitting] = useState(false);
+    const { items, itemCount, subtotal, clearCart } = useCart();
 
     const [form, setForm] = useState({
         customer_name: '',
@@ -19,27 +24,20 @@ export default function Checkout() {
     });
 
     const [errors, setErrors] = useState<Record<string, string>>({});
+    const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
-        if (items.length === 0 && !submitting) {
+        if (items.length === 0) {
             router.visit('/keranjang');
         }
-    }, [items.length, submitting]);
+    }, [items]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setErrors({});
 
-        // Frontend validation
-        const newErrors: Record<string, string> = {};
-        if (!form.customer_name.trim()) newErrors.customer_name = 'Nama lengkap wajib diisi.';
-        if (!form.customer_email.trim()) newErrors.customer_email = 'Email wajib diisi.';
-        if (!form.customer_phone.trim()) newErrors.customer_phone = 'Nomor HP/WhatsApp wajib diisi.';
-        if (!form.customer_address.trim()) newErrors.customer_address = 'Alamat pengiriman wajib diisi.';
-
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-            toast.error('Mohon lengkapi seluruh formulir yang bertanda wajib.');
+        if (items.length === 0) {
+            toast.error('Keranjang belanja Anda kosong.');
             return;
         }
 
@@ -48,9 +46,9 @@ export default function Checkout() {
         try {
             const payload = {
                 ...form,
-                items: items.map((i) => ({
-                    id: i.id,
-                    quantity: i.quantity,
+                items: items.map((item) => ({
+                    id: item.id,
+                    quantity: item.quantity,
                 })),
             };
 
@@ -75,15 +73,17 @@ export default function Checkout() {
                 return;
             }
 
-            // Success! Clear cart and redirect
+            // Success! Clear cart
             clearCart();
-            toast.success('Pesanan berhasil dibuat! Mengarahkan ke halaman pembayaran...');
+            toast.success('Pesanan berhasil dibuat! Membuka halaman pembayaran di tab baru...');
             
-            if (result.redirect_url) {
-                window.location.href = result.redirect_url;
-            } else {
-                router.visit(`/pembayaran/${result.order_number}`);
+            // Open Mayar payment link in a NEW TAB if available
+            if (result.redirect_url && !result.redirect_url.includes(`/pembayaran/${result.order_number}`)) {
+                window.open(result.redirect_url, '_blank');
             }
+
+            // Navigate current tab to the order tracking status page
+            router.visit(`/pembayaran/${result.order_number}`);
         } catch (error) {
             toast.error('Terjadi kesalahan koneksi. Silakan coba lagi.');
             setSubmitting(false);
@@ -116,14 +116,14 @@ export default function Checkout() {
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
                     {/* Left: Customer Information Form */}
                     <div className="lg:col-span-7 space-y-6">
-                        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 dark:border-slate-800 dark:bg-slate-900 shadow-sm space-y-6">
-                            <h2 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3">
+                        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
+                            <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">
                                 1. Data Pemesan &amp; Pengiriman
                             </h2>
 
                             <div className="space-y-4">
                                 <div>
-                                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                                         Nama Lengkap <span className="text-rose-500">*</span>
                                     </label>
                                     <input
@@ -132,8 +132,8 @@ export default function Checkout() {
                                         value={form.customer_name}
                                         onChange={(e) => setForm({ ...form, customer_name: e.target.value })}
                                         placeholder="Contoh: Budi Santoso"
-                                        className={`w-full rounded-xl border px-4 py-2.5 text-sm text-slate-900 focus:outline-hidden focus:ring-1 dark:bg-slate-800 dark:text-white ${
-                                            errors.customer_name ? 'border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-emerald-500 focus:ring-emerald-500 dark:border-slate-700'
+                                        className={`w-full rounded-xl border px-4 py-2.5 text-sm text-slate-900 focus:outline-hidden focus:ring-1 ${
+                                            errors.customer_name ? 'border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-emerald-500 focus:ring-emerald-500'
                                         }`}
                                     />
                                     {errors.customer_name && (
@@ -143,7 +143,7 @@ export default function Checkout() {
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                                             Alamat Email <span className="text-rose-500">*</span>
                                         </label>
                                         <input
@@ -152,8 +152,8 @@ export default function Checkout() {
                                             value={form.customer_email}
                                             onChange={(e) => setForm({ ...form, customer_email: e.target.value })}
                                             placeholder="budi@perusahaan.com"
-                                            className={`w-full rounded-xl border px-4 py-2.5 text-sm text-slate-900 focus:outline-hidden focus:ring-1 dark:bg-slate-800 dark:text-white ${
-                                                errors.customer_email ? 'border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-emerald-500 focus:ring-emerald-500 dark:border-slate-700'
+                                            className={`w-full rounded-xl border px-4 py-2.5 text-sm text-slate-900 focus:outline-hidden focus:ring-1 ${
+                                                errors.customer_email ? 'border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-emerald-500 focus:ring-emerald-500'
                                             }`}
                                         />
                                         {errors.customer_email && (
@@ -162,7 +162,7 @@ export default function Checkout() {
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                                             Nomor WhatsApp / HP <span className="text-rose-500">*</span>
                                         </label>
                                         <input
@@ -171,8 +171,8 @@ export default function Checkout() {
                                             value={form.customer_phone}
                                             onChange={(e) => setForm({ ...form, customer_phone: e.target.value })}
                                             placeholder="081234567890"
-                                            className={`w-full rounded-xl border px-4 py-2.5 text-sm text-slate-900 focus:outline-hidden focus:ring-1 dark:bg-slate-800 dark:text-white ${
-                                                errors.customer_phone ? 'border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-emerald-500 focus:ring-emerald-500 dark:border-slate-700'
+                                            className={`w-full rounded-xl border px-4 py-2.5 text-sm text-slate-900 focus:outline-hidden focus:ring-1 ${
+                                                errors.customer_phone ? 'border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-emerald-500 focus:ring-emerald-500'
                                             }`}
                                         />
                                         {errors.customer_phone && (
@@ -182,7 +182,7 @@ export default function Checkout() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                                         Alamat Lengkap Pengiriman <span className="text-rose-500">*</span>
                                     </label>
                                     <textarea
@@ -191,8 +191,8 @@ export default function Checkout() {
                                         value={form.customer_address}
                                         onChange={(e) => setForm({ ...form, customer_address: e.target.value })}
                                         placeholder="Nama jalan, nomor gedung/rumah, kelurahan, kecamatan, kota/kabupaten, kode pos"
-                                        className={`w-full rounded-xl border px-4 py-2.5 text-sm text-slate-900 focus:outline-hidden focus:ring-1 dark:bg-slate-800 dark:text-white ${
-                                            errors.customer_address ? 'border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-emerald-500 focus:ring-emerald-500 dark:border-slate-700'
+                                        className={`w-full rounded-xl border px-4 py-2.5 text-sm text-slate-900 focus:outline-hidden focus:ring-1 ${
+                                            errors.customer_address ? 'border-rose-500 focus:ring-rose-500' : 'border-slate-300 focus:border-emerald-500 focus:ring-emerald-500'
                                         }`}
                                     />
                                     {errors.customer_address && (
@@ -201,7 +201,7 @@ export default function Checkout() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                                         Catatan Khusus Pesanan (Opsional)
                                     </label>
                                     <input
@@ -209,58 +209,58 @@ export default function Checkout() {
                                         value={form.note}
                                         onChange={(e) => setForm({ ...form, note: e.target.value })}
                                         placeholder="Contoh: Titipkan di pos satpam atau hubungi PIC penerima"
-                                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-emerald-500 focus:outline-hidden focus:ring-1 focus:ring-emerald-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 focus:border-emerald-500 focus:outline-hidden focus:ring-1 focus:ring-emerald-500"
                                     />
                                 </div>
                             </div>
                         </div>
 
                         {/* Payment Method Notice */}
-                        <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 shadow-sm space-y-3">
-                            <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs space-y-3">
+                            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
                                 <CreditCard className="h-5 w-5 text-emerald-600" />
                                 <span>2. Pembayaran Otomatis via Mayar</span>
                             </h2>
                             <p className="text-xs text-slate-500 leading-relaxed">
-                                Setelah klik tombol konfirmasi di bawah, Anda akan diarahkan ke invoice pembayaran Mayar yang mendukung metode <strong>QRIS (BCA, Mandiri, GoPay, OVO, ShopeePay)</strong>, <strong>Virtual Account</strong>, dan <strong>Transfer Bank</strong>.
+                                Setelah klik tombol konfirmasi di bawah, invoice pembayaran Mayar akan terbuka di tab baru dengan pilihan metode <strong>QRIS (BCA, Mandiri, GoPay, OVO, ShopeePay)</strong>, <strong>Virtual Account</strong>, dan <strong>E-Wallet</strong>. Halaman ini akan tetap aktif untuk memantau status pesanan Anda.
                             </p>
                         </div>
                     </div>
 
                     {/* Right: Order Review & Submit */}
                     <div className="lg:col-span-5 space-y-6">
-                        <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 shadow-sm space-y-5">
-                            <h3 className="font-bold text-base text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3 flex items-center justify-between">
+                        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs space-y-5">
+                            <h3 className="font-bold text-base text-slate-900 border-b border-slate-100 pb-3 flex items-center justify-between">
                                 <span>Rincian Item</span>
                                 <span className="text-xs font-normal text-slate-400">{itemCount} unit</span>
                             </h3>
 
-                            <div className="divide-y divide-slate-100 dark:divide-slate-800 max-h-64 overflow-y-auto pr-1">
+                            <div className="divide-y divide-slate-100 max-h-64 overflow-y-auto pr-1">
                                 {items.map((item) => (
                                     <div key={item.id} className="py-3 flex items-center justify-between gap-3 text-xs">
                                         <div className="min-w-0">
-                                            <div className="font-bold text-slate-900 dark:text-white truncate">{item.name}</div>
+                                            <div className="font-bold text-slate-900 truncate">{item.name}</div>
                                             <div className="text-slate-400">{item.quantity} x {formatRupiah(item.price)}</div>
                                         </div>
-                                        <div className="font-bold text-slate-900 dark:text-white shrink-0">
+                                        <div className="font-bold text-slate-900 shrink-0">
                                             {formatRupiah(item.price * item.quantity)}
                                         </div>
                                     </div>
                                 ))}
                             </div>
 
-                            <div className="border-t border-slate-200 dark:border-slate-800 pt-4 space-y-2 text-xs">
+                            <div className="border-t border-slate-200 pt-4 space-y-2 text-xs">
                                 <div className="flex justify-between text-slate-500">
                                     <span>Subtotal Produk</span>
-                                    <span className="font-semibold text-slate-900 dark:text-white">{formatRupiah(subtotal)}</span>
+                                    <span className="font-semibold text-slate-900">{formatRupiah(subtotal)}</span>
                                 </div>
                                 <div className="flex justify-between text-slate-500">
                                     <span>Biaya Payment Gateway</span>
                                     <span className="font-semibold text-emerald-600">Gratis (Termasuk)</span>
                                 </div>
-                                <div className="border-t border-slate-200 dark:border-slate-800 pt-3 flex justify-between items-baseline">
-                                    <span className="font-bold text-sm text-slate-900 dark:text-white">Total Pembayaran</span>
-                                    <span className="font-black text-xl text-slate-900 dark:text-white">{formatRupiah(subtotal)}</span>
+                                <div className="border-t border-slate-200 pt-3 flex justify-between items-baseline">
+                                    <span className="font-bold text-sm text-slate-900">Total Pembayaran</span>
+                                    <span className="font-black text-xl text-slate-900">{formatRupiah(subtotal)}</span>
                                 </div>
                             </div>
 
@@ -284,7 +284,7 @@ export default function Checkout() {
                         </div>
 
                         {/* Security Guarantee Box */}
-                        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/50 flex items-start gap-3 text-xs text-slate-500">
+                        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 flex items-start gap-3 text-xs text-slate-500 shadow-xs">
                             <ShieldCheck className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
                             <span>Data kontak dan histori transaksi dijamin keamanannya dan hanya digunakan untuk pemrosesan order resmi Dodolan Store.</span>
                         </div>

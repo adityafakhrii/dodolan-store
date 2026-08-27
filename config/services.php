@@ -37,7 +37,7 @@ return [
 
     'mayar' => [
         'api_key' => env('MAYAR_API_KEY'),
-        'api_url' => env('MAYAR_API_URL', 'https://pub-api.mayar.id/hl/v1'),
+        'api_url' => env('MAYAR_API_URL', 'https://api.mayar.id/hl/v2'),
         'webhook_secret' => env('MAYAR_WEBHOOK_SECRET'),
     ],
 

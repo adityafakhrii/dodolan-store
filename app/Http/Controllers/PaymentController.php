@@ -15,11 +15,31 @@ use Inertia\Response;
 
 class PaymentController extends Controller
 {
-    public function show(string $orderNumber): Response
+    public function show(string $orderNumber, MayarService $mayarService): Response
     {
         $order = Order::with(['items', 'latestPayment'])
             ->where('order_number', $orderNumber)
             ->firstOrFail();
+
+        // If order is pending, actively check current invoice status from Mayar API v2
+        if ($order->payment_status !== Order::PAYMENT_PAID && $order->latestPayment?->payment_reference) {
+            $status = $mayarService->checkInvoiceStatus($order->latestPayment->payment_reference);
+            if ($status && in_array(strtolower($status), ['paid', 'success', 'settlement'])) {
+                DB::transaction(function () use ($order) {
+                    $order->latestPayment->update([
+                        'status' => Payment::STATUS_PAID,
+                        'paid_at' => now(),
+                    ]);
+
+                    $order->update([
+                        'payment_status' => Order::PAYMENT_PAID,
+                        'order_status' => Order::STATUS_PAID,
+                    ]);
+                });
+
+                $order->refresh();
+            }
+        }
 
         return Inertia::render('payment/show', [
             'order' => $order,
@@ -39,16 +59,23 @@ class PaymentController extends Controller
         $payload = $request->all();
         Log::info('Mayar Webhook Received: ', $payload);
 
-        // Standard Mayar webhook attributes
-        $event = $payload['event'] ?? $payload['status'] ?? '';
-        $paymentReference = $payload['data']['id'] ?? $payload['data']['payment_reference'] ?? $payload['data']['referenceId'] ?? null;
-        $orderNumber = $payload['data']['referenceId'] ?? $payload['referenceId'] ?? null;
+        // Standard Mayar API v2 and v1 webhook attributes
+        $event = (string) ($payload['event'] ?? '');
+        $paymentReference = $payload['data']['id'] ?? $payload['data']['transactionId'] ?? $payload['data']['payment_reference'] ?? $payload['data']['referenceId'] ?? null;
+        $orderNumber = $payload['data']['extraData']['order_number'] 
+            ?? $payload['extraData']['order_number'] 
+            ?? $payload['data']['referenceId'] 
+            ?? $payload['referenceId'] 
+            ?? null;
+        $dataStatus = $payload['data']['status'] ?? null;
 
-        return DB::transaction(function () use ($paymentReference, $orderNumber, $event, $payload) {
+        return DB::transaction(function () use ($paymentReference, $orderNumber, $event, $dataStatus, $payload) {
             $payment = null;
 
             if ($paymentReference) {
-                $payment = Payment::where('payment_reference', $paymentReference)->first();
+                $payment = Payment::where('payment_reference', $paymentReference)
+                    ->orWhere('provider_reference', $paymentReference)
+                    ->first();
             }
 
             if (! $payment && $orderNumber) {
@@ -67,7 +94,9 @@ class PaymentController extends Controller
             }
 
             // Check if status is paid / success
-            $isPaid = in_array(strtolower($event), ['payment.received', 'paid', 'success', 'settlement', 'invoice.paid']);
+            $isPaid = in_array(strtolower($event), ['payment.received', 'paid', 'success', 'settlement', 'invoice.paid'])
+                || $dataStatus === true
+                || (is_string($dataStatus) && in_array(strtolower($dataStatus), ['paid', 'success', 'settlement']));
 
             if ($isPaid) {
                 $payment->update([
