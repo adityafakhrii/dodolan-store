@@ -1,0 +1,124 @@
+import { Head, Link } from '@inertiajs/react';
+import { PublicLayout } from '@/layouts/public-layout';
+import { ShieldCheck, Cpu, Target, Award, CheckCircle2, ChevronRight, PhoneCall } from 'lucide-react';
+import { getWhatsAppLink } from '@/lib/format';
+
+export default function About() {
+    return (
+        <PublicLayout>
+            <Head title="Tentang Kami — Dodolan Store" />
+
+            {/* Header Hero */}
+            <div className="bg-slate-900 text-white py-16 lg:py-20 border-b border-slate-800">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-3xl space-y-4">
+                        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-semibold text-emerald-400">
+                            Profil Perusahaan
+                        </div>
+                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
+                            Membangun Masa Depan Terhubung Melalui Inovasi IoT &amp; Telemetri
+                        </h1>
+                        <p className="text-base text-slate-300 sm:text-lg leading-relaxed">
+                            Dodolan adalah perusahaan teknologi yang berfokus pada integrasi perangkat keras IoT, pelacakan armada kendaraan, pemantauan keselamatan AI, dan solusi telemetri industri terdepan.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Vision and Mission */}
+            <div className="py-16 lg:py-20">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                        <div className="space-y-6">
+                            <div>
+                                <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Fokus &amp; Dedikasi</span>
+                                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
+                                    Solusi End-to-End untuk Efisiensi Bisnis
+                                </h2>
+                            </div>
+                            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                                Kami memahami bahwa di era mobilitas tinggi, manajemen armada logistik, keamanan fasilitas industri, dan pemantauan sensor secara real-time adalah faktor penentu profitabilitas perusahaan. 
+                            </p>
+                            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                                Dodolan Store hadir menjembatani kebutuhan perangkat keras bersertifikasi dengan layanan instalasi profesional dan dukungan purna jual yang andal di seluruh Indonesia.
+                            </p>
+                            
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                                <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
+                                    <Target className="h-6 w-6 text-emerald-600 mb-2" />
+                                    <h4 className="font-bold text-slate-900 dark:text-white text-base">Visi</h4>
+                                    <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                                        Menjadi mitra teknologi IoT dan telematika armada nomor satu di Indonesia yang terpercaya dan inovatif.
+                                    </p>
+                                </div>
+                                <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
+                                    <Award className="h-6 w-6 text-blue-600 mb-2" />
+                                    <h4 className="font-bold text-slate-900 dark:text-white text-base">Misi</h4>
+                                    <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                                        Menyediakan hardware IoT berkualitas tinggi, layanan instalasi berstandar industri, serta edukasi teknologi telemetri.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Visual Brand Card */}
+                        <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-900 to-slate-950 p-8 text-white shadow-xl dark:border-slate-800">
+                            <div className="flex items-center gap-3 border-b border-slate-800 pb-6 mb-6">
+                                <img src="/assets/logo/logo-white.png" alt="Dodolan Logo" className="h-10 w-auto" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-4 text-emerald-400">Komitmen Kualitas Dodolan</h3>
+                            <ul className="space-y-3.5 text-sm text-slate-300">
+                                <li className="flex items-start gap-3">
+                                    <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400 mt-0.5" />
+                                    <span>Hardware tersertifikasi resmi SDPPI Kominfo dan bergaransi unit.</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400 mt-0.5" />
+                                    <span>Kesiapan integrasi API, protokol telemetri MQTT, HTTP, dan TCP/IP.</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400 mt-0.5" />
+                                    <span>Teknisi lapangan terlatih untuk instalasi kelistrikan kendaraan komersial.</span>
+                                </li>
+                                <li className="flex items-start gap-3">
+                                    <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400 mt-0.5" />
+                                    <span>Layanan purna jual, suku cadang, dan kalibrasi sensor terjamin.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* CTA */}
+            <div className="border-t border-slate-200 bg-slate-50 py-12 dark:border-slate-800 dark:bg-slate-900/50">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                        Ingin Mengetahui Lebih Jauh Tentang Layanan Kami?
+                    </h2>
+                    <p className="mt-2 text-sm text-slate-500 max-w-xl mx-auto">
+                        Hubungi perwakilan teknis kami untuk mendiskusikan integrasi sistem IoT armada Anda.
+                    </p>
+                    <div className="mt-6 flex justify-center gap-4">
+                        <Link
+                            href="/produk"
+                            className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500 transition"
+                        >
+                            <span>Lihat Katalog Produk</span>
+                            <ChevronRight className="h-4 w-4" />
+                        </Link>
+                        <a
+                            href={getWhatsAppLink('6281234567890', 'Halo Dodolan, saya ingin info lebih lanjut tentang perusahaan Anda.')}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                        >
+                            <PhoneCall className="h-4 w-4" />
+                            <span>Chat WhatsApp</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </PublicLayout>
+    );
+}

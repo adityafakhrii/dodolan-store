@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Order;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
+
+class OrderController extends Controller
+{
+    public function index(Request $request): Response
+    {
+        $query = Order::with(['items', 'latestPayment']);
+
+        if ($search = $request->input('q')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('order_number', 'like', "%{$search}%")
+                    ->orWhere('customer_name', 'like', "%{$search}%")
+                    ->orWhere('customer_email', 'like', "%{$search}%");
+            });
+        }
+
+        if ($paymentStatus = $request->input('payment_status')) {
+            $query->where('payment_status', $paymentStatus);
+        }
+
+        if ($orderStatus = $request->input('order_status')) {
+            $query->where('order_status', $orderStatus);
+        }
+
+        $orders = $query->latest()->paginate(10)->withQueryString();
+
+        return Inertia::render('admin/orders/index', [
+            'orders' => $orders,
+            'filters' => [
+                'q' => $request->input('q', ''),
+                'payment_status' => $request->input('payment_status', ''),
+                'order_status' => $request->input('order_status', ''),
+            ],
+        ]);
+    }
+
+    public function show(Order $order): Response
+    {
+        $order->load(['items', 'payments']);
+
+        return Inertia::render('admin/orders/show', [
+            'order' => $order,
+        ]);
+    }
+
+    public function updateStatus(Request $request, Order $order): RedirectResponse
+    {
+        $validated = $request->validate([
+            'order_status' => ['required', 'string', 'in:Menunggu Pembayaran,Dibayar,Diproses,Dikirim,Selesai'],
+        ]);
+
+        $order->update([
+            'order_status' => $validated['order_status'],
+        ]);
+
+        return back()->with('success', "Status pesanan #{$order->order_number} berhasil diperbarui menjadi '{$validated['order_status']}'.");
+    }
+}

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg_battery" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#064e3b" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="450" fill="url(#bg_battery)" rx="20" />
+  
+  <!-- Battery Casing -->
+  <rect x="170" y="140" width="260" height="200" rx="16" fill="#1e293b" stroke="#10b981" stroke-width="4" />
+  <!-- Terminals -->
+  <!-- Positive (+) Red Terminal -->
+  <rect x="210" y="115" width="40" height="25" rx="6" fill="#e11d48" stroke="#be123c" stroke-width="2" />
+  <text x="230" y="132" fill="#ffffff" font-family="system-ui" font-size="14" font-weight="900" text-anchor="middle">+</text>
+  
+  <!-- Negative (-) Black Terminal -->
+  <rect x="350" y="115" width="40" height="25" rx="6" fill="#334155" stroke="#475569" stroke-width="2" />
+  <text x="370" y="132" fill="#ffffff" font-family="system-ui" font-size="14" font-weight="900" text-anchor="middle">-</text>
+
+  <!-- Battery Handle -->
+  <path d="M 230,170 Q 300,150 370,170" stroke="#475569" stroke-width="8" stroke-linecap="round" fill="none" />
+
+  <!-- LCD Telemetry Display -->
+  <rect x="220" y="200" width="160" height="65" rx="8" fill="#022c22" stroke="#059669" stroke-width="2" />
+  <text x="300" y="230" fill="#34d399" font-family="monospace" font-size="18" font-weight="800" text-anchor="middle">13.2V | 100%</text>
+  <text x="300" y="250" fill="#10b981" font-family="monospace" font-size="11" font-weight="600" text-anchor="middle">SMART BMS ACTIVE</text>
+
+  <!-- Spec Text -->
+  <text x="300" y="300" fill="#94a3b8" font-family="system-ui" font-size="13" font-weight="700" text-anchor="middle">LiFePO4 12.8V 50Ah (640Wh)</text>
+
+  <rect x="200" y="55" width="200" height="32" rx="16" fill="#059669" opacity="0.2" />
+  <text x="300" y="76" fill="#34d399" font-family="system-ui" font-size="13" font-weight="700" text-anchor="middle">SMART LiFePO4 BATTERY</text>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg_th" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#083344" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="450" fill="url(#bg_th)" rx="20" />
+  
+  <!-- Square Wireless Sensor Puck -->
+  <rect x="220" y="150" width="160" height="160" rx="28" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="4" />
+  <rect x="235" y="165" width="130" height="130" rx="20" fill="#f8fafc" />
+  
+  <!-- Temp Icon & Bluetooth Icon -->
+  <circle cx="300" cy="210" r="28" fill="#e0f2fe" />
+  <path d="M 296,195 L 296,215 A 8,8 0 1,0 304,215 L 304,195 Z" fill="#0284c7" />
+  <circle cx="300" cy="222" r="5" fill="#0284c7" />
+  
+  <!-- Digital Reading -->
+  <text x="300" y="265" fill="#0369a1" font-family="monospace" font-size="16" font-weight="800" text-anchor="middle">-18.4°C | 85%</text>
+
+  <!-- Bluetooth Signal Arc -->
+  <path d="M 370,160 A 30,30 0 0,1 390,190" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" fill="none" />
+  <path d="M 380,145 A 50,50 0 0,1 410,195" stroke="#0284c7" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.6" />
+
+  <rect x="180" y="55" width="240" height="32" rx="16" fill="#0284c7" opacity="0.2" />
+  <text x="300" y="76" fill="#38bdf8" font-family="system-ui" font-size="13" font-weight="700" text-anchor="middle">BLE 5.0 TEMP &amp; HUMIDITY</text>
+</svg>

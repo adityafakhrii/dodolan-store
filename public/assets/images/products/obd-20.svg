@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg_obd" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0c1929" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="450" fill="url(#bg_obd)" rx="20" />
+  
+  <!-- OBD-II Connector Body -->
+  <polygon points="210,130 390,130 360,190 240,190" fill="#334155" stroke="#475569" stroke-width="4" />
+  <!-- Pins -->
+  <g fill="#f59e0b">
+    <rect x="235" y="145" width="8" height="15" rx="2" />
+    <rect x="255" y="145" width="8" height="15" rx="2" />
+    <rect x="275" y="145" width="8" height="15" rx="2" />
+    <rect x="295" y="145" width="8" height="15" rx="2" />
+    <rect x="315" y="145" width="8" height="15" rx="2" />
+    <rect x="335" y="145" width="8" height="15" rx="2" />
+    <rect x="355" y="145" width="8" height="15" rx="2" />
+  </g>
+  
+  <!-- Main Dongle Case -->
+  <rect x="200" y="190" width="200" height="170" rx="18" fill="#1e293b" stroke="#334155" stroke-width="5" />
+  <rect x="225" y="220" width="150" height="110" rx="10" fill="#0f172a" stroke="#334155" stroke-width="2" />
+  
+  <!-- Status Icons -->
+  <circle cx="260" cy="275" r="8" fill="#10b981" />
+  <circle cx="300" cy="275" r="8" fill="#38bdf8" />
+  <circle cx="340" cy="275" r="8" fill="#e11d48" />
+
+  <rect x="230" y="55" width="140" height="32" rx="16" fill="#059669" opacity="0.2" />
+  <text x="300" y="76" fill="#34d399" font-family="system-ui" font-size="13" font-weight="700" text-anchor="middle">OBD-II PLUG &amp; PLAY</text>
+</svg>
