@@ -1,6 +1,6 @@
 import { Link } from '@inertiajs/react';
 import { CustomerLayout } from '@/layouts/customer-layout';
-import { formatRupiah } from '@/lib/format';
+import { formatRupiah, formatDate, getWhatsAppLink } from '@/lib/format';
 import { 
     Clock, 
     PackageCheck, 
@@ -14,7 +14,6 @@ import {
     MapPin,
     AlertCircle
 } from 'lucide-react';
-import { getWhatsAppLink } from '@/lib/format';
 
 interface Props {
     stats: {
@@ -193,13 +192,7 @@ export default function CustomerDashboard({ stats, recentOrders, recentServices,
                                         {order.items?.map((item) => `${item.product_name} (${item.quantity}x)`).join(', ') || 'Item Pesanan'}
                                     </p>
                                     <p className="text-[11px] text-slate-400">
-                                        {new Date(order.created_at).toLocaleDateString('id-ID', {
-                                            day: 'numeric',
-                                            month: 'short',
-                                            year: 'numeric',
-                                            hour: '2-digit',
-                                            minute: '2-digit',
-                                        })}
+                                        {formatDate(order.created_at)}
                                     </p>
                                 </div>
 

@@ -90,6 +90,7 @@
     a, 
     input[type="checkbox"], 
     input[type="radio"], 
+    input[type="file"],
     input[type="submit"], 
     input[type="button"], 
     [role="button"], 
@@ -101,4 +102,16 @@
     input[type="radio"] {
         accent-color: #059669;
     }
+
+    /* Hilangkan panah spinner atas/bawah pada seluruh input bertipe number */
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type="number"] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
 }
+

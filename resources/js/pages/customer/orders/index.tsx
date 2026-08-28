@@ -1,6 +1,6 @@
 import { Link, router } from '@inertiajs/react';
 import { CustomerLayout } from '@/layouts/customer-layout';
-import { formatRupiah } from '@/lib/format';
+import { formatRupiah, formatDate } from '@/lib/format';
 import { 
     Search, 
     ShoppingBag, 
@@ -173,11 +173,7 @@ export default function CustomerOrdersIndex({ orders, filters }: Props) {
                                         #{order.order_number}
                                     </span>
                                     <span className="text-[11px] text-slate-400">
-                                        {new Date(order.created_at).toLocaleDateString('id-ID', {
-                                            day: 'numeric',
-                                            month: 'short',
-                                            year: 'numeric',
-                                        })}
+                                        {formatDate(order.created_at)}
                                     </span>
                                 </div>
 

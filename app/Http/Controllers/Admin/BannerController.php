@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Services\ImageService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -33,7 +33,7 @@ class BannerController extends Controller
             'is_active' => ['boolean'],
         ]);
 
-        $imagePath = $request->file('image')->store('banners', 'public');
+        $imagePath = ImageService::uploadAndConvertToWebp($request->file('image'), 'banners');
 
         Banner::create([
             'image' => $imagePath,
@@ -61,10 +61,8 @@ class BannerController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($banner->image && Storage::disk('public')->exists($banner->image)) {
-                Storage::disk('public')->delete($banner->image);
-            }
-            $banner->image = $request->file('image')->store('banners', 'public');
+            ImageService::delete($banner->image);
+            $banner->image = ImageService::uploadAndConvertToWebp($request->file('image'), 'banners');
         }
 
         $banner->update([
@@ -81,9 +79,7 @@ class BannerController extends Controller
 
     public function destroy(Banner $banner): RedirectResponse
     {
-        if ($banner->image && Storage::disk('public')->exists($banner->image)) {
-            Storage::disk('public')->delete($banner->image);
-        }
+        ImageService::delete($banner->image);
 
         $banner->delete();
 

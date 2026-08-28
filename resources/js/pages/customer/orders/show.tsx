@@ -1,6 +1,6 @@
 import { Link } from '@inertiajs/react';
 import { CustomerLayout } from '@/layouts/customer-layout';
-import { formatRupiah } from '@/lib/format';
+import { formatRupiah, formatDate } from '@/lib/format';
 import { 
     ChevronLeft, 
     Printer, 
@@ -99,7 +99,7 @@ export default function CustomerOrderShow({ order }: Props) {
     return (
         <CustomerLayout
             title={`Pesanan #${order.order_number}`}
-            description="Rincian status pengiriman, tagihan pembayaran, dan data alamat pesanan."
+            description={`Dipesan pada ${formatDate(order.created_at)} • Rincian status pengiriman, tagihan pembayaran, dan data alamat pesanan.`}
             action={
                 <div className="flex items-center gap-2">
                     <Link

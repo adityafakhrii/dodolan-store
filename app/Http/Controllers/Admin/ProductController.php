@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Services\ImageService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -55,7 +56,7 @@ class ProductController extends Controller
             'stock' => ['required', 'integer', 'min:0'],
             'description' => ['nullable', 'string'],
             'specification' => ['nullable', 'array'],
-            'image' => ['nullable', 'image', 'max:4096'],
+            'image' => ['nullable', 'image', 'max:5120'],
             'status' => ['boolean'],
         ]);
 
@@ -69,7 +70,7 @@ class ProductController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('products', 'public');
+            $imagePath = ImageService::uploadAndConvertToWebp($request->file('image'), 'products');
         }
 
         Product::create([
@@ -111,15 +112,13 @@ class ProductController extends Controller
             'stock' => ['required', 'integer', 'min:0'],
             'description' => ['nullable', 'string'],
             'specification' => ['nullable', 'array'],
-            'image' => ['nullable', 'image', 'max:4096'],
+            'image' => ['nullable', 'image', 'max:5120'],
             'status' => ['boolean'],
         ]);
 
         if ($request->hasFile('image')) {
-            if ($product->image && Storage::disk('public')->exists($product->image)) {
-                Storage::disk('public')->delete($product->image);
-            }
-            $product->image = $request->file('image')->store('products', 'public');
+            ImageService::delete($product->image);
+            $product->image = ImageService::uploadAndConvertToWebp($request->file('image'), 'products');
         }
 
         $product->update([
@@ -144,9 +143,7 @@ class ProductController extends Controller
             return back()->with('info', 'Produk telah memiliki histori pesanan, sehingga dinonaktifkan (diarsipkan).');
         }
 
-        if ($product->image && Storage::disk('public')->exists($product->image)) {
-            Storage::disk('public')->delete($product->image);
-        }
+        ImageService::delete($product->image);
 
         $product->delete();
 

@@ -1,5 +1,6 @@
 import { Link, router } from '@inertiajs/react';
 import { CustomerLayout } from '@/layouts/customer-layout';
+import { formatDate } from '@/lib/format';
 import { 
     Wrench, 
     MapPin, 
@@ -123,11 +124,7 @@ export default function CustomerServicesIndex({ serviceRequests, filters }: Prop
                                             Layanan {item.service_type}
                                         </h3>
                                         <p className="text-[11px] text-slate-400">
-                                            Diajukan pada {new Date(item.created_at).toLocaleDateString('id-ID', {
-                                                day: 'numeric',
-                                                month: 'long',
-                                                year: 'numeric',
-                                            })}
+                                            Diajukan pada {formatDate(item.created_at)}
                                         </p>
                                     </div>
                                 </div>

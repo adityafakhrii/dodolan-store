@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { AdminLayout } from '@/layouts/admin-layout';
 import { CustomSelect } from '@/components/ui/custom-select';
 import { Checkbox } from '@/components/ui/checkbox';
+import { ImageUploader } from '@/components/ui/image-uploader';
+import { formatNumber, formatRupiah } from '@/lib/format';
 import { ChevronLeft, Plus, Trash2, Upload, Loader2, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -126,16 +128,23 @@ export default function ProductCreate({ categories }: CreateProductProps) {
                                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
                                     Harga (IDR) <span className="text-rose-500">*</span>
                                 </label>
-                                <input
-                                    type="number"
-                                    required
-                                    min="0"
-                                    step="1000"
-                                    value={data.price}
-                                    onChange={(e) => setData('price', e.target.value)}
-                                    placeholder="Contoh: 1450000"
-                                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white font-mono"
-                                />
+                                <div className="relative">
+                                    <span className="absolute left-3.5 top-2.5 text-xs font-bold text-slate-400 select-none">
+                                        Rp
+                                    </span>
+                                    <input
+                                        type="text"
+                                        inputMode="numeric"
+                                        required
+                                        value={data.price ? formatNumber(data.price) : ''}
+                                        onChange={(e) => {
+                                            const clean = e.target.value.replace(/[^0-9]/g, '');
+                                            setData('price', clean);
+                                        }}
+                                        placeholder="1.450.000"
+                                        className="w-full rounded-xl border border-slate-300 bg-white pl-10 pr-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white font-mono"
+                                    />
+                                </div>
                                 {errors.price && <p className="mt-1 text-xs text-rose-500">{errors.price}</p>}
                             </div>
 
@@ -156,18 +165,13 @@ export default function ProductCreate({ categories }: CreateProductProps) {
                         </div>
 
                         {/* Image Upload */}
-                        <div>
-                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
-                                Foto / Ilustrasi Produk
-                            </label>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => setData('image', e.target.files ? e.target.files[0] : null)}
-                                className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
-                            />
-                            {errors.image && <p className="mt-1 text-xs text-rose-500">{errors.image}</p>}
-                        </div>
+                        <ImageUploader
+                            id="product-image"
+                            label="Foto / Ilustrasi Produk"
+                            required={false}
+                            onChange={(file) => setData('image', file)}
+                            error={errors.image}
+                        />
 
                         {/* Description */}
                         <div>

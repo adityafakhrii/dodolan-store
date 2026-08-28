@@ -2,6 +2,7 @@ import { Head, useForm, router } from '@inertiajs/react';
 import { useState } from 'react';
 import { AdminLayout } from '@/layouts/admin-layout';
 import { Checkbox } from '@/components/ui/checkbox';
+import { ImageUploader } from '@/components/ui/image-uploader';
 import { Plus, Edit2, Trash2, Image as ImageIcon, X, Loader2, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -204,19 +205,14 @@ export default function BannersIndex({ banners }: BannersIndexProps) {
                             </div>
 
                             <form onSubmit={handleFormSubmit} className="space-y-4">
-                                <div>
-                                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
-                                        Gambar Banner {editingBanner ? '(Opsional jika ganti)' : <span className="text-rose-500">*</span>}
-                                    </label>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        required={!editingBanner}
-                                        onChange={(e) => setData('image', e.target.files ? e.target.files[0] : null)}
-                                        className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
-                                    />
-                                    {errors.image && <p className="mt-1 text-xs text-rose-500">{errors.image}</p>}
-                                </div>
+                                <ImageUploader
+                                    id="banner-image-upload"
+                                    label="Gambar Banner"
+                                    required={!editingBanner}
+                                    currentImageUrl={editingBanner?.image_url || null}
+                                    onChange={(file) => setData('image', file)}
+                                    error={errors.image}
+                                />
 
                                 <div>
                                     <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
