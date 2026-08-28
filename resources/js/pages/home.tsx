@@ -135,7 +135,7 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
         <PublicLayout>
             <Head title="Dodolan Store — Penyedia Produk IoT, GPS Tracking & AI MDVR Fleet" />
 
-            <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 space-y-16 py-6 sm:py-8">
+            <div className="mx-auto max-w-[1440px] px-3 sm:px-6 lg:px-8 space-y-10 sm:space-y-16 py-4 sm:py-8">
 
                 {/* =========================================================================
                     HERO SECTION: Sidebar Categories + Hero Carousel (Exclusive Reference Style)
@@ -168,38 +168,38 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
 
                     {/* Right: Hero Carousel */}
                     <div className="lg:col-span-9">
-                        <div className="relative min-h-[380px] sm:min-h-[420px] rounded-2xl bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 p-8 sm:p-12 text-white shadow-xl overflow-hidden flex flex-col justify-between border border-slate-800">
+                        <div className="relative min-h-[340px] sm:min-h-[420px] rounded-2xl bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 p-6 sm:p-12 text-white shadow-xl overflow-hidden flex flex-col justify-between border border-slate-800">
                             {/* Background Image / Graphic */}
-                            <div className="absolute right-0 top-0 bottom-0 w-full sm:w-1/2 opacity-30 sm:opacity-90 pointer-events-none flex items-center justify-end pr-4">
+                            <div className="absolute right-0 top-0 bottom-0 w-full sm:w-1/2 opacity-25 sm:opacity-90 pointer-events-none flex items-center justify-end pr-4">
                                 <img
                                     src={activeBanner.image_url}
                                     alt={activeBanner.title}
-                                    className="h-72 w-auto object-contain transition-all duration-700 animate-in fade-in"
+                                    className="h-64 sm:h-72 w-auto object-contain transition-all duration-700 animate-in fade-in"
                                 />
                             </div>
 
                             {/* Content */}
-                            <div className="relative z-10 max-w-lg space-y-4">
-                                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400">
-                                    <span>Enterprise IoT &amp; Telematics Hardware</span>
+                            <div className="relative z-10 max-w-lg space-y-3 sm:space-y-4">
+                                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 sm:px-3 sm:py-1 text-[10px] sm:text-xs font-semibold text-emerald-400">
+                                    <span>Enterprise IoT &amp; Telematics</span>
                                 </div>
-                                <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+                                <h1 className="text-xl sm:text-4xl font-extrabold tracking-tight leading-snug sm:leading-tight">
                                     {activeBanner.title}
                                 </h1>
-                                <p className="text-xs sm:text-sm text-slate-300 line-clamp-3 leading-relaxed">
+                                <p className="text-xs sm:text-sm text-slate-300 line-clamp-2 sm:line-clamp-3 leading-relaxed">
                                     {activeBanner.subtitle}
                                 </p>
-                                <div className="pt-2 flex flex-wrap items-center gap-3">
+                                <div className="pt-2 flex flex-wrap items-center gap-2.5 sm:gap-3">
                                     <Link
                                         href={activeBanner.cta_url || '/produk'}
-                                        className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-xs font-bold text-white shadow-md hover:bg-emerald-500 transition active:scale-95"
+                                        className="inline-flex items-center gap-1.5 sm:gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 sm:px-5 sm:py-3 text-xs font-bold text-white shadow-md hover:bg-emerald-500 transition active:scale-95"
                                     >
                                         <span>{activeBanner.cta_text || 'Jelajahi Produk'}</span>
                                         <ArrowRight className="h-3.5 w-3.5" />
                                     </Link>
                                     <Link
                                         href="/layanan"
-                                        className="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/80 px-5 py-3 text-xs font-semibold text-slate-200 hover:bg-slate-800 transition"
+                                        className="inline-flex items-center gap-1.5 sm:gap-2 rounded-xl border border-slate-700 bg-slate-800/80 px-4 py-2.5 sm:px-5 sm:py-3 text-xs font-semibold text-slate-200 hover:bg-slate-800 transition"
                                     >
                                         <Wrench className="h-3.5 w-3.5 text-emerald-400" />
                                         <span>Ajukan Instalasi</span>
@@ -208,13 +208,13 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                             </div>
 
                             {/* Carousel Indicators & Arrows */}
-                            <div className="relative z-10 flex items-center justify-between pt-6 border-t border-slate-800/60 mt-6">
+                            <div className="relative z-10 flex items-center justify-between pt-4 sm:pt-6 border-t border-slate-800/60 mt-4 sm:mt-6">
                                 <div className="flex items-center gap-2">
                                     {banners.map((_, idx) => (
                                         <button
                                             key={idx}
                                             onClick={() => setCurrentBanner(idx)}
-                                            className={`h-2 rounded-full transition-all duration-300 ${currentBanner === idx ? 'w-8 bg-emerald-500' : 'w-2 bg-slate-600'
+                                            className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 ${currentBanner === idx ? 'w-6 sm:w-8 bg-emerald-500' : 'w-1.5 sm:w-2 bg-slate-600'
                                                 }`}
                                             aria-label={`Slide ${idx + 1}`}
                                         />
@@ -225,16 +225,16 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                                     <button
                                         type="button"
                                         onClick={() => setCurrentBanner((prev) => (prev - 1 + banners.length) % banners.length)}
-                                        className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white transition"
+                                        className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white transition"
                                     >
-                                        <ChevronLeft className="h-4 w-4" />
+                                        <ChevronLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => setCurrentBanner((prev) => (prev + 1) % banners.length)}
-                                        className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white transition"
+                                        className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white transition"
                                     >
-                                        <ChevronRight className="h-4 w-4" />
+                                        <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                                     </button>
                                 </div>
                             </div>
@@ -246,40 +246,37 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                 {/* =========================================================================
                     SECTION 1: Produk Terbaru Dodolan (Latest Products Section)
                 ========================================================================== */}
-                <section className="space-y-6 pt-4 border-t border-slate-100 dark:border-slate-800/60">
-                    <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                        <div className="space-y-2">
+                <section className="space-y-4 sm:space-y-6 pt-4 border-t border-slate-100 dark:border-slate-800/60">
+                    <div className="flex items-center justify-between gap-2">
+                        <div className="space-y-1 sm:space-y-2">
                             {/* Section Pill Label */}
-                            <div className="flex items-center gap-2.5">
-                                <div className="h-8 w-4 rounded-xs bg-emerald-600" />
-                                <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                            <div className="flex items-center gap-2">
+                                <div className="h-5 w-2 sm:h-8 sm:w-4 rounded-xs bg-emerald-600" />
+                                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                                     Rilis Terbaru
                                 </span>
                             </div>
-                            <div className="space-y-1">
-                                <h2 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
-                                    Produk Hardware Terbaru
-                                </h2>
-                                <p className="text-xs text-slate-500">
-                                    Inovasi perangkat IoT dan telemetri generasi terbaru dengan spesifikasi berstandar industri.
-                                </p>
-                            </div>
+                            <h2 className="text-base sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+                                Produk Hardware Terbaru
+                            </h2>
+                            <p className="text-[11px] sm:text-xs text-slate-500 hidden sm:block">
+                                Inovasi perangkat IoT dan telemetri generasi terbaru dengan spesifikasi berstandar industri.
+                            </p>
                         </div>
 
                         {/* Navigation Actions */}
-                        <div className="flex items-center gap-2">
-                            <Link
-                                href="/produk"
-                                className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 mr-2"
-                            >
-                                <span>Lihat Semua Produk</span>
-                                <ArrowRight className="h-3.5 w-3.5" />
-                            </Link>
-                        </div>
+                        <Link
+                            href="/produk"
+                            className="shrink-0 inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 px-2.5 py-1.5 sm:px-0 rounded-lg sm:rounded-none bg-emerald-50 sm:bg-transparent dark:bg-emerald-950/40 sm:dark:bg-transparent"
+                        >
+                            <span className="hidden sm:inline">Lihat Semua Produk</span>
+                            <span className="sm:hidden">Semua</span>
+                            <ArrowRight className="h-3.5 w-3.5" />
+                        </Link>
                     </div>
 
                     {/* Products Grid */}
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-5">
                         {latestProducts.map((product) => (
                             <ProductCard
                                 key={product.id}
@@ -294,38 +291,38 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                 {/* =========================================================================
                     SECTION 2: Browse By Category (Minimalist Icon Boxes)
                 ========================================================================== */}
-                <section className="space-y-6 pt-8 border-t border-slate-200 dark:border-slate-800">
+                <section className="space-y-4 sm:space-y-6 pt-6 sm:pt-8 border-t border-slate-200 dark:border-slate-800">
                     <div className="flex items-center justify-between">
-                        <div className="space-y-2">
-                            <div className="flex items-center gap-2.5">
-                                <div className="h-8 w-4 rounded-xs bg-emerald-600" />
-                                <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                        <div className="space-y-1 sm:space-y-2">
+                            <div className="flex items-center gap-2">
+                                <div className="h-5 w-2 sm:h-8 sm:w-4 rounded-xs bg-emerald-600" />
+                                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                                     Kategori
                                 </span>
                             </div>
-                            <h2 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+                            <h2 className="text-base sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
                                 Jelajahi Berdasarkan Kategori
                             </h2>
                         </div>
                     </div>
 
                     {/* Categories Icon Cards Grid */}
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-4">
                         {categories.map((cat) => {
                             const IconComponent = getCategoryIcon(cat.slug);
                             return (
                                 <Link
                                     key={cat.id}
                                     href={`/produk?category=${cat.slug}`}
-                                    className="group flex flex-col items-center justify-center p-4 sm:p-6 rounded-xl border border-slate-200 bg-white hover:border-emerald-600 hover:bg-emerald-600 hover:text-white transition-all duration-300 dark:border-slate-800 dark:bg-slate-900 text-center shadow-xs"
+                                    className="group flex flex-col items-center justify-center p-3.5 sm:p-6 rounded-xl border border-slate-200 bg-white hover:border-emerald-600 hover:bg-emerald-600 hover:text-white transition-all duration-300 dark:border-slate-800 dark:bg-slate-900 text-center shadow-xs"
                                 >
-                                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full text-slate-700 group-hover:text-white transition">
-                                        <IconComponent className="h-6 w-6 sm:h-7 sm:w-7" />
+                                    <div className="flex h-9 w-9 sm:h-12 sm:w-12 items-center justify-center rounded-full text-slate-700 group-hover:text-white transition">
+                                        <IconComponent className="h-5 w-5 sm:h-7 sm:w-7" />
                                     </div>
-                                    <span className="text-xs font-bold text-slate-900 group-hover:text-white dark:text-white mt-2 sm:mt-3 transition line-clamp-1">
+                                    <span className="text-[11px] sm:text-xs font-bold text-slate-900 group-hover:text-white dark:text-white mt-2 sm:mt-3 transition line-clamp-1">
                                         {cat.name}
                                     </span>
-                                    <span className="text-[10px] text-slate-400 group-hover:text-emerald-100 transition mt-0.5">
+                                    <span className="text-[9px] sm:text-[10px] text-slate-400 group-hover:text-emerald-100 transition mt-0.5">
                                         {cat.products_count} Produk
                                     </span>
                                 </Link>
@@ -338,29 +335,31 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                 {/* =========================================================================
                     SECTION 3: Best Selling Products (This Month)
                 ========================================================================== */}
-                <section className="space-y-6 pt-8 border-t border-slate-200 dark:border-slate-800">
-                    <div className="flex items-end justify-between gap-4">
-                        <div className="space-y-2">
-                            <div className="flex items-center gap-2.5">
-                                <div className="h-8 w-4 rounded-xs bg-rose-600" />
-                                <span className="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-500">
+                <section className="space-y-4 sm:space-y-6 pt-6 sm:pt-8 border-t border-slate-200 dark:border-slate-800">
+                    <div className="flex items-center justify-between gap-2">
+                        <div className="space-y-1 sm:space-y-2">
+                            <div className="flex items-center gap-2">
+                                <div className="h-5 w-2 sm:h-8 sm:w-4 rounded-xs bg-rose-600" />
+                                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-500">
                                     Bulan Ini
                                 </span>
                             </div>
-                            <h2 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+                            <h2 className="text-base sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
                                 Produk Terlaris &amp; Terpopuler
                             </h2>
                         </div>
 
                         <Link
                             href="/produk"
-                            className="inline-flex items-center rounded-xl bg-rose-600 px-4 sm:px-5 py-2 sm:py-2.5 text-xs font-bold text-white shadow-xs hover:bg-rose-500 transition"
+                            className="shrink-0 inline-flex items-center gap-1 text-xs font-bold text-rose-600 sm:text-white sm:bg-rose-600 px-2.5 py-1.5 sm:px-5 sm:py-2.5 rounded-lg sm:rounded-xl bg-rose-50 dark:bg-rose-950/40 sm:dark:bg-rose-600 shadow-xs hover:bg-rose-100 sm:hover:bg-rose-500 transition"
                         >
-                            <span>Lihat Semua</span>
+                            <span className="sm:hidden">Semua</span>
+                            <span className="hidden sm:inline">Lihat Semua</span>
+                            <ArrowRight className="h-3.5 w-3.5 sm:hidden" />
                         </Link>
                     </div>
 
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-5">
                         {bestSellingProducts.map((product) => (
                             <ProductCard
                                 key={product.id}
@@ -375,13 +374,13 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                 {/* =========================================================================
                     SECTION 4: Big Solution Spotlight Banner (JBL-Style Dark Aesthetic)
                 ========================================================================== */}
-                <section className="rounded-3xl bg-slate-950 p-8 sm:p-12 text-white border border-slate-800 shadow-2xl relative overflow-hidden">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                        <div className="lg:col-span-7 space-y-6 z-10">
-                            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-400">
+                <section className="rounded-2xl sm:rounded-3xl bg-slate-950 p-6 sm:p-12 text-white border border-slate-800 shadow-2xl relative overflow-hidden">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
+                        <div className="lg:col-span-7 space-y-4 sm:space-y-6 z-10">
+                            <div className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-emerald-400">
                                 <span>Solusi Keselamatan Pengemudi</span>
                             </div>
-                            <h2 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+                            <h2 className="text-xl sm:text-3xl lg:text-5xl font-black tracking-tight leading-snug sm:leading-tight">
                                 Tingkatkan Standar Armada dengan AI ADAS &amp; MDVR
                             </h2>
                             <p className="text-xs sm:text-sm text-slate-400 max-w-lg leading-relaxed">
@@ -389,16 +388,16 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                             </p>
 
                             {/* Stat Counter Circles */}
-                            <div className="flex flex-wrap items-center gap-4">
+                            <div className="flex flex-wrap items-center gap-2.5 sm:gap-4">
                                 {[
                                     { label: 'Kamera', val: '4-Ch' },
                                     { label: 'Resolusi', val: '1080P' },
                                     { label: 'Jaringan', val: '4G LTE' },
                                     { label: 'Akurasi AI', val: '99%' },
                                 ].map((item, idx) => (
-                                    <div key={idx} className="flex h-16 w-16 flex-col items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-center">
-                                        <span className="text-xs font-black text-white">{item.val}</span>
-                                        <span className="text-[9px] text-slate-400 uppercase font-semibold">{item.label}</span>
+                                    <div key={idx} className="flex h-12 w-12 sm:h-16 sm:w-16 flex-col items-center justify-center rounded-full bg-slate-900 border border-slate-800 text-center">
+                                        <span className="text-[11px] sm:text-xs font-black text-white">{item.val}</span>
+                                        <span className="text-[8px] sm:text-[9px] text-slate-400 uppercase font-semibold">{item.label}</span>
                                     </div>
                                 ))}
                             </div>
@@ -406,7 +405,7 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                             <div className="pt-2">
                                 <Link
                                     href="/layanan?type=Instalasi"
-                                    className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-7 py-3.5 text-xs font-bold text-white shadow-lg hover:bg-emerald-500 transition active:scale-95"
+                                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 sm:px-7 sm:py-3.5 text-xs font-bold text-white shadow-lg hover:bg-emerald-500 transition active:scale-95"
                                 >
                                     <span>Konsultasi / Jadwalkan Pemasangan</span>
                                     <ArrowRight className="h-4 w-4" />
@@ -416,11 +415,11 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
 
                         {/* Visual Right Container */}
                         <div className="lg:col-span-5 flex items-center justify-center relative">
-                            <div className="relative aspect-4/3 w-full max-w-md rounded-2xl bg-gradient-to-tr from-slate-900 to-slate-800 p-6 border border-slate-700/60 shadow-inner flex items-center justify-center">
+                            <div className="relative aspect-4/3 w-full max-w-md rounded-2xl bg-gradient-to-tr from-slate-900 to-slate-800 p-4 sm:p-6 border border-slate-700/60 shadow-inner flex items-center justify-center">
                                 <img
                                     src="/assets/images/products/product-1.svg"
                                     alt="Dodolan AI MDVR"
-                                    className="h-56 w-auto object-contain drop-shadow-2xl animate-in zoom-in-95"
+                                    className="h-40 sm:h-56 w-auto object-contain drop-shadow-2xl animate-in zoom-in-95"
                                 />
                             </div>
                         </div>
@@ -431,22 +430,22 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                 {/* =========================================================================
                     SECTION 5: Explore Our Products (Full Catalog Grid)
                 ========================================================================== */}
-                <section className="space-y-6 pt-8 border-t border-slate-200 dark:border-slate-800">
+                <section className="space-y-4 sm:space-y-6 pt-6 sm:pt-8 border-t border-slate-200 dark:border-slate-800">
                     <div className="flex items-center justify-between">
-                        <div className="space-y-2">
-                            <div className="flex items-center gap-2.5">
-                                <div className="h-8 w-4 rounded-xs bg-emerald-600" />
-                                <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                        <div className="space-y-1 sm:space-y-2">
+                            <div className="flex items-center gap-2">
+                                <div className="h-5 w-2 sm:h-8 sm:w-4 rounded-xs bg-emerald-600" />
+                                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                                     Katalog Lengkap
                                 </span>
                             </div>
-                            <h2 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+                            <h2 className="text-base sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
                                 Koleksi Hardware &amp; Sensor Dodolan
                             </h2>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-5">
                         {exploreProducts.map((product) => (
                             <ProductCard
                                 key={product.id}
@@ -455,10 +454,10 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                         ))}
                     </div>
 
-                    <div className="text-center pt-4">
+                    <div className="text-center pt-2 sm:pt-4">
                         <Link
                             href="/produk"
-                            className="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-8 py-3.5 text-xs font-bold text-white shadow-md hover:bg-emerald-500 transition active:scale-95"
+                            className="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-6 sm:px-8 py-3 sm:py-3.5 text-xs font-bold text-white shadow-md hover:bg-emerald-500 transition active:scale-95"
                         >
                             <span>Lihat Semua Koleksi Produk</span>
                         </Link>
@@ -469,25 +468,26 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                 {/* =========================================================================
                     SECTION 6: Symmetrical Balanced 2x2 Grid Solutions & Technical Services
                 ========================================================================== */}
-                <section className="space-y-6 pt-8 border-t border-slate-200 dark:border-slate-800">
-                    <div className="flex items-end justify-between gap-4">
-                        <div className="space-y-2">
-                            <div className="flex items-center gap-2.5">
-                                <div className="h-8 w-4 rounded-xs bg-emerald-600" />
-                                <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                <section className="space-y-4 sm:space-y-6 pt-6 sm:pt-8 border-t border-slate-200 dark:border-slate-800">
+                    <div className="flex items-center justify-between gap-2">
+                        <div className="space-y-1 sm:space-y-2">
+                            <div className="flex items-center gap-2">
+                                <div className="h-5 w-2 sm:h-8 sm:w-4 rounded-xs bg-emerald-600" />
+                                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                                     Solusi &amp; Rekam Jejak
                                 </span>
                             </div>
-                            <h2 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+                            <h2 className="text-base sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
                                 Layanan Teknis &amp; Portofolio Proyek
                             </h2>
                         </div>
 
                         <Link
                             href="/layanan"
-                            className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:underline"
+                            className="shrink-0 inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:underline px-2.5 py-1.5 sm:px-0 rounded-lg sm:rounded-none bg-emerald-50 sm:bg-transparent dark:bg-emerald-950/40 sm:dark:bg-transparent"
                         >
-                            <span>Semua Layanan</span>
+                            <span className="hidden sm:inline">Semua Layanan</span>
+                            <span className="sm:hidden">Semua</span>
                             <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                     </div>
@@ -537,12 +537,12 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                 {/* =========================================================================
                     SECTION 7: Trust Badges (4 Circular Service Value Pillars)
                 ========================================================================== */}
-                <section className="py-8 sm:py-12 border-t border-slate-200 dark:border-slate-800">
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 text-center">
+                <section className="py-6 sm:py-12 border-t border-slate-200 dark:border-slate-800">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8 text-center">
                         {/* 1 */}
-                        <div className="flex flex-col items-center space-y-2 sm:space-y-3 p-3 rounded-2xl bg-slate-50/50 sm:bg-transparent dark:bg-slate-900/40 sm:dark:bg-transparent border border-slate-100 sm:border-0 dark:border-slate-800">
-                            <div className="flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-slate-100 border-4 sm:border-8 border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-900 dark:text-white">
-                                <Truck className="h-5 w-5 sm:h-6 sm:w-6" />
+                        <div className="flex flex-col items-center space-y-2 sm:space-y-3 p-3 sm:p-4 rounded-2xl bg-slate-50/50 sm:bg-transparent dark:bg-slate-900/40 sm:dark:bg-transparent border border-slate-100 sm:border-0 dark:border-slate-800">
+                            <div className="flex h-11 w-11 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-slate-100 border-2 sm:border-8 border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-900 dark:text-white">
+                                <Truck className="h-4 w-4 sm:h-6 sm:w-6" />
                             </div>
                             <div>
                                 <h4 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
@@ -555,9 +555,9 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                         </div>
 
                         {/* 2 */}
-                        <div className="flex flex-col items-center space-y-2 sm:space-y-3 p-3 rounded-2xl bg-slate-50/50 sm:bg-transparent dark:bg-slate-900/40 sm:dark:bg-transparent border border-slate-100 sm:border-0 dark:border-slate-800">
-                            <div className="flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-slate-100 border-4 sm:border-8 border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-900 dark:text-white">
-                                <Headphones className="h-5 w-5 sm:h-6 sm:w-6" />
+                        <div className="flex flex-col items-center space-y-2 sm:space-y-3 p-3 sm:p-4 rounded-2xl bg-slate-50/50 sm:bg-transparent dark:bg-slate-900/40 sm:dark:bg-transparent border border-slate-100 sm:border-0 dark:border-slate-800">
+                            <div className="flex h-11 w-11 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-slate-100 border-2 sm:border-8 border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-900 dark:text-white">
+                                <Headphones className="h-4 w-4 sm:h-6 sm:w-6" />
                             </div>
                             <div>
                                 <h4 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
@@ -570,9 +570,9 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                         </div>
 
                         {/* 3 */}
-                        <div className="flex flex-col items-center space-y-2 sm:space-y-3 p-3 rounded-2xl bg-slate-50/50 sm:bg-transparent dark:bg-slate-900/40 sm:dark:bg-transparent border border-slate-100 sm:border-0 dark:border-slate-800">
-                            <div className="flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-slate-100 border-4 sm:border-8 border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-900 dark:text-white">
-                                <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6" />
+                        <div className="flex flex-col items-center space-y-2 sm:space-y-3 p-3 sm:p-4 rounded-2xl bg-slate-50/50 sm:bg-transparent dark:bg-slate-900/40 sm:dark:bg-transparent border border-slate-100 sm:border-0 dark:border-slate-800">
+                            <div className="flex h-11 w-11 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-slate-100 border-2 sm:border-8 border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-900 dark:text-white">
+                                <ShieldCheck className="h-4 w-4 sm:h-6 sm:w-6" />
                             </div>
                             <div>
                                 <h4 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
@@ -585,9 +585,9 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                         </div>
 
                         {/* 4 */}
-                        <div className="flex flex-col items-center space-y-2 sm:space-y-3 p-3 rounded-2xl bg-slate-50/50 sm:bg-transparent dark:bg-slate-900/40 sm:dark:bg-transparent border border-slate-100 sm:border-0 dark:border-slate-800">
-                            <div className="flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-slate-100 border-4 sm:border-8 border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-900 dark:text-white">
-                                <Award className="h-5 w-5 sm:h-6 sm:w-6" />
+                        <div className="flex flex-col items-center space-y-2 sm:space-y-3 p-3 sm:p-4 rounded-2xl bg-slate-50/50 sm:bg-transparent dark:bg-slate-900/40 sm:dark:bg-transparent border border-slate-100 sm:border-0 dark:border-slate-800">
+                            <div className="flex h-11 w-11 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-slate-100 border-2 sm:border-8 border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-900 dark:text-white">
+                                <Award className="h-4 w-4 sm:h-6 sm:w-6" />
                             </div>
                             <div>
                                 <h4 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
