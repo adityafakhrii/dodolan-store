@@ -54,9 +54,9 @@ export function ProductCard({ product, showBadge, discountPercent }: ProductCard
     };
 
     return (
-        <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:border-slate-300 hover:shadow-lg">
+        <div className="group relative flex flex-col overflow-hidden rounded-xl sm:rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:border-slate-300 hover:shadow-lg">
             {/* Image Box */}
-            <div className="relative aspect-4/3 w-full overflow-hidden bg-slate-50 border-b border-slate-100 p-3 flex items-center justify-center">
+            <div className="relative aspect-4/3 w-full overflow-hidden bg-slate-50 border-b border-slate-100 p-2 sm:p-3 flex items-center justify-center">
                 <Link href={`/produk/${product.slug}`} className="block h-full w-full flex items-center justify-center">
                     <img
                         src={product.image_url}
@@ -67,47 +67,47 @@ export function ProductCard({ product, showBadge, discountPercent }: ProductCard
                 </Link>
 
                 {/* Top-Left Badges */}
-                <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5 z-10 pointer-events-none">
+                <div className="absolute top-1.5 left-1.5 sm:top-2.5 sm:left-2.5 flex flex-col gap-1 sm:gap-1.5 z-10 pointer-events-none">
                     {discount > 0 && (
-                        <span className="rounded-md bg-rose-600 px-2 py-0.5 text-[10px] font-extrabold text-white shadow-sm tracking-wider">
+                        <span className="rounded-md bg-rose-600 px-1.5 py-0.5 sm:px-2 sm:py-0.5 text-[9px] sm:text-[10px] font-extrabold text-white shadow-xs tracking-wider">
                             -{discount}%
                         </span>
                     )}
                     {showBadge && (
-                        <span className="rounded-md bg-emerald-600 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
+                        <span className="rounded-md bg-emerald-600 px-1.5 py-0.5 sm:px-2 sm:py-0.5 text-[9px] sm:text-[10px] font-bold text-white shadow-xs">
                             {showBadge}
                         </span>
                     )}
                     {product.stock <= 5 && product.stock > 0 && (
-                        <span className="rounded-md bg-amber-500 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
+                        <span className="rounded-md bg-amber-500 px-1.5 py-0.5 sm:px-2 sm:py-0.5 text-[9px] sm:text-[10px] font-bold text-white shadow-xs">
                             Sisa {product.stock}
                         </span>
                     )}
                     {product.stock <= 0 && (
-                        <span className="rounded-md bg-slate-800 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
+                        <span className="rounded-md bg-slate-800 px-1.5 py-0.5 sm:px-2 sm:py-0.5 text-[9px] sm:text-[10px] font-bold text-white shadow-xs">
                             Habis
                         </span>
                     )}
                 </div>
 
                 {/* Top-Right Action Buttons */}
-                <div className="absolute top-2.5 right-2.5 flex flex-col gap-1.5 z-10">
+                <div className="absolute top-1.5 right-1.5 sm:top-2.5 sm:right-2.5 flex flex-col gap-1 sm:gap-1.5 z-10">
                     <button
                         type="button"
                         onClick={handleToggleLike}
-                        className={`flex h-7 w-7 items-center justify-center rounded-full bg-white shadow-sm border border-slate-200 transition hover:bg-slate-50 ${
+                        className={`flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white/90 backdrop-blur-xs shadow-xs border border-slate-200 transition hover:bg-slate-50 ${
                             liked ? 'text-rose-600' : 'text-slate-600 hover:text-rose-600'
                         }`}
                         title="Simpan ke Wishlist"
                     >
-                        <Heart className={`h-3.5 w-3.5 ${liked ? 'fill-rose-600' : ''}`} />
+                        <Heart className={`h-3 w-3 sm:h-3.5 sm:w-3.5 ${liked ? 'fill-rose-600' : ''}`} />
                     </button>
                     <Link
                         href={`/produk/${product.slug}`}
-                        className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-slate-600 shadow-sm border border-slate-200 transition hover:bg-slate-50 hover:text-emerald-600"
+                        className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white/90 backdrop-blur-xs text-slate-600 shadow-xs border border-slate-200 transition hover:bg-slate-50 hover:text-emerald-600"
                         title="Lihat Detail Produk"
                     >
-                        <Eye className="h-3.5 w-3.5" />
+                        <Eye className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                     </Link>
                 </div>
 
@@ -116,7 +116,7 @@ export function ProductCard({ product, showBadge, discountPercent }: ProductCard
                     type="button"
                     onClick={handleAddToCart}
                     disabled={isOutOfStock}
-                    className={`absolute inset-x-0 bottom-0 z-10 flex w-full items-center justify-center gap-2 py-2.5 text-xs font-bold transition-all duration-300 ${
+                    className={`absolute inset-x-0 bottom-0 z-10 hidden sm:flex w-full items-center justify-center gap-2 py-2.5 text-xs font-bold transition-all duration-300 ${
                         isOutOfStock
                             ? 'bg-slate-800/90 text-slate-400 cursor-not-allowed translate-y-full group-hover:translate-y-0'
                             : added
@@ -139,43 +139,68 @@ export function ProductCard({ product, showBadge, discountPercent }: ProductCard
             </div>
 
             {/* Info Body */}
-            <div className="flex flex-1 flex-col p-4 space-y-2">
-                {/* Category Pill */}
-                {product.category && (
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600">
-                        {product.category.name}
-                    </span>
-                )}
-
-                {/* Title */}
-                <h3 className="text-sm font-bold text-slate-900 line-clamp-2 min-h-10 group-hover:text-emerald-600 transition leading-snug">
-                    <Link href={`/produk/${product.slug}`}>
-                        {product.name}
-                    </Link>
-                </h3>
-
-                {/* Price Line */}
-                <div className="flex items-baseline gap-2 pt-1">
-                    <span className="text-base font-black text-rose-600">
-                        {formatRupiah(product.price)}
-                    </span>
-                    {originalPrice && (
-                        <span className="text-xs text-slate-400 line-through font-semibold">
-                            {formatRupiah(originalPrice)}
+            <div className="flex flex-1 flex-col justify-between p-2.5 sm:p-4">
+                <div className="space-y-1 sm:space-y-1.5">
+                    {/* Category Pill */}
+                    {product.category ? (
+                        <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-emerald-600 truncate block">
+                            {product.category.name}
+                        </span>
+                    ) : (
+                        <span className="text-[9px] sm:text-[10px] opacity-0 block select-none">
+                            &nbsp;
                         </span>
                     )}
+
+                    {/* Title with fixed height */}
+                    <h3 className="text-xs sm:text-sm font-bold text-slate-900 line-clamp-2 h-8 sm:h-10 group-hover:text-emerald-600 transition leading-snug">
+                        <Link href={`/produk/${product.slug}`} className="line-clamp-2">
+                            {product.name}
+                        </Link>
+                    </h3>
+
+                    {/* Price Line with consistent height */}
+                    <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-2 pt-0.5 min-h-9 sm:min-h-7 justify-center">
+                        <span className="text-xs sm:text-base font-black text-rose-600 leading-tight">
+                            {formatRupiah(product.price)}
+                        </span>
+                        {originalPrice ? (
+                            <span className="text-[10px] sm:text-xs text-slate-400 line-through font-semibold leading-tight">
+                                {formatRupiah(originalPrice)}
+                            </span>
+                        ) : null}
+                    </div>
                 </div>
 
-                {/* Star Ratings & Sold Count */}
-                <div className="flex items-center gap-1.5 pt-1 text-xs">
-                    <div className="flex text-amber-400">
-                        {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="h-3 w-3 fill-amber-400" />
-                        ))}
+                {/* Star Ratings & Mobile Quick Add (Always pinned uniformly to bottom) */}
+                <div className="mt-2.5 pt-2 flex items-center justify-between text-xs border-t border-slate-100 dark:border-slate-800/60">
+                    <div className="flex items-center gap-1">
+                        <div className="flex text-amber-400">
+                            {[...Array(5)].map((_, i) => (
+                                <Star key={i} className="h-2.5 w-2.5 sm:h-3 sm:w-3 fill-amber-400" />
+                            ))}
+                        </div>
+                        <span className="text-[10px] sm:text-[11px] font-semibold text-slate-400">
+                            ({ratingCount})
+                        </span>
                     </div>
-                    <span className="text-[11px] font-semibold text-slate-400">
-                        ({ratingCount})
-                    </span>
+
+                    {/* Mobile Quick Cart Button */}
+                    <button
+                        type="button"
+                        onClick={handleAddToCart}
+                        disabled={isOutOfStock}
+                        className={`sm:hidden flex h-7 w-7 items-center justify-center rounded-lg shadow-xs transition active:scale-95 ${
+                            isOutOfStock
+                                ? 'bg-slate-100 text-slate-400'
+                                : added
+                                ? 'bg-emerald-600 text-white'
+                                : 'bg-slate-900 text-white hover:bg-emerald-600'
+                        }`}
+                        title="Tambah ke Keranjang"
+                    >
+                        {added ? <Check className="h-3.5 w-3.5" /> : <ShoppingBag className="h-3.5 w-3.5" />}
+                    </button>
                 </div>
             </div>
         </div>

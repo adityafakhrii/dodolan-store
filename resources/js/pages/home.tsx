@@ -279,7 +279,7 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                     </div>
 
                     {/* Products Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
                         {latestProducts.map((product) => (
                             <ProductCard
                                 key={product.id}
@@ -310,19 +310,19 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                     </div>
 
                     {/* Categories Icon Cards Grid */}
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
                         {categories.map((cat) => {
                             const IconComponent = getCategoryIcon(cat.slug);
                             return (
                                 <Link
                                     key={cat.id}
                                     href={`/produk?category=${cat.slug}`}
-                                    className="group flex flex-col items-center justify-center p-6 rounded-xl border border-slate-200 bg-white hover:border-emerald-600 hover:bg-emerald-600 hover:text-white transition-all duration-300 dark:border-slate-800 dark:bg-slate-900 text-center shadow-xs"
+                                    className="group flex flex-col items-center justify-center p-4 sm:p-6 rounded-xl border border-slate-200 bg-white hover:border-emerald-600 hover:bg-emerald-600 hover:text-white transition-all duration-300 dark:border-slate-800 dark:bg-slate-900 text-center shadow-xs"
                                 >
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-full text-slate-700 group-hover:text-white transition">
-                                        <IconComponent className="h-7 w-7" />
+                                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full text-slate-700 group-hover:text-white transition">
+                                        <IconComponent className="h-6 w-6 sm:h-7 sm:w-7" />
                                     </div>
-                                    <span className="text-xs font-bold text-slate-900 group-hover:text-white dark:text-white mt-3 transition line-clamp-1">
+                                    <span className="text-xs font-bold text-slate-900 group-hover:text-white dark:text-white mt-2 sm:mt-3 transition line-clamp-1">
                                         {cat.name}
                                     </span>
                                     <span className="text-[10px] text-slate-400 group-hover:text-emerald-100 transition mt-0.5">
@@ -354,13 +354,13 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
 
                         <Link
                             href="/produk"
-                            className="inline-flex items-center rounded-xl bg-rose-600 px-5 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-rose-500 transition"
+                            className="inline-flex items-center rounded-xl bg-rose-600 px-4 sm:px-5 py-2 sm:py-2.5 text-xs font-bold text-white shadow-xs hover:bg-rose-500 transition"
                         >
                             <span>Lihat Semua</span>
                         </Link>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
                         {bestSellingProducts.map((product) => (
                             <ProductCard
                                 key={product.id}
@@ -446,7 +446,7 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
                         {exploreProducts.map((product) => (
                             <ProductCard
                                 key={product.id}
@@ -493,24 +493,24 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                     </div>
 
                     {/* Symmetrical 2x2 Grid (4 balanced cards, 0 empty holes) */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                         {technicalServices.map((svc, idx) => {
                             const IconComp = svc.icon;
                             return (
                                 <div
                                     key={idx}
-                                    className="rounded-2xl bg-white p-7 text-slate-900 border border-slate-200 shadow-sm flex flex-col justify-between space-y-6 group hover:border-emerald-400 hover:shadow-md transition"
+                                    className="rounded-2xl bg-white p-5 sm:p-7 text-slate-900 border border-slate-200 shadow-xs flex flex-col justify-between space-y-4 sm:space-y-6 group hover:border-emerald-400 hover:shadow-md transition"
                                 >
-                                    <div className="space-y-3">
+                                    <div className="space-y-2.5 sm:space-y-3">
                                         <div className="flex items-center justify-between">
                                             <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-600">
                                                 {svc.category}
                                             </span>
-                                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition">
-                                                <IconComp className="h-5 w-5" />
+                                            <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition">
+                                                <IconComp className="h-4 w-4 sm:h-5 sm:w-5" />
                                             </div>
                                         </div>
-                                        <h3 className="text-lg font-bold text-slate-900 group-hover:text-emerald-700 transition leading-snug">
+                                        <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-emerald-700 transition leading-snug">
                                             {svc.title}
                                         </h3>
                                         <p className="text-xs text-slate-500 leading-relaxed">
@@ -537,63 +537,63 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                 {/* =========================================================================
                     SECTION 7: Trust Badges (4 Circular Service Value Pillars)
                 ========================================================================== */}
-                <section className="py-12 border-t border-slate-200 dark:border-slate-800">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <section className="py-8 sm:py-12 border-t border-slate-200 dark:border-slate-800">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 text-center">
                         {/* 1 */}
-                        <div className="flex flex-col items-center space-y-3">
-                            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 border-8 border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-900 dark:text-white">
-                                <Truck className="h-6 w-6" />
+                        <div className="flex flex-col items-center space-y-2 sm:space-y-3 p-3 rounded-2xl bg-slate-50/50 sm:bg-transparent dark:bg-slate-900/40 sm:dark:bg-transparent border border-slate-100 sm:border-0 dark:border-slate-800">
+                            <div className="flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-slate-100 border-4 sm:border-8 border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-900 dark:text-white">
+                                <Truck className="h-5 w-5 sm:h-6 sm:w-6" />
                             </div>
                             <div>
-                                <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
+                                <h4 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
                                     Pengiriman 34 Provinsi
                                 </h4>
-                                <p className="text-xs text-slate-500 mt-1">
+                                <p className="text-[10px] sm:text-xs text-slate-500 mt-0.5 sm:mt-1 leading-snug">
                                     Packing aman proteksi industri &amp; asuransi resmi.
                                 </p>
                             </div>
                         </div>
 
                         {/* 2 */}
-                        <div className="flex flex-col items-center space-y-3">
-                            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 border-8 border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-900 dark:text-white">
-                                <Headphones className="h-6 w-6" />
+                        <div className="flex flex-col items-center space-y-2 sm:space-y-3 p-3 rounded-2xl bg-slate-50/50 sm:bg-transparent dark:bg-slate-900/40 sm:dark:bg-transparent border border-slate-100 sm:border-0 dark:border-slate-800">
+                            <div className="flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-slate-100 border-4 sm:border-8 border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-900 dark:text-white">
+                                <Headphones className="h-5 w-5 sm:h-6 sm:w-6" />
                             </div>
                             <div>
-                                <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
+                                <h4 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
                                     Dukungan Teknis 24/7
                                 </h4>
-                                <p className="text-xs text-slate-500 mt-1">
+                                <p className="text-[10px] sm:text-xs text-slate-500 mt-0.5 sm:mt-1 leading-snug">
                                     Teknisi standby siap melayani via WhatsApp &amp; on-site.
                                 </p>
                             </div>
                         </div>
 
                         {/* 3 */}
-                        <div className="flex flex-col items-center space-y-3">
-                            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 border-8 border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-900 dark:text-white">
-                                <ShieldCheck className="h-6 w-6" />
+                        <div className="flex flex-col items-center space-y-2 sm:space-y-3 p-3 rounded-2xl bg-slate-50/50 sm:bg-transparent dark:bg-slate-900/40 sm:dark:bg-transparent border border-slate-100 sm:border-0 dark:border-slate-800">
+                            <div className="flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-slate-100 border-4 sm:border-8 border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-900 dark:text-white">
+                                <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6" />
                             </div>
                             <div>
-                                <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
+                                <h4 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
                                     Garansi Resmi 1 Tahun
                                 </h4>
-                                <p className="text-xs text-slate-500 mt-1">
+                                <p className="text-[10px] sm:text-xs text-slate-500 mt-0.5 sm:mt-1 leading-snug">
                                     Jaminan ganti unit dan ketersediaan suku cadang.
                                 </p>
                             </div>
                         </div>
 
                         {/* 4 */}
-                        <div className="flex flex-col items-center space-y-3">
-                            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 border-8 border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-900 dark:text-white">
-                                <Award className="h-6 w-6" />
+                        <div className="flex flex-col items-center space-y-2 sm:space-y-3 p-3 rounded-2xl bg-slate-50/50 sm:bg-transparent dark:bg-slate-900/40 sm:dark:bg-transparent border border-slate-100 sm:border-0 dark:border-slate-800">
+                            <div className="flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-slate-100 border-4 sm:border-8 border-slate-200 dark:bg-slate-800 dark:border-slate-700 text-slate-900 dark:text-white">
+                                <Award className="h-5 w-5 sm:h-6 sm:w-6" />
                             </div>
                             <div>
-                                <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
+                                <h4 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
                                     Sertifikasi SDPPI
                                 </h4>
-                                <p className="text-xs text-slate-500 mt-1">
+                                <p className="text-[10px] sm:text-xs text-slate-500 mt-0.5 sm:mt-1 leading-snug">
                                     Legalitas frekuensi telekomunikasi Kominfo terjamin.
                                 </p>
                             </div>
