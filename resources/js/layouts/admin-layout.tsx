@@ -13,7 +13,8 @@ import {
     Menu, 
     X, 
     ChevronRight,
-    Shield
+    Shield,
+    Settings
 } from 'lucide-react';
 import { Toaster } from 'sonner';
 
@@ -35,6 +36,7 @@ export function AdminLayout({ children, title }: AdminLayoutProps) {
         { name: 'Data Customer', href: '/admin/customers', icon: Users },
         { name: 'Pengajuan Layanan', href: '/admin/service-requests', icon: Wrench },
         { name: 'Banner Promo', href: '/admin/banners', icon: ImageIcon },
+        { name: 'Pengaturan & Keamanan', href: '/admin/settings', icon: Settings },
     ];
 
     const isActive = (href: string) => {
@@ -153,7 +155,11 @@ export function AdminLayout({ children, title }: AdminLayoutProps) {
                         </h1>
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <Link
+                        href="/admin/settings"
+                        className="flex items-center gap-3 p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                        title="Buka Pengaturan Akun Admin"
+                    >
                         <div className="text-right hidden sm:block">
                             <div className="text-xs font-bold text-slate-900 dark:text-white">
                                 {auth?.user?.name || 'Administrator'}
@@ -163,9 +169,9 @@ export function AdminLayout({ children, title }: AdminLayoutProps) {
                             </div>
                         </div>
                         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">
-                            A
+                            {auth?.user?.name?.charAt(0).toUpperCase() || 'A'}
                         </div>
-                    </div>
+                    </Link>
                 </header>
 
                 {/* Page Content Container */}

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ServiceRequestController as AdminServiceRequestController;
+use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
@@ -105,6 +106,11 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
 
     // Banners Management
     Route::resource('banners', AdminBannerController::class)->except(['create', 'show', 'edit']);
+
+    // Admin Settings & Security
+    Route::get('/settings', [AdminSettingsController::class, 'index'])->name('settings.index');
+    Route::patch('/settings/profile', [AdminSettingsController::class, 'updateProfile'])->name('settings.profile');
+    Route::put('/settings/password', [AdminSettingsController::class, 'updatePassword'])->name('settings.password');
 });
 
 // Smart Dashboard Redirect
