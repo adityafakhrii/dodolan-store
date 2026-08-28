@@ -50,7 +50,7 @@ class Banner extends Model
         }
 
         if (str_starts_with($this->image, 'assets/') || str_starts_with($this->image, '/assets/')) {
-            return str_starts_with($this->image, '/') ? $this->image : '/' . $this->image;
+            return str_starts_with($this->image, '/') ? $this->image : '/'.$this->image;
         }
 
         return Storage::url($this->image);

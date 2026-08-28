@@ -15,6 +15,8 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProductCatalogController;
 use App\Http\Controllers\ServiceRequestController;
+use App\Http\Middleware\EnsureUserIsAdmin;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -31,27 +33,30 @@ Route::get('/produk/{slug}', [ProductCatalogController::class, 'show'])->name('p
 Route::get('/portfolio', [PortfolioController::class, 'index'])->name('portfolio');
 Route::get('/kontak', [ContactController::class, 'index'])->name('contact');
 
-// Services & Requests
+// Services & Requests (Throttled to 10 submissions per minute)
 Route::get('/layanan', [ServiceRequestController::class, 'index'])->name('services.index');
-Route::post('/layanan', [ServiceRequestController::class, 'store'])->name('services.store');
+Route::post('/layanan', [ServiceRequestController::class, 'store'])->middleware('throttle:10,1')->name('services.store');
 
-// Shopping Cart & Checkout
+// Shopping Cart & Checkout (Throttled to 10 checkouts per minute)
 Route::get('/keranjang', fn () => Inertia::render('cart'))->name('cart.index');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::post('/checkout', [CheckoutController::class, 'store'])->middleware('throttle:10,1')->name('checkout.store');
 
 // Payment Gateway & Status
 Route::get('/pembayaran/{orderNumber}', [PaymentController::class, 'show'])->name('payment.show');
 Route::post('/pembayaran/{orderNumber}/simulate-success', [PaymentController::class, 'simulateSuccess'])->name('payment.simulate');
-Route::post('/payments/webhook', [PaymentController::class, 'webhook'])->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class])->name('payment.webhook');
+Route::post('/payments/webhook', [PaymentController::class, 'webhook'])
+    ->middleware('throttle:60,1')
+    ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class])
+    ->name('payment.webhook');
 
 /*
 |--------------------------------------------------------------------------
-| Protected Admin Routes
+| Protected Admin Routes (Strict Admin Authorization)
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/', fn () => redirect()->route('admin.dashboard'));
 
@@ -78,9 +83,15 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('banners', AdminBannerController::class)->except(['create', 'show', 'edit']);
 });
 
-// Default dashboard redirect to admin dashboard
+// Default dashboard redirect: admins to admin dashboard, regular users to homepage
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', fn () => redirect()->route('admin.dashboard'))->name('dashboard');
+    Route::get('/dashboard', function (Request $request) {
+        if ($request->user()?->is_admin) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return redirect()->route('home');
+    })->name('dashboard');
 });
 
 require __DIR__.'/settings.php';

@@ -60,6 +60,7 @@ class ServiceRequestController extends Controller
     public function destroy(ServiceRequest $serviceRequest): RedirectResponse
     {
         $serviceRequest->delete();
+
         return back()->with('success', 'Pengajuan layanan berhasil dihapus.');
     }
 }

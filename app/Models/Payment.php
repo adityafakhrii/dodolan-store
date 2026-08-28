@@ -11,8 +11,11 @@ class Payment extends Model
     use HasFactory;
 
     public const STATUS_PENDING = 'Pending';
+
     public const STATUS_PAID = 'Paid';
+
     public const STATUS_FAILED = 'Failed';
+
     public const STATUS_EXPIRED = 'Expired';
 
     protected $fillable = [

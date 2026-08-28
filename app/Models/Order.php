@@ -12,14 +12,21 @@ class Order extends Model
     use HasFactory;
 
     public const PAYMENT_PENDING = 'Pending';
+
     public const PAYMENT_PAID = 'Paid';
+
     public const PAYMENT_FAILED = 'Failed';
+
     public const PAYMENT_EXPIRED = 'Expired';
 
     public const STATUS_PENDING_PAYMENT = 'Menunggu Pembayaran';
+
     public const STATUS_PAID = 'Dibayar';
+
     public const STATUS_PROCESSING = 'Diproses';
+
     public const STATUS_SHIPPED = 'Dikirim';
+
     public const STATUS_COMPLETED = 'Selesai';
 
     protected $fillable = [

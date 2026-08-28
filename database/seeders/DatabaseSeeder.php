@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Admin Dodolan',
                 'password' => Hash::make('password'),
+                'is_admin' => true,
                 'email_verified_at' => now(),
             ]
         );

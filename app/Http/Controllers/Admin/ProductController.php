@@ -140,6 +140,7 @@ class ProductController extends Controller
         // Safe check: if product has order items, toggle active status instead of foreign key breakage
         if ($product->orderItems()->exists()) {
             $product->update(['status' => false]);
+
             return back()->with('info', 'Produk telah memiliki histori pesanan, sehingga dinonaktifkan (diarsipkan).');
         }
 

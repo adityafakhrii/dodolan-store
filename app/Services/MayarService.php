@@ -11,7 +11,9 @@ use Illuminate\Support\Str;
 class MayarService
 {
     protected string $apiKey;
+
     protected string $apiUrl;
+
     protected string $webhookSecret;
 
     public function __construct()
@@ -28,7 +30,7 @@ class MayarService
      */
     public function createPayment(Order $order, string $returnUrl): array
     {
-        $paymentReference = 'MYR-' . strtoupper(Str::random(12));
+        $paymentReference = 'MYR-'.strtoupper(Str::random(12));
 
         // Format items array according to Mayar API v2 specs: items[].quantity, items[].rate, items[].description
         $items = [];
@@ -52,7 +54,7 @@ class MayarService
         // Clean customer mobile number (digits only, e.g. 081234567890)
         $mobile = preg_replace('/[^0-9]/', '', $order->customer_phone);
         if (str_starts_with($mobile, '62') && strlen($mobile) > 9) {
-            $mobile = '0' . substr($mobile, 2);
+            $mobile = '0'.substr($mobile, 2);
         }
 
         // If no real API key is configured (local dev/sandbox simulation mode), return local payment page
@@ -72,9 +74,9 @@ class MayarService
 
         try {
             // Determine v2 vs v1 endpoint based on apiUrl
-            $endpoint = str_contains($this->apiUrl, '/v2') 
-                ? $this->apiUrl . '/invoices/create'
-                : $this->apiUrl . '/payment/create';
+            $endpoint = str_contains($this->apiUrl, '/v2')
+                ? $this->apiUrl.'/invoices/create'
+                : $this->apiUrl.'/payment/create';
 
             $payload = [
                 'name' => $order->customer_name,
@@ -90,7 +92,7 @@ class MayarService
             ];
 
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->apiKey,
+                'Authorization' => 'Bearer '.$this->apiKey,
                 'Content-Type' => 'application/json',
             ])->timeout(15)->post($endpoint, $payload);
 
@@ -114,9 +116,9 @@ class MayarService
                 ];
             }
 
-            Log::error('Mayar API Error Response: ' . $response->status() . ' - ' . $response->body());
+            Log::error('Mayar API Error Response: '.$response->status().' - '.$response->body());
         } catch (\Throwable $e) {
-            Log::error('Mayar Payment Exception: ' . $e->getMessage());
+            Log::error('Mayar Payment Exception: '.$e->getMessage());
         }
 
         // Graceful fallback to store payment page if remote API call fails
@@ -141,39 +143,43 @@ class MayarService
 
         try {
             $endpoint = str_contains($this->apiUrl, '/v2')
-                ? $this->apiUrl . '/invoices/' . $invoiceId
-                : $this->apiUrl . '/payment/' . $invoiceId;
+                ? $this->apiUrl.'/invoices/'.$invoiceId
+                : $this->apiUrl.'/payment/'.$invoiceId;
 
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->apiKey,
+                'Authorization' => 'Bearer '.$this->apiKey,
                 'Content-Type' => 'application/json',
             ])->timeout(8)->get($endpoint);
 
             if ($response->successful()) {
                 $data = $response->json();
+
                 return $data['data']['status'] ?? null;
             }
         } catch (\Throwable $e) {
-            Log::debug('Mayar checkInvoiceStatus exception: ' . $e->getMessage());
+            Log::debug('Mayar checkInvoiceStatus exception: '.$e->getMessage());
         }
 
         return null;
     }
 
     /**
-     * Verify incoming webhook from Mayar
+     * Verify incoming webhook from Mayar (Fail-Closed)
      */
     public function verifyWebhook(Request $request): bool
     {
-        // If secret is configured, verify signature header
-        if (! empty($this->webhookSecret)) {
-            $signature = $request->header('x-mayar-signature') ?? $request->header('signature');
-            if ($signature) {
-                $computed = hash_hmac('sha256', $request->getContent(), $this->webhookSecret);
-                return hash_equals($computed, $signature);
-            }
+        // In local or testing environments without a configured secret, permit simulation
+        if (empty($this->webhookSecret)) {
+            return app()->environment('local', 'testing');
         }
 
-        return true;
+        $signature = $request->header('x-mayar-signature') ?? $request->header('signature');
+        if (! $signature) {
+            return false;
+        }
+
+        $computed = hash_hmac('sha256', $request->getContent(), $this->webhookSecret);
+
+        return hash_equals($computed, $signature);
     }
 }

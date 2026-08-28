@@ -181,9 +181,73 @@ class DodolanStoreTest extends TestCase
         $res2->assertOk();
     }
 
+    public function test_mayar_webhook_rejects_invalid_signature_when_secret_set(): void
+    {
+        config(['services.mayar.webhook_secret' => 'test_super_secret_webhook_key']);
+
+        $webhookPayload = [
+            'event' => 'payment.received',
+            'data' => [
+                'id' => 'MYR-TEST-123',
+                'status' => 'PAID',
+            ],
+        ];
+
+        // 1. Missing signature -> 401
+        $resMissing = $this->postJson('/payments/webhook', $webhookPayload);
+        $resMissing->assertStatus(401);
+
+        // 2. Invalid signature -> 401
+        $resInvalid = $this->withHeaders([
+            'x-mayar-signature' => 'invalid_signature_hash',
+        ])->postJson('/payments/webhook', $webhookPayload);
+        $resInvalid->assertStatus(401);
+
+        // 3. Valid HMAC signature -> 200 (or 404 payment ref not found, but passes signature verification)
+        $rawContent = json_encode($webhookPayload);
+        $validSignature = hash_hmac('sha256', $rawContent, 'test_super_secret_webhook_key');
+
+        $resValid = $this->withHeaders([
+            'x-mayar-signature' => $validSignature,
+        ])->call('POST', '/payments/webhook', [], [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_MAYAR_SIGNATURE' => $validSignature,
+        ], $rawContent);
+
+        // Passed 401 signature check
+        $this->assertNotEquals(401, $resValid->getStatusCode());
+    }
+
+    public function test_checkout_validation_bounds(): void
+    {
+        $product = Product::first();
+
+        // 1. Excessive item quantity (> 100)
+        $resQty = $this->postJson('/checkout', [
+            'customer_name' => 'Test User',
+            'customer_email' => 'test@example.com',
+            'customer_phone' => '081234567890',
+            'customer_address' => 'Test Address',
+            'items' => [['id' => $product->id, 'quantity' => 101]],
+        ]);
+        $resQty->assertStatus(422);
+        $resQty->assertJsonValidationErrors(['items.0.quantity']);
+
+        // 2. Excessive address length (> 1000)
+        $resAddr = $this->postJson('/checkout', [
+            'customer_name' => 'Test User',
+            'customer_email' => 'test@example.com',
+            'customer_phone' => '081234567890',
+            'customer_address' => str_repeat('A', 1001),
+            'items' => [['id' => $product->id, 'quantity' => 1]],
+        ]);
+        $resAddr->assertStatus(422);
+        $resAddr->assertJsonValidationErrors(['customer_address']);
+    }
+
     public function test_admin_dashboard_and_order_status_update(): void
     {
-        $admin = User::first();
+        $admin = User::where('email', 'admin@dodolan.store')->first();
         $this->actingAs($admin);
 
         // Admin Dashboard

@@ -52,7 +52,8 @@ class PaymentController extends Controller
     public function webhook(Request $request, MayarService $mayarService): JsonResponse
     {
         if (! $mayarService->verifyWebhook($request)) {
-            Log::warning('Mayar Webhook Invalid Signature: ' . $request->ip());
+            Log::warning('Mayar Webhook Invalid Signature: '.$request->ip());
+
             return response()->json(['success' => false, 'message' => 'Invalid signature'], 401);
         }
 
@@ -62,10 +63,10 @@ class PaymentController extends Controller
         // Standard Mayar API v2 and v1 webhook attributes
         $event = (string) ($payload['event'] ?? '');
         $paymentReference = $payload['data']['id'] ?? $payload['data']['transactionId'] ?? $payload['data']['payment_reference'] ?? $payload['data']['referenceId'] ?? null;
-        $orderNumber = $payload['data']['extraData']['order_number'] 
-            ?? $payload['extraData']['order_number'] 
-            ?? $payload['data']['referenceId'] 
-            ?? $payload['referenceId'] 
+        $orderNumber = $payload['data']['extraData']['order_number']
+            ?? $payload['extraData']['order_number']
+            ?? $payload['data']['referenceId']
+            ?? $payload['referenceId']
             ?? null;
         $dataStatus = $payload['data']['status'] ?? null;
 
@@ -85,6 +86,7 @@ class PaymentController extends Controller
 
             if (! $payment) {
                 Log::warning("Mayar Webhook: Payment not found for ref {$paymentReference} or order {$orderNumber}");
+
                 return response()->json(['success' => false, 'message' => 'Payment reference not found'], 404);
             }
 
@@ -120,8 +122,12 @@ class PaymentController extends Controller
     /**
      * Local Sandbox Simulation: Mark payment as paid for testing
      */
-    public function simulateSuccess(string $orderNumber): RedirectResponse
+    public function simulateSuccess(Request $request, string $orderNumber): RedirectResponse
     {
+        if (! app()->environment('local', 'testing') && ! ($request->user()?->is_admin)) {
+            abort(403, 'Simulasi pembayaran hanya diizinkan di lingkungan pengembangan/pengujian atau oleh administrator.');
+        }
+
         $order = Order::where('order_number', $orderNumber)->firstOrFail();
 
         DB::transaction(function () use ($order) {

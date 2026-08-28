@@ -28,11 +28,11 @@ class CheckoutController extends Controller
             'customer_name' => ['required', 'string', 'max:255'],
             'customer_email' => ['required', 'email', 'max:255'],
             'customer_phone' => ['required', 'string', 'max:30'],
-            'customer_address' => ['required', 'string'],
+            'customer_address' => ['required', 'string', 'max:1000'],
             'note' => ['nullable', 'string', 'max:1000'],
-            'items' => ['required', 'array', 'min:1'],
+            'items' => ['required', 'array', 'min:1', 'max:50'],
             'items.*.id' => ['required', 'integer', 'exists:products,id'],
-            'items.*.quantity' => ['required', 'integer', 'min:1'],
+            'items.*.quantity' => ['required', 'integer', 'min:1', 'max:100'],
         ]);
 
         return DB::transaction(function () use ($validated, $mayarService, $request) {
@@ -65,7 +65,7 @@ class CheckoutController extends Controller
             }
 
             // 2. Generate unique Order Number
-            $orderNumber = 'DDL-' . date('Ym') . '-' . strtoupper(Str::random(6));
+            $orderNumber = 'DDL-'.date('Ym').'-'.strtoupper(Str::random(6));
 
             // 3. Create Order
             $order = Order::create([
