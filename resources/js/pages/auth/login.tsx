@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
-import { LogIn, UserPlus } from 'lucide-react';
+import { LogIn, UserPlus, CheckCircle2 } from 'lucide-react';
 
 type Props = {
     status?: string;
@@ -20,6 +20,15 @@ export default function Login({ status, canResetPassword }: Props) {
     return (
         <>
             <Head title="Masuk ke Akun — Dodolan Store" />
+
+            {status && (
+                <div className="mb-5 flex items-start gap-2.5 rounded-xl bg-emerald-50 border border-emerald-200/80 p-3.5 text-xs text-emerald-800 dark:bg-emerald-950/50 dark:border-emerald-800/60 dark:text-emerald-300 shadow-xs">
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400 mt-0.5" />
+                    <div className="font-semibold leading-relaxed">
+                        {status}
+                    </div>
+                </div>
+            )}
 
             <Form
                 {...store.form()}
@@ -115,12 +124,6 @@ export default function Login({ status, canResetPassword }: Props) {
                     </>
                 )}
             </Form>
-
-            {status && (
-                <div className="mt-4 text-center text-xs font-semibold text-emerald-600">
-                    {status}
-                </div>
-            )}
         </>
     );
 }

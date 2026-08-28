@@ -87,7 +87,7 @@ export function AdminLayout({ children, title }: AdminLayoutProps) {
                                     e.currentTarget.style.display = 'none';
                                 }}
                             />
-                            <span className="rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-1.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider">
+                            <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-400">
                                 Admin
                             </span>
                         </Link>

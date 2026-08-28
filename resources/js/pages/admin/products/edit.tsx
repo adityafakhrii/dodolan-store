@@ -199,7 +199,6 @@ export default function ProductEdit({ product, specification, categories }: Edit
                         {/* Specifications Editor */}
                         <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
                             <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                                <Sparkles className="h-4 w-4 text-emerald-600 shrink-0" />
                                 <span>Spesifikasi Teknis (Key - Value)</span>
                             </label>
 

@@ -2,7 +2,7 @@ import { Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
 import { AdminLayout } from '@/layouts/admin-layout';
 import { formatRupiah, formatDate, getWhatsAppLink } from '@/lib/format';
-import { Search, Users, Phone, Mail, ShoppingCart } from 'lucide-react';
+import { Search, Users, Phone, Mail, ShoppingCart, MessageSquare } from 'lucide-react';
 
 interface Customer {
     customer_email: string;
@@ -114,7 +114,7 @@ export default function CustomerIndex({ customers, filters }: CustomerIndexProps
                                             rel="noreferrer"
                                             className="w-full flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 text-xs font-bold hover:bg-emerald-100 transition active:scale-[0.99]"
                                         >
-                                            <Phone className="h-4 w-4" />
+                                            <MessageSquare className="h-4 w-4" />
                                             <span>Hubungi via WhatsApp</span>
                                         </a>
                                     </div>
@@ -171,7 +171,7 @@ export default function CustomerIndex({ customers, filters }: CustomerIndexProps
                                                     rel="noreferrer"
                                                     className="inline-flex min-h-[36px] items-center gap-1.5 rounded-xl bg-emerald-50 text-emerald-700 px-3.5 py-1.5 font-bold hover:bg-emerald-100 dark:bg-emerald-950 dark:text-emerald-400 transition"
                                                 >
-                                                    <Phone className="h-3.5 w-3.5" />
+                                                    <MessageSquare className="h-3.5 w-3.5" />
                                                     <span>Chat</span>
                                                 </a>
                                             </td>

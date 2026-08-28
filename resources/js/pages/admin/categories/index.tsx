@@ -139,7 +139,7 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
                                             <button
                                                 type="button"
                                                 onClick={() => openEditModal(cat)}
-                                                className="flex min-h-[40px] items-center gap-1 px-3 py-1.5 rounded-xl bg-blue-50 text-blue-700 dark:bg-blue-950/80 dark:text-blue-300 text-xs font-bold hover:bg-blue-100 transition"
+                                                className="flex min-h-[40px] items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-50 text-amber-700 border border-amber-200/80 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-900/50 text-xs font-bold hover:bg-amber-100 transition"
                                             >
                                                 <Edit2 className="h-3.5 w-3.5" />
                                                 <span>Edit</span>
@@ -207,7 +207,7 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
                                                 <button
                                                     type="button"
                                                     onClick={() => openEditModal(cat)}
-                                                    className="p-2 text-slate-400 hover:text-blue-600 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                                                    className="p-2 text-slate-400 hover:text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/40 transition rounded-lg"
                                                     title="Edit Kategori"
                                                 >
                                                     <Edit2 className="h-4 w-4" />

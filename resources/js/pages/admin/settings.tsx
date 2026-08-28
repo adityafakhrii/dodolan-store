@@ -101,7 +101,7 @@ export default function AdminSettings({
                         <div>
                             <div className="flex flex-wrap items-center gap-2">
                                 <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">{user.name}</h2>
-                                <span className="rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 text-[10px] font-extrabold uppercase px-2.5 py-0.5 border border-emerald-300 dark:border-emerald-800">
+                                <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                                     Super Administrator
                                 </span>
                             </div>

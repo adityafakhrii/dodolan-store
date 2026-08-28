@@ -162,7 +162,7 @@ export default function BannersIndex({ banners }: BannersIndexProps) {
                                     <button
                                         type="button"
                                         onClick={() => openEditModal(banner)}
-                                        className="flex min-h-[40px] items-center gap-1 px-3 py-1.5 rounded-xl bg-blue-50 text-blue-700 dark:bg-blue-950/80 dark:text-blue-300 text-xs font-bold hover:bg-blue-100 transition"
+                                        className="flex min-h-[40px] items-center gap-1 px-3 py-1.5 rounded-xl bg-amber-50 text-amber-700 border border-amber-200/80 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-900/50 text-xs font-bold hover:bg-amber-100 transition"
                                         title="Edit Banner"
                                     >
                                         <Edit2 className="h-3.5 w-3.5" />

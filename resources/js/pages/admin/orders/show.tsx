@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { AdminLayout } from '@/layouts/admin-layout';
 import { CustomSelect } from '@/components/ui/custom-select';
 import { formatRupiah, formatDate, getWhatsAppLink } from '@/lib/format';
-import { ChevronLeft, Phone, Mail, MapPin, CreditCard, ShoppingCart, CheckCircle2, Truck, RefreshCw } from 'lucide-react';
+import { ChevronLeft, Phone, Mail, MapPin, CreditCard, ShoppingCart, CheckCircle2, Truck, RefreshCw, MessageSquare } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface OrderItem {
@@ -148,7 +148,7 @@ export default function OrderShow({ order }: OrderShowProps) {
                                     rel="noreferrer"
                                     className="w-full sm:w-auto inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-emerald-50 text-emerald-700 px-4 py-2.5 text-xs font-bold hover:bg-emerald-100 dark:bg-emerald-950 dark:text-emerald-400 transition"
                                 >
-                                    <Phone className="h-4 w-4" />
+                                    <MessageSquare className="h-4 w-4" />
                                     <span>Hubungi / Notifikasi Customer via WhatsApp</span>
                                 </a>
                             </div>

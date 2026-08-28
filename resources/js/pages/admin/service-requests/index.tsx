@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { AdminLayout } from '@/layouts/admin-layout';
 import { CustomSelect } from '@/components/ui/custom-select';
 import { formatDate, getWhatsAppLink } from '@/lib/format';
-import { Search, Wrench, Phone, Mail, MapPin, CheckCircle2, Trash2 } from 'lucide-react';
+import { Search, Wrench, Phone, Mail, MapPin, CheckCircle2, Trash2, MessageSquare } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface ServiceRequest {
@@ -177,7 +177,7 @@ export default function ServiceRequestsIndex({ requests, filters }: ServiceReque
                                             rel="noreferrer"
                                             className="flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 text-xs font-bold hover:bg-emerald-100 transition active:scale-[0.99]"
                                         >
-                                            <Phone className="h-4 w-4" />
+                                            <MessageSquare className="h-4 w-4" />
                                             <span>Chat WhatsApp</span>
                                         </a>
                                         <button
@@ -263,7 +263,7 @@ export default function ServiceRequestsIndex({ requests, filters }: ServiceReque
                                                         className="inline-flex min-h-[36px] items-center gap-1 rounded-xl bg-emerald-50 text-emerald-700 px-3 py-1.5 font-bold hover:bg-emerald-100 dark:bg-emerald-950 dark:text-emerald-400 transition"
                                                         title="Follow up WhatsApp"
                                                     >
-                                                        <Phone className="h-3.5 w-3.5" />
+                                                        <MessageSquare className="h-3.5 w-3.5" />
                                                         <span>Chat</span>
                                                     </a>
                                                     <button
