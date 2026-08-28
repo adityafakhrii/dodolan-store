@@ -267,28 +267,51 @@ export default function BannersIndex({ banners }: BannersIndexProps) {
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-2">
-                                    <div>
-                                        <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
-                                            Urutan Tampil
-                                        </label>
-                                        <input
-                                            type="number"
-                                            min="0"
-                                            value={data.display_order}
-                                            onChange={(e) => setData('display_order', parseInt(e.target.value) || 0)}
-                                            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-                                        />
+                                <div>
+                                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                        Urutan Tampil
+                                    </label>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        value={data.display_order}
+                                        onChange={(e) => setData('display_order', parseInt(e.target.value) || 0)}
+                                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                    />
+                                </div>
+
+                                <div
+                                    onClick={() => setData('is_active', !data.is_active)}
+                                    className={`flex items-center justify-between p-3 rounded-xl border-2 transition-all cursor-pointer select-none ${
+                                        data.is_active
+                                            ? 'border-emerald-500 bg-emerald-50/40 dark:border-emerald-600 dark:bg-emerald-950/20'
+                                            : 'border-slate-200 bg-slate-50/70 hover:border-slate-300 dark:border-slate-700 dark:bg-slate-800/40'
+                                    }`}
+                                >
+                                    <div className="space-y-0.5 pr-2">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-xs font-bold text-slate-900 dark:text-white">
+                                                Status Tayang Banner
+                                            </span>
+                                            <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
+                                                data.is_active
+                                                    ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/80 dark:text-emerald-300'
+                                                    : 'bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-300'
+                                            }`}>
+                                                {data.is_active ? 'Aktif Tayang' : 'Disembunyikan'}
+                                            </span>
+                                        </div>
+                                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                                            {data.is_active ? 'Banner akan tampil di slider beranda toko.' : 'Banner tidak akan ditampilkan di beranda.'}
+                                        </p>
                                     </div>
-                                    <div className="flex items-center gap-3 pt-0 sm:pt-6">
+                                    <div className="shrink-0" onClick={(e) => e.stopPropagation()}>
                                         <Checkbox
                                             id="banner-status"
                                             checked={data.is_active}
                                             onCheckedChange={(checked) => setData('is_active', !!checked)}
+                                            className="h-5 w-5 rounded-md"
                                         />
-                                        <label htmlFor="banner-status" className="text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer select-none">
-                                            Aktifkan Banner
-                                        </label>
                                     </div>
                                 </div>
 

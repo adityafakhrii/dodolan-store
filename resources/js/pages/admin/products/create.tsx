@@ -238,16 +238,42 @@ export default function ProductCreate({ categories }: CreateProductProps) {
                             </div>
                         </div>
 
-                        {/* Status Toggle */}
-                        <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center gap-3">
-                            <Checkbox
-                                id="status-toggle"
-                                checked={data.status}
-                                onCheckedChange={(checked) => setData('status', !!checked)}
-                            />
-                            <label htmlFor="status-toggle" className="text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer select-none">
-                                Tampilkan Produk di Katalog Publik (Status Aktif)
-                            </label>
+                        {/* Status Toggle Card */}
+                        <div
+                            onClick={() => setData('status', !data.status)}
+                            className={`flex items-center justify-between p-3.5 sm:p-4 rounded-xl border-2 transition-all cursor-pointer select-none ${
+                                data.status
+                                    ? 'border-emerald-500 bg-emerald-50/40 dark:border-emerald-600 dark:bg-emerald-950/20'
+                                    : 'border-slate-200 bg-slate-50/70 hover:border-slate-300 dark:border-slate-700 dark:bg-slate-800/40'
+                            }`}
+                        >
+                            <div className="space-y-0.5 pr-3">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-xs font-bold text-slate-900 dark:text-white">
+                                        Status Publikasi Produk
+                                    </span>
+                                    <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
+                                        data.status
+                                            ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/80 dark:text-emerald-300'
+                                            : 'bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-300'
+                                    }`}>
+                                        {data.status ? 'Aktif (Ditampilkan)' : 'Nonaktif (Disembunyikan)'}
+                                    </span>
+                                </div>
+                                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                                    {data.status 
+                                        ? 'Produk langsung muncul di katalog toko dan siap dipesan pelanggan.' 
+                                        : 'Produk disembunyikan dari katalog publik toko.'}
+                                </p>
+                            </div>
+                            <div className="shrink-0" onClick={(e) => e.stopPropagation()}>
+                                <Checkbox
+                                    id="status-toggle"
+                                    checked={data.status}
+                                    onCheckedChange={(checked) => setData('status', !!checked)}
+                                    className="h-5 w-5 rounded-md"
+                                />
+                            </div>
                         </div>
 
                         {/* Submit Button */}

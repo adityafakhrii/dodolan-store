@@ -278,15 +278,39 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
                                     />
                                 </div>
 
-                                <div className="flex items-center gap-3 pt-2">
-                                    <Checkbox
-                                        id="cat-status"
-                                        checked={data.status}
-                                        onCheckedChange={(checked) => setData('status', !!checked)}
-                                    />
-                                    <label htmlFor="cat-status" className="text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer select-none">
-                                        Aktifkan Kategori
-                                    </label>
+                                <div
+                                    onClick={() => setData('status', !data.status)}
+                                    className={`flex items-center justify-between p-3 rounded-xl border-2 transition-all cursor-pointer select-none ${
+                                        data.status
+                                            ? 'border-emerald-500 bg-emerald-50/40 dark:border-emerald-600 dark:bg-emerald-950/20'
+                                            : 'border-slate-200 bg-slate-50/70 hover:border-slate-300 dark:border-slate-700 dark:bg-slate-800/40'
+                                    }`}
+                                >
+                                    <div className="space-y-0.5 pr-2">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-xs font-bold text-slate-900 dark:text-white">
+                                                Status Kategori
+                                            </span>
+                                            <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
+                                                data.status
+                                                    ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/80 dark:text-emerald-300'
+                                                    : 'bg-slate-200 text-slate-600 dark:bg-slate-700 dark:text-slate-300'
+                                            }`}>
+                                                {data.status ? 'Aktif' : 'Nonaktif'}
+                                            </span>
+                                        </div>
+                                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                                            {data.status ? 'Kategori aktif dan muncul di navigasi filter toko.' : 'Kategori dinonaktifkan sementara.'}
+                                        </p>
+                                    </div>
+                                    <div className="shrink-0" onClick={(e) => e.stopPropagation()}>
+                                        <Checkbox
+                                            id="cat-status"
+                                            checked={data.status}
+                                            onCheckedChange={(checked) => setData('status', !!checked)}
+                                            className="h-5 w-5 rounded-md"
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
