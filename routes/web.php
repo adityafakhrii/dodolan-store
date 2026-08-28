@@ -16,6 +16,7 @@ use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProductCatalogController;
 use App\Http\Controllers\ServiceRequestController;
 use App\Http\Middleware\EnsureUserIsAdmin;
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -47,7 +48,7 @@ Route::get('/pembayaran/{orderNumber}', [PaymentController::class, 'show'])->nam
 Route::post('/pembayaran/{orderNumber}/simulate-success', [PaymentController::class, 'simulateSuccess'])->name('payment.simulate');
 Route::post('/payments/webhook', [PaymentController::class, 'webhook'])
     ->middleware('throttle:60,1')
-    ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class])
+    ->withoutMiddleware([ValidateCsrfToken::class])
     ->name('payment.webhook');
 
 /*
