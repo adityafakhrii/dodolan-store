@@ -76,25 +76,22 @@ export function AdminLayout({ children, title }: AdminLayoutProps) {
             }`}>
                 <div className="flex flex-col min-h-0 flex-1">
                     {/* Brand Header */}
-                    <div className="flex h-16 shrink-0 items-center justify-between px-4 sm:px-6 border-b border-slate-800">
-                        <Link href="/admin/dashboard" className="flex items-center gap-2.5 font-black tracking-tight text-white group">
+                    <div className="relative flex h-16 sm:h-20 shrink-0 items-center justify-center px-6 border-b border-slate-800">
+                        <Link href="/admin/dashboard" className="flex items-center justify-center group py-2">
                             <img
                                 src="/assets/logo/logo-white.png"
                                 alt="Dodolan Store"
-                                className="h-7 w-auto object-contain"
+                                className="h-8 sm:h-9 w-auto object-contain transition-transform group-hover:scale-105"
                                 onError={(e) => {
                                     e.currentTarget.style.display = 'none';
                                 }}
                             />
-                            <span className="text-[11px] font-bold uppercase tracking-widest text-emerald-400">
-                                Admin
-                            </span>
                         </Link>
                         <button
                             type="button"
                             onClick={() => setSidebarOpen(false)}
                             aria-label="Tutup Menu Navigasi"
-                            className="lg:hidden flex h-11 w-11 items-center justify-center rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition"
+                            className="lg:hidden absolute right-3 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition"
                         >
                             <X className="h-5 w-5" />
                         </button>
