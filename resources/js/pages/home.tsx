@@ -66,7 +66,7 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
         subtitle: 'Tingkatkan efisiensi armada dan amankan aset bisnis dengan teknologi telemetri andal.',
         cta_text: 'Jelajahi Produk',
         cta_url: '/produk',
-        image_url: '/assets/images/banners/banner-1.svg',
+        image_url: '/assets/images/banners/banner-iot-solutions.svg',
     };
 
     const getCategoryIcon = (slug: string) => {
@@ -407,9 +407,12 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
                         <div className="lg:col-span-5 flex items-center justify-center relative">
                             <div className="relative aspect-4/3 w-full max-w-md rounded-2xl bg-slate-900 p-4 sm:p-6 border border-slate-800 shadow-inner flex items-center justify-center">
                                 <img
-                                    src="/assets/images/products/product-1.svg"
+                                    src="/assets/images/products/md-404.svg"
                                     alt="Dodolan AI MDVR"
                                     className="h-40 sm:h-56 w-auto object-contain drop-shadow-2xl"
+                                    onError={(e) => {
+                                        e.currentTarget.src = '/assets/images/placeholder-product.svg';
+                                    }}
                                 />
                             </div>
                         </div>
