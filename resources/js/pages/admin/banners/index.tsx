@@ -2,9 +2,20 @@ import { Head, useForm, router } from '@inertiajs/react';
 import { useState } from 'react';
 import { AdminLayout } from '@/layouts/admin-layout';
 import { Checkbox } from '@/components/ui/checkbox';
+import { CustomSelect } from '@/components/ui/custom-select';
 import { ImageUploader } from '@/components/ui/image-uploader';
 import { Plus, Edit2, Trash2, Image as ImageIcon, X, Loader2, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
+
+const CTA_URL_PRESETS = [
+    { value: '/produk', label: 'Katalog Semua Produk (/produk)' },
+    { value: '/layanan', label: 'Layanan & Instalasi (/layanan)' },
+    { value: '/portfolio', label: 'Portfolio Implementasi (/portfolio)' },
+    { value: '/tentang-kami', label: 'Tentang Dodolan (/tentang-kami)' },
+    { value: '/kontak', label: 'Hubungi Kami / Konsultasi (/kontak)' },
+    { value: '/keranjang', label: 'Halaman Keranjang (/keranjang)' },
+    { value: '/', label: 'Beranda Utama (/)' },
+];
 
 interface Banner {
     id: number;
@@ -47,6 +58,15 @@ export default function BannersIndex({ banners }: BannersIndexProps) {
     const openCreateModal = () => {
         setEditingBanner(null);
         reset();
+        setData({
+            image: null,
+            title: '',
+            subtitle: '',
+            cta_text: 'Jelajahi Produk',
+            cta_url: '/produk',
+            display_order: banners.length + 1,
+            is_active: true,
+        });
         setIsCreating(true);
     };
 
@@ -252,32 +272,51 @@ export default function BannersIndex({ banners }: BannersIndexProps) {
                                             placeholder="Jelajahi Produk"
                                             className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         />
+                                        {errors.cta_text && <p className="mt-1 text-xs text-rose-500">{errors.cta_text}</p>}
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
                                             Link URL CTA
                                         </label>
-                                        <input
-                                            type="text"
-                                            value={data.cta_url}
-                                            onChange={(e) => setData('cta_url', e.target.value)}
-                                            placeholder="/produk"
-                                            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                        <CustomSelect
+                                            value={data.cta_url || '/produk'}
+                                            onChange={(val) => setData('cta_url', val)}
+                                            options={[
+                                                ...CTA_URL_PRESETS,
+                                                ...(data.cta_url && !CTA_URL_PRESETS.some((o) => o.value === data.cta_url)
+                                                    ? [{ value: data.cta_url, label: `Kustom: ${data.cta_url}` }]
+                                                    : []),
+                                            ]}
+                                            className="w-full"
                                         />
+                                        {errors.cta_url && <p className="mt-1 text-xs text-rose-500">{errors.cta_url}</p>}
                                     </div>
                                 </div>
 
                                 <div>
                                     <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
-                                        Urutan Tampil
+                                        Urutan Tampil Banner
                                     </label>
-                                    <input
-                                        type="number"
-                                        min="0"
-                                        value={data.display_order}
-                                        onChange={(e) => setData('display_order', parseInt(e.target.value) || 0)}
-                                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                    <CustomSelect
+                                        value={String(data.display_order || 1)}
+                                        onChange={(val) => setData('display_order', parseInt(val) || 1)}
+                                        options={Array.from(
+                                            { length: Math.max(banners.length + (editingBanner ? 0 : 1), Number(data.display_order) || 1, 1) },
+                                            (_, i) => {
+                                                const num = i + 1;
+                                                const total = Math.max(banners.length + (editingBanner ? 0 : 1), Number(data.display_order) || 1, 1);
+                                                let label = `Urutan ${num}`;
+                                                if (num === 1) label += ' (Slide Pertama / Utama)';
+                                                else if (num === total) label += ' (Slide Paling Akhir)';
+                                                return {
+                                                    value: String(num),
+                                                    label,
+                                                };
+                                            }
+                                        )}
+                                        className="w-full"
                                     />
+                                    {errors.display_order && <p className="mt-1 text-xs text-rose-500">{errors.display_order}</p>}
                                 </div>
 
                                 <div

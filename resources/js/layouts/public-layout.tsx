@@ -1,7 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { StoreHeader } from '@/components/store-header';
 import { StoreFooter } from '@/components/store-footer';
-import { Toaster } from 'sonner';
 
 interface PublicLayoutProps extends PropsWithChildren {
     title?: string;
@@ -15,7 +14,6 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                 {children}
             </main>
             <StoreFooter />
-            <Toaster position="bottom-right" richColors />
         </div>
     );
 }

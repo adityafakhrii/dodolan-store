@@ -16,7 +16,6 @@ import {
     Shield,
     Settings
 } from 'lucide-react';
-import { Toaster } from 'sonner';
 
 interface AdminLayoutProps extends PropsWithChildren {
     title?: string;
@@ -195,8 +194,6 @@ export function AdminLayout({ children, title }: AdminLayoutProps) {
                     {children}
                 </main>
             </div>
-
-            <Toaster position="bottom-right" richColors />
         </div>
     );
 }

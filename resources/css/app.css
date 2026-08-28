@@ -115,3 +115,34 @@
     }
 }
 
+/* Custom Dodolan Sonner Toast Styling */
+[data-sonner-toaster] {
+    --font-family: inherit !important;
+}
+
+[data-sonner-toast] {
+    font-family: inherit !important;
+    border-radius: 1rem !important;
+    padding: 0.875rem 1rem !important;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04) !important;
+}
+
+[data-sonner-toast] [data-icon] {
+    margin-right: 0.5rem !important;
+}
+
+[data-sonner-toast] [data-content] {
+    font-size: 0.8125rem !important;
+    font-weight: 500 !important;
+    color: #1e293b !important;
+}
+
+.dark [data-sonner-toast] [data-content] {
+    color: #f8fafc !important;
+}
+
+[data-sonner-toast] [data-close-button] {
+    border-radius: 0.5rem !important;
+}
+
+
