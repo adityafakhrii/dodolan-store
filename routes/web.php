@@ -46,6 +46,10 @@ Route::post('/layanan', [ServiceRequestController::class, 'store'])->middleware(
 // Shopping Cart (Public)
 Route::get('/keranjang', fn () => Inertia::render('cart'))->name('cart.index');
 
+// QA & Testing Checklist Tool (Internal QA Review)
+Route::get('/test', fn () => Inertia::render('qa-checklist'))->name('qa.test');
+Route::get('/qa-checklist', fn () => redirect()->route('qa.test'))->name('qa.checklist');
+
 // Authenticated Checkout (Throttled to 10 checkouts per minute)
 Route::middleware(['auth'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
