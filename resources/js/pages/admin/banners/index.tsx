@@ -1,6 +1,7 @@
 import { Head, useForm, router } from '@inertiajs/react';
 import { useState } from 'react';
 import { AdminLayout } from '@/layouts/admin-layout';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Plus, Edit2, Trash2, Image as ImageIcon, X, Loader2, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -284,14 +285,12 @@ export default function BannersIndex({ banners }: BannersIndexProps) {
                                         />
                                     </div>
                                     <div className="flex items-center gap-3 pt-0 sm:pt-6">
-                                        <input
-                                            type="checkbox"
+                                        <Checkbox
                                             id="banner-status"
                                             checked={data.is_active}
-                                            onChange={(e) => setData('is_active', e.target.checked)}
-                                            className="h-5 w-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                                            onCheckedChange={(checked) => setData('is_active', !!checked)}
                                         />
-                                        <label htmlFor="banner-status" className="text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer">
+                                        <label htmlFor="banner-status" className="text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer select-none">
                                             Aktifkan Banner
                                         </label>
                                     </div>

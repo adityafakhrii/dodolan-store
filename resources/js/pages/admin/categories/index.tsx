@@ -1,6 +1,7 @@
 import { Head, useForm, router } from '@inertiajs/react';
 import { useState } from 'react';
 import { AdminLayout } from '@/layouts/admin-layout';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Plus, Edit2, Trash2, Layers, Check, X, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -278,14 +279,12 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
                                 </div>
 
                                 <div className="flex items-center gap-3 pt-2">
-                                    <input
-                                        type="checkbox"
+                                    <Checkbox
                                         id="cat-status"
                                         checked={data.status}
-                                        onChange={(e) => setData('status', e.target.checked)}
-                                        className="h-5 w-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                                        onCheckedChange={(checked) => setData('status', !!checked)}
                                     />
-                                    <label htmlFor="cat-status" className="text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer">
+                                    <label htmlFor="cat-status" className="text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer select-none">
                                         Aktifkan Kategori
                                     </label>
                                 </div>

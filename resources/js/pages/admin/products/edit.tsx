@@ -2,6 +2,7 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 import { AdminLayout } from '@/layouts/admin-layout';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { Checkbox } from '@/components/ui/checkbox';
 import { ChevronLeft, Trash2, Loader2, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -247,14 +248,12 @@ export default function ProductEdit({ product, specification, categories }: Edit
 
                         {/* Status Toggle */}
                         <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center gap-3">
-                            <input
-                                type="checkbox"
+                            <Checkbox
                                 id="status-toggle"
                                 checked={data.status}
-                                onChange={(e) => setData('status', e.target.checked)}
-                                className="h-5 w-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                                onCheckedChange={(checked) => setData('status', !!checked)}
                             />
-                            <label htmlFor="status-toggle" className="text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer">
+                            <label htmlFor="status-toggle" className="text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer select-none">
                                 Tampilkan Produk di Katalog Publik (Status Aktif)
                             </label>
                         </div>

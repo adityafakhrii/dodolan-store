@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { PublicLayout } from '@/layouts/public-layout';
 import { ProductCard } from '@/components/product-card';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Search, SlidersHorizontal, X, ArrowUpDown, ChevronLeft, ChevronRight, Layers, Filter } from 'lucide-react';
 
 interface Category {
@@ -185,12 +186,10 @@ export default function ProductsIndex({ products, categories, filters }: Product
                         {/* Stock Filter */}
                         <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
                             <h4 className="font-semibold text-xs text-slate-400 uppercase tracking-wider mb-3">Ketersediaan</h4>
-                            <label className="flex items-center gap-2.5 text-sm text-slate-700 dark:text-slate-300 cursor-pointer select-none">
-                                <input
-                                    type="checkbox"
+                            <label className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300 cursor-pointer select-none font-medium">
+                                <Checkbox
                                     checked={filters.stock === 'in_stock'}
-                                    onChange={(e) => applyFilter('stock', e.target.checked ? 'in_stock' : '')}
-                                    className="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 dark:border-slate-700 dark:bg-slate-900"
+                                    onCheckedChange={(checked) => applyFilter('stock', checked ? 'in_stock' : '')}
                                 />
                                 <span>Hanya Stok Tersedia</span>
                             </label>
@@ -324,6 +323,111 @@ export default function ProductsIndex({ products, categories, filters }: Product
                     </div>
                 </div>
             </div>
+
+            {/* Mobile Filter Drawer */}
+            {mobileFilterOpen && (
+                <div className="fixed inset-0 z-50 lg:hidden flex">
+                    {/* Backdrop */}
+                    <div
+                        className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
+                        onClick={() => setMobileFilterOpen(false)}
+                    />
+
+                    {/* Drawer Content */}
+                    <div className="relative ml-auto flex h-full w-full max-w-xs flex-col bg-white dark:bg-slate-900 p-6 shadow-2xl overflow-y-auto">
+                        <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
+                            <h3 className="font-bold text-sm uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2">
+                                <SlidersHorizontal className="h-4 w-4 text-emerald-600" />
+                                <span>Filter Produk</span>
+                            </h3>
+                            <button
+                                type="button"
+                                onClick={() => setMobileFilterOpen(false)}
+                                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white"
+                            >
+                                <X className="h-5 w-5" />
+                            </button>
+                        </div>
+
+                        {/* Category List */}
+                        <div className="py-5 space-y-3">
+                            <h4 className="font-semibold text-xs text-slate-400 uppercase tracking-wider">Kategori</h4>
+                            <div className="space-y-1">
+                                <button
+                                    onClick={() => {
+                                        applyFilter('category', '');
+                                        setMobileFilterOpen(false);
+                                    }}
+                                    className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition text-left ${
+                                        !filters.category
+                                            ? 'bg-emerald-50 text-emerald-700 font-bold dark:bg-emerald-950/60 dark:text-emerald-400'
+                                            : 'text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800'
+                                    }`}
+                                >
+                                    <span>Semua Kategori</span>
+                                </button>
+                                {categories.map((cat) => {
+                                    const isSelected = filters.category === cat.slug;
+                                    return (
+                                        <button
+                                            key={cat.id}
+                                            onClick={() => {
+                                                applyFilter('category', isSelected ? '' : cat.slug);
+                                                setMobileFilterOpen(false);
+                                            }}
+                                            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition text-left ${
+                                                isSelected
+                                                    ? 'bg-emerald-50 text-emerald-700 font-bold dark:bg-emerald-950/60 dark:text-emerald-400'
+                                                    : 'text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800'
+                                            }`}
+                                        >
+                                            <span>{cat.name}</span>
+                                            <span className="text-[11px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full dark:bg-slate-800">
+                                                {cat.products_count}
+                                            </span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Stock Filter */}
+                        <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
+                            <h4 className="font-semibold text-xs text-slate-400 uppercase tracking-wider">Ketersediaan</h4>
+                            <label className="flex items-center gap-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300 cursor-pointer select-none font-medium">
+                                <Checkbox
+                                    checked={filters.stock === 'in_stock'}
+                                    onCheckedChange={(checked) => {
+                                        applyFilter('stock', checked ? 'in_stock' : '');
+                                    }}
+                                />
+                                <span>Hanya Stok Tersedia</span>
+                            </label>
+                        </div>
+
+                        {/* Footer Action */}
+                        <div className="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800 space-y-2">
+                            {hasActiveFilters && (
+                                <button
+                                    onClick={() => {
+                                        clearAllFilters();
+                                        setMobileFilterOpen(false);
+                                    }}
+                                    className="w-full py-2.5 rounded-xl border border-rose-200 bg-rose-50 text-xs font-bold text-rose-600 hover:bg-rose-100 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-400"
+                                >
+                                    Reset Semua Filter
+                                </button>
+                            )}
+                            <button
+                                onClick={() => setMobileFilterOpen(false)}
+                                className="w-full py-3 rounded-xl bg-emerald-600 text-xs font-bold text-white shadow-md hover:bg-emerald-500 transition"
+                            >
+                                Terapkan Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </PublicLayout>
     );
 }
