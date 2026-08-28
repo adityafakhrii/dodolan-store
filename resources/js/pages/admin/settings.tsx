@@ -93,42 +93,42 @@ export default function AdminSettings({
                 </div>
 
                 {/* Header Profile Badge */}
-                <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                    <div className="flex items-center gap-4">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-600 text-white font-black text-xl shadow-md">
+                <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div className="flex items-center gap-3.5 sm:gap-4">
+                        <div className="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-2xl bg-emerald-600 text-white font-black text-lg sm:text-xl shadow-md shrink-0">
                             {user.name.charAt(0).toUpperCase()}
                         </div>
                         <div>
-                            <div className="flex items-center gap-2">
-                                <h2 className="text-base font-bold text-slate-900 dark:text-white">{user.name}</h2>
+                            <div className="flex flex-wrap items-center gap-2">
+                                <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">{user.name}</h2>
                                 <span className="rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 text-[10px] font-extrabold uppercase px-2.5 py-0.5 border border-emerald-300 dark:border-emerald-800">
                                     Super Administrator
                                 </span>
                             </div>
-                            <p className="text-xs text-slate-500 mt-0.5">{user.email}</p>
+                            <p className="text-xs text-slate-500 mt-0.5 break-all">{user.email}</p>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700">
-                        <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                    <div className="w-full sm:w-auto flex items-center justify-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                        <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                         <span>Akses Penuh Kontrol Panel</span>
                     </div>
                 </div>
 
                 {/* 2-Column Grid: Profile (Left) & Password (Right) */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 items-start">
                     {/* Left Column: Admin Profile */}
-                    <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-5">
+                    <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-7 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-5">
                         <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
                             <div>
-                                <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                                <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                                     Informasi Profil Administrator
                                 </h3>
                                 <p className="text-xs text-slate-400 mt-0.5">
                                     Identitas pengelola platform Dodolan Store.
                                 </p>
                             </div>
-                            <User className="h-5 w-5 text-emerald-600" />
+                            <User className="h-5 w-5 text-emerald-600 shrink-0" />
                         </div>
 
                         <form onSubmit={handleProfileSubmit} className="space-y-4">
@@ -137,12 +137,12 @@ export default function AdminSettings({
                                     Nama Lengkap Administrator <span className="text-rose-500">*</span>
                                 </label>
                                 <div className="relative">
-                                    <User className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+                                    <User className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
                                     <input
                                         type="text"
                                         value={profileForm.data.name}
                                         onChange={(e) => profileForm.setData('name', e.target.value)}
-                                        className="w-full rounded-xl border border-slate-200 pl-9 pr-3 py-2 text-xs text-slate-900 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                        className="w-full rounded-xl border border-slate-200 pl-9 pr-3 py-2.5 text-xs text-slate-900 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         required
                                     />
                                 </div>
@@ -154,12 +154,12 @@ export default function AdminSettings({
                                     Alamat Email Login <span className="text-rose-500">*</span>
                                 </label>
                                 <div className="relative">
-                                    <Mail className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+                                    <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
                                     <input
                                         type="email"
                                         value={profileForm.data.email}
                                         onChange={(e) => profileForm.setData('email', e.target.value)}
-                                        className="w-full rounded-xl border border-slate-200 pl-9 pr-3 py-2 text-xs text-slate-900 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                        className="w-full rounded-xl border border-slate-200 pl-9 pr-3 py-2.5 text-xs text-slate-900 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         required
                                     />
                                 </div>
@@ -171,13 +171,13 @@ export default function AdminSettings({
                                     Nomor Telepon / WhatsApp
                                 </label>
                                 <div className="relative">
-                                    <Phone className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+                                    <Phone className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
                                     <input
                                         type="text"
                                         value={profileForm.data.phone}
                                         onChange={(e) => profileForm.setData('phone', e.target.value)}
                                         placeholder="Contoh: 081234567890"
-                                        className="w-full rounded-xl border border-slate-200 pl-9 pr-3 py-2 text-xs text-slate-900 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                        className="w-full rounded-xl border border-slate-200 pl-9 pr-3 py-2.5 text-xs text-slate-900 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                     />
                                 </div>
                                 <InputError message={profileForm.errors.phone} className="mt-1" />
@@ -187,7 +187,7 @@ export default function AdminSettings({
                                 <button
                                     type="submit"
                                     disabled={profileForm.processing}
-                                    className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-xs font-bold text-white hover:bg-emerald-500 disabled:opacity-50 transition active:scale-95 cursor-pointer shadow-xs"
+                                    className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-xs font-bold text-white hover:bg-emerald-500 disabled:opacity-50 transition active:scale-95 cursor-pointer shadow-xs"
                                 >
                                     {profileForm.processing ? <Spinner className="h-4 w-4" /> : <Save className="h-4 w-4" />}
                                     <span>Simpan Perubahan Profil</span>
@@ -197,17 +197,17 @@ export default function AdminSettings({
                     </div>
 
                     {/* Right Column: Update Password Card */}
-                    <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-5">
+                    <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-7 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-5">
                         <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
                             <div>
-                                <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                                <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                                     Perbarui Kata Sandi Administrator
                                 </h3>
                                 <p className="text-xs text-slate-400 mt-0.5">
                                     Gunakan kombinasi kata sandi yang aman.
                                 </p>
                             </div>
-                            <KeyRound className="h-5 w-5 text-emerald-600" />
+                            <KeyRound className="h-5 w-5 text-emerald-600 shrink-0" />
                         </div>
 
                         <form onSubmit={handlePasswordSubmit} className="space-y-4">
@@ -220,7 +220,7 @@ export default function AdminSettings({
                                     ref={currentPasswordInput}
                                     value={passwordForm.data.current_password}
                                     onChange={(e) => passwordForm.setData('current_password', e.target.value)}
-                                    className="rounded-xl border-slate-300 dark:border-slate-700 text-xs mt-1.5"
+                                    className="rounded-xl border-slate-300 dark:border-slate-700 text-xs mt-1.5 py-2.5"
                                     placeholder="Masukkan kata sandi lama"
                                     autoComplete="current-password"
                                 />
@@ -236,7 +236,7 @@ export default function AdminSettings({
                                     ref={passwordInput}
                                     value={passwordForm.data.password}
                                     onChange={(e) => passwordForm.setData('password', e.target.value)}
-                                    className="rounded-xl border-slate-300 dark:border-slate-700 text-xs mt-1.5"
+                                    className="rounded-xl border-slate-300 dark:border-slate-700 text-xs mt-1.5 py-2.5"
                                     placeholder="Minimal 8 karakter"
                                     autoComplete="new-password"
                                     passwordrules={passwordRules}
@@ -252,7 +252,7 @@ export default function AdminSettings({
                                     id="password_confirmation"
                                     value={passwordForm.data.password_confirmation}
                                     onChange={(e) => passwordForm.setData('password_confirmation', e.target.value)}
-                                    className="rounded-xl border-slate-300 dark:border-slate-700 text-xs mt-1.5"
+                                    className="rounded-xl border-slate-300 dark:border-slate-700 text-xs mt-1.5 py-2.5"
                                     placeholder="Ulangi kata sandi baru"
                                     autoComplete="new-password"
                                     passwordrules={passwordRules}
@@ -264,7 +264,7 @@ export default function AdminSettings({
                                 <button
                                     type="submit"
                                     disabled={passwordForm.processing}
-                                    className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-xs font-bold text-white hover:bg-emerald-500 disabled:opacity-50 transition active:scale-95 cursor-pointer shadow-xs"
+                                    className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-xs font-bold text-white hover:bg-emerald-500 disabled:opacity-50 transition active:scale-95 cursor-pointer shadow-xs"
                                 >
                                     {passwordForm.processing ? <Spinner className="h-4 w-4" /> : <Save className="h-4 w-4" />}
                                     <span>Simpan Kata Sandi Baru</span>
@@ -275,20 +275,20 @@ export default function AdminSettings({
                 </div>
 
                 {/* Bottom Row: System Status (Full Width) */}
-                <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-5">
+                <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-7 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-4 sm:space-y-5">
                     <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
                         <div>
-                            <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                            <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                                 Informasi Sistem &amp; Integrasi Toko
                             </h3>
                             <p className="text-xs text-slate-400 mt-0.5">
                                 Status lingkungan runtime aplikasi Dodolan Store dan gateway pihak ketiga.
                             </p>
                         </div>
-                        <Server className="h-5 w-5 text-emerald-600" />
+                        <Server className="h-5 w-5 text-emerald-600 shrink-0" />
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 text-xs">
                         <div className="p-4 rounded-xl border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-800/40 space-y-2">
                             <div className="font-bold text-slate-900 dark:text-white flex items-center justify-between">
                                 <span>Versi Aplikasi</span>

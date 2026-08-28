@@ -82,8 +82,8 @@ export default function ProductCreate({ categories }: CreateProductProps) {
                     </Link>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-                    <h2 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-4 mb-6">
+                <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-8 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
+                    <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-4 mb-6">
                         Informasi Perangkat IoT
                     </h2>
 
@@ -113,7 +113,7 @@ export default function ProductCreate({ categories }: CreateProductProps) {
                                     value={data.name}
                                     onChange={(e) => setData('name', e.target.value)}
                                     placeholder="Contoh: Dodolan AI MDVR FleetGuard (MD-404)"
-                                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                 />
                                 {errors.name && <p className="mt-1 text-xs text-rose-500">{errors.name}</p>}
                             </div>
@@ -133,7 +133,7 @@ export default function ProductCreate({ categories }: CreateProductProps) {
                                     value={data.price}
                                     onChange={(e) => setData('price', e.target.value)}
                                     placeholder="Contoh: 1450000"
-                                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white font-mono"
+                                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white font-mono"
                                 />
                                 {errors.price && <p className="mt-1 text-xs text-rose-500">{errors.price}</p>}
                             </div>
@@ -148,7 +148,7 @@ export default function ProductCreate({ categories }: CreateProductProps) {
                                     min="0"
                                     value={data.stock}
                                     onChange={(e) => setData('stock', e.target.value)}
-                                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white font-mono"
+                                    className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white font-mono"
                                 />
                                 {errors.stock && <p className="mt-1 text-xs text-rose-500">{errors.stock}</p>}
                             </div>
@@ -178,7 +178,7 @@ export default function ProductCreate({ categories }: CreateProductProps) {
                                 value={data.description}
                                 onChange={(e) => setData('description', e.target.value)}
                                 placeholder="Jelaskan kegunaan perangkat, fitur utama, dan keunggulan teknologi..."
-                                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                             />
                             {errors.description && <p className="mt-1 text-xs text-rose-500">{errors.description}</p>}
                         </div>
@@ -186,7 +186,7 @@ export default function ProductCreate({ categories }: CreateProductProps) {
                         {/* Specifications Key-Value Editor */}
                         <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
                             <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                                <Sparkles className="h-4 w-4 text-emerald-600" />
+                                <Sparkles className="h-4 w-4 text-emerald-600 shrink-0" />
                                 <span>Spesifikasi Teknis (Key - Value)</span>
                             </label>
 
@@ -194,39 +194,40 @@ export default function ProductCreate({ categories }: CreateProductProps) {
                             <div className="space-y-2">
                                 {Object.entries(data.specification).map(([k, v]) => (
                                     <div key={k} className="flex items-center gap-2 text-xs bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700">
-                                        <span className="font-bold w-1/3 text-slate-700 dark:text-slate-300">{k}</span>
-                                        <span className="flex-1 text-slate-600 dark:text-slate-400 font-mono">{v}</span>
+                                        <span className="font-bold w-1/3 text-slate-700 dark:text-slate-300 truncate">{k}</span>
+                                        <span className="flex-1 text-slate-600 dark:text-slate-400 font-mono truncate">{v}</span>
                                         <button
                                             type="button"
                                             onClick={() => handleRemoveSpec(k)}
-                                            className="text-slate-400 hover:text-rose-600 p-1"
+                                            className="text-slate-400 hover:text-rose-600 p-2 rounded-lg"
+                                            title="Hapus Spesifikasi"
                                         >
-                                            <Trash2 className="h-3.5 w-3.5" />
+                                            <Trash2 className="h-4 w-4" />
                                         </button>
                                     </div>
                                 ))}
                             </div>
 
-                            {/* Add Spec Row */}
-                            <div className="flex items-center gap-2 pt-2">
+                            {/* Add Spec Row - Mobile Responsive */}
+                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-2">
                                 <input
                                     type="text"
-                                    placeholder="Nama Spesifikasi (misal: Resolusi Video)"
+                                    placeholder="Nama Spesifikasi (misal: Resolusi)"
                                     value={specKey}
                                     onChange={(e) => setSpecKey(e.target.value)}
-                                    className="w-1/3 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                    className="w-full sm:w-1/3 rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-xs text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                 />
                                 <input
                                     type="text"
-                                    placeholder="Nilai (misal: 1080P @30fps Full HD)"
+                                    placeholder="Nilai (misal: 1080P Full HD)"
                                     value={specVal}
                                     onChange={(e) => setSpecVal(e.target.value)}
-                                    className="flex-1 rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                    className="w-full sm:flex-1 rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-xs text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                 />
                                 <button
                                     type="button"
                                     onClick={handleAddSpec}
-                                    className="rounded-xl bg-slate-900 px-3.5 py-2 text-xs font-bold text-white hover:bg-emerald-600 dark:bg-slate-800 dark:hover:bg-emerald-600"
+                                    className="min-h-[42px] sm:min-h-0 rounded-xl bg-slate-900 px-4 py-2.5 text-xs font-bold text-white hover:bg-emerald-600 dark:bg-slate-800 dark:hover:bg-emerald-600 transition"
                                 >
                                     + Tambah
                                 </button>
@@ -234,13 +235,13 @@ export default function ProductCreate({ categories }: CreateProductProps) {
                         </div>
 
                         {/* Status Toggle */}
-                        <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2">
+                        <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center gap-3">
                             <input
                                 type="checkbox"
                                 id="status-toggle"
                                 checked={data.status}
                                 onChange={(e) => setData('status', e.target.checked)}
-                                className="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                                className="h-5 w-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
                             />
                             <label htmlFor="status-toggle" className="text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer">
                                 Tampilkan Produk di Katalog Publik (Status Aktif)
@@ -248,17 +249,17 @@ export default function ProductCreate({ categories }: CreateProductProps) {
                         </div>
 
                         {/* Submit Button */}
-                        <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-3">
+                        <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col-reverse sm:flex-row justify-end gap-2.5 sm:gap-3">
                             <Link
                                 href="/admin/products"
-                                className="rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                                className="w-full sm:w-auto min-h-[44px] flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                             >
                                 Batal
                             </Link>
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-emerald-500 disabled:opacity-50 transition"
+                                className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-emerald-500 disabled:opacity-50 transition"
                             >
                                 {processing && <Loader2 className="h-4 w-4 animate-spin" />}
                                 <span>Simpan Produk Baru</span>

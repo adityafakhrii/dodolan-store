@@ -85,57 +85,57 @@ export default function OrderShow({ order }: OrderShowProps) {
                     </Link>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 items-start">
                     {/* Left 2 Cols: Order Items & Customer Snapshot */}
-                    <div className="lg:col-span-2 space-y-6">
+                    <div className="lg:col-span-2 space-y-4 sm:space-y-6">
                         {/* Order Header Card */}
-                        <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-4">
+                        <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-4">
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-4">
                                 <div>
-                                    <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Nomor Pesanan</span>
-                                    <h2 className="text-xl font-black text-slate-900 dark:text-white font-mono">
+                                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Nomor Pesanan</span>
+                                    <h2 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white font-mono">
                                         #{order.order_number}
                                     </h2>
                                 </div>
-                                <div className="text-right">
-                                    <span className="text-xs text-slate-400 block">Waktu Transaksi</span>
+                                <div className="sm:text-right">
+                                    <span className="text-[11px] text-slate-400 block">Waktu Transaksi</span>
                                     <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">{formatDate(order.created_at)}</span>
                                 </div>
                             </div>
 
                             {/* Customer Details Snapshot */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs">
                                 <div>
-                                    <span className="text-slate-400 block">Nama Pemesan:</span>
+                                    <span className="text-slate-400 block text-[11px]">Nama Pemesan:</span>
                                     <span className="font-bold text-slate-900 dark:text-white">{order.customer_name}</span>
                                 </div>
                                 <div>
-                                    <span className="text-slate-400 block">Email:</span>
-                                    <span className="text-slate-700 dark:text-slate-300">{order.customer_email}</span>
+                                    <span className="text-slate-400 block text-[11px]">Email:</span>
+                                    <span className="text-slate-700 dark:text-slate-300 break-all">{order.customer_email}</span>
                                 </div>
                                 <div>
-                                    <span className="text-slate-400 block">No. WhatsApp / HP:</span>
-                                    <span className="text-slate-700 dark:text-slate-300">{order.customer_phone}</span>
+                                    <span className="text-slate-400 block text-[11px]">No. WhatsApp / HP:</span>
+                                    <span className="text-slate-700 dark:text-slate-300 font-mono">{order.customer_phone}</span>
                                 </div>
                                 <div>
-                                    <span className="text-slate-400 block">Alamat Pengiriman:</span>
+                                    <span className="text-slate-400 block text-[11px]">Alamat Pengiriman:</span>
                                     <span className="text-slate-700 dark:text-slate-300 leading-relaxed">{order.customer_address}</span>
                                 </div>
                                 {order.shipping_courier && (
                                     <div>
-                                        <span className="text-slate-400 block">Ekspedisi:</span>
+                                        <span className="text-slate-400 block text-[11px]">Ekspedisi:</span>
                                         <span className="font-bold text-purple-600 dark:text-purple-400">{order.shipping_courier}</span>
                                     </div>
                                 )}
                                 {order.tracking_number && (
                                     <div>
-                                        <span className="text-slate-400 block">Nomor Resi:</span>
+                                        <span className="text-slate-400 block text-[11px]">Nomor Resi:</span>
                                         <span className="font-mono font-bold text-purple-600 dark:text-purple-400">{order.tracking_number}</span>
                                     </div>
                                 )}
                                 {order.note && (
                                     <div className="sm:col-span-2">
-                                        <span className="text-slate-400 block">Catatan Pesanan:</span>
+                                        <span className="text-slate-400 block text-[11px]">Catatan Pesanan:</span>
                                         <span className="text-slate-700 dark:text-slate-300 italic">{order.note}</span>
                                     </div>
                                 )}
@@ -146,17 +146,17 @@ export default function OrderShow({ order }: OrderShowProps) {
                                     href={getWhatsAppLink(order.customer_phone, waCustomerMessage)}
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="inline-flex items-center gap-2 rounded-xl bg-emerald-50 text-emerald-700 px-4 py-2 text-xs font-bold hover:bg-emerald-100 dark:bg-emerald-950 dark:text-emerald-400"
+                                    className="w-full sm:w-auto inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-emerald-50 text-emerald-700 px-4 py-2.5 text-xs font-bold hover:bg-emerald-100 dark:bg-emerald-950 dark:text-emerald-400 transition"
                                 >
-                                    <Phone className="h-3.5 w-3.5" />
+                                    <Phone className="h-4 w-4" />
                                     <span>Hubungi / Notifikasi Customer via WhatsApp</span>
                                 </a>
                             </div>
                         </div>
 
                         {/* Order Items Table */}
-                        <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-4">
-                            <h3 className="font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider border-b border-slate-100 dark:border-slate-800 pb-3">
+                        <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-4">
+                            <h3 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white uppercase tracking-wider border-b border-slate-100 dark:border-slate-800 pb-3">
                                 Rincian Hardware (Snapshot Harga)
                             </h3>
 
@@ -165,7 +165,7 @@ export default function OrderShow({ order }: OrderShowProps) {
                                     <div key={item.id} className="py-3 flex items-center justify-between gap-4 text-xs">
                                         <div>
                                             <div className="font-bold text-slate-900 dark:text-white">{item.product_name}</div>
-                                            <div className="text-slate-400">{item.quantity} unit x {formatRupiah(item.unit_price)}</div>
+                                            <div className="text-slate-400 text-[11px]">{item.quantity} unit x {formatRupiah(item.unit_price)}</div>
                                         </div>
                                         <div className="font-bold text-slate-900 dark:text-white">
                                             {formatRupiah(item.subtotal)}
@@ -176,16 +176,16 @@ export default function OrderShow({ order }: OrderShowProps) {
 
                             <div className="border-t border-slate-200 dark:border-slate-800 pt-3 flex justify-between items-baseline text-sm">
                                 <span className="font-bold text-slate-900 dark:text-white">Total Tagihan:</span>
-                                <span className="font-black text-xl text-slate-900 dark:text-white">{formatRupiah(order.total)}</span>
+                                <span className="font-black text-lg sm:text-xl text-emerald-600 dark:text-emerald-400">{formatRupiah(order.total)}</span>
                             </div>
                         </div>
                     </div>
 
                     {/* Right Col: Status Management & Payment Log */}
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                         {/* Order Status Transition Form */}
-                        <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-4">
-                            <h3 className="font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider border-b border-slate-100 dark:border-slate-800 pb-3">
+                        <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-4">
+                            <h3 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white uppercase tracking-wider border-b border-slate-100 dark:border-slate-800 pb-3">
                                 Update Status &amp; Pengiriman
                             </h3>
 
@@ -219,7 +219,7 @@ export default function OrderShow({ order }: OrderShowProps) {
                                                 value={shippingCourier}
                                                 onChange={(e) => setShippingCourier(e.target.value)}
                                                 placeholder="Contoh: JNE / J&T / Armada Dodolan"
-                                                className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                                className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                             />
                                         </div>
 
@@ -232,7 +232,7 @@ export default function OrderShow({ order }: OrderShowProps) {
                                                 value={trackingNumber}
                                                 onChange={(e) => setTrackingNumber(e.target.value)}
                                                 placeholder="Contoh: JNE1234567890"
-                                                className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs font-mono text-slate-900 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                                className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-xs font-mono text-slate-900 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                             />
                                         </div>
                                     </div>
@@ -241,7 +241,7 @@ export default function OrderShow({ order }: OrderShowProps) {
                                 <button
                                     type="submit"
                                     disabled={updating}
-                                    className="w-full rounded-xl bg-emerald-600 py-2.5 px-4 text-xs font-bold text-white hover:bg-emerald-500 disabled:opacity-50 transition"
+                                    className="w-full min-h-[44px] rounded-xl bg-emerald-600 py-2.5 px-4 text-xs font-bold text-white hover:bg-emerald-500 disabled:opacity-50 transition"
                                 >
                                     {updating 
                                         ? 'Menyimpan...' 
@@ -251,13 +251,13 @@ export default function OrderShow({ order }: OrderShowProps) {
                         </div>
 
                         {/* Payment Gateway Information */}
-                        <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-3">
-                            <h3 className="font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider border-b border-slate-100 dark:border-slate-800 pb-3">
+                        <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-3">
+                            <h3 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white uppercase tracking-wider border-b border-slate-100 dark:border-slate-800 pb-3">
                                 Informasi Pembayaran
                             </h3>
 
-                            <div className="space-y-2 text-xs">
-                                <div className="flex justify-between">
+                            <div className="space-y-2.5 text-xs">
+                                <div className="flex justify-between items-center">
                                     <span className="text-slate-400">Status Pembayaran:</span>
                                     <span className={`font-bold px-2 py-0.5 rounded-md ${
                                         order.payment_status === 'Paid'
@@ -267,14 +267,14 @@ export default function OrderShow({ order }: OrderShowProps) {
                                         {order.payment_status}
                                     </span>
                                 </div>
-                                <div className="flex justify-between">
+                                <div className="flex justify-between items-center">
                                     <span className="text-slate-400">Provider:</span>
                                     <span className="font-semibold text-slate-700 dark:text-slate-300">Mayar Gateway</span>
                                 </div>
                                 {order.payments && order.payments.length > 0 && (
-                                    <div className="flex justify-between">
+                                    <div className="flex justify-between items-center gap-2">
                                         <span className="text-slate-400">Mayar Reference:</span>
-                                        <span className="font-mono text-slate-700 dark:text-slate-300">{order.payments[0].payment_reference}</span>
+                                        <span className="font-mono text-slate-700 dark:text-slate-300 truncate max-w-[150px]">{order.payments[0].payment_reference}</span>
                                     </div>
                                 )}
                             </div>

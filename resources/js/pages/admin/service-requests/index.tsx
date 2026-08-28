@@ -116,9 +116,90 @@ export default function ServiceRequestsIndex({ requests, filters }: ServiceReque
                     </div>
                 </div>
 
-                {/* Service Requests Table */}
+                {/* Hybrid Responsive Table & Mobile Cards */}
                 <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-                    <div className="overflow-x-auto">
+                    {/* Mobile Cards View (< 768px) */}
+                    <div className="block md:hidden divide-y divide-slate-100 dark:divide-slate-800">
+                        {requests.data.length > 0 ? (
+                            requests.data.map((req) => (
+                                <div key={req.id} className="p-4 space-y-3">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <div>
+                                            <h3 className="font-bold text-sm text-slate-900 dark:text-white">
+                                                {req.name}
+                                            </h3>
+                                            <div className="text-[11px] text-slate-400 font-mono">{req.phone} • {req.email}</div>
+                                        </div>
+                                        <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-md ${
+                                            req.service_type === 'Instalasi'
+                                                ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400'
+                                                : req.service_type === 'Survey'
+                                                ? 'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-400'
+                                                : 'bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-400'
+                                        }`}>
+                                            {req.service_type}
+                                        </span>
+                                    </div>
+
+                                    <div className="space-y-1.5 text-xs">
+                                        <div className="flex items-start gap-1.5 text-slate-600 dark:text-slate-300">
+                                            <MapPin className="h-3.5 w-3.5 text-slate-400 shrink-0 mt-0.5" />
+                                            <span className="leading-relaxed">{req.location}</span>
+                                        </div>
+                                        <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
+                                            <div className="font-semibold text-slate-900 dark:text-white mb-0.5">Kebutuhan:</div>
+                                            {req.description}
+                                            {req.note && <div className="text-[11px] italic text-slate-400 mt-1 border-t border-slate-200 dark:border-slate-700 pt-1">Catatan: {req.note}</div>}
+                                        </div>
+                                    </div>
+
+                                    {/* Status Updater on Mobile */}
+                                    <div className="pt-2 border-t border-slate-100 dark:border-slate-800/60 flex items-center justify-between gap-3">
+                                        <span className="text-[11px] font-bold uppercase text-slate-400">Ubah Status:</span>
+                                        <CustomSelect
+                                            value={req.status}
+                                            onChange={(val) => handleStatusUpdate(req, val)}
+                                            size="sm"
+                                            className="w-36"
+                                            options={[
+                                                { value: 'Baru', label: 'Baru' },
+                                                { value: 'Diproses', label: 'Diproses' },
+                                                { value: 'Selesai', label: 'Selesai' },
+                                            ]}
+                                        />
+                                    </div>
+
+                                    {/* Action Buttons */}
+                                    <div className="grid grid-cols-2 gap-2 pt-1">
+                                        <a
+                                            href={getWhatsAppLink(req.phone, `Halo Bapak/Ibu ${req.name}, kami dari tim teknisi Dodolan Store ingin menindaklanjuti pengajuan layanan ${req.service_type} di lokasi ${req.location}.`)}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 text-xs font-bold hover:bg-emerald-100 transition active:scale-[0.99]"
+                                        >
+                                            <Phone className="h-4 w-4" />
+                                            <span>Chat WhatsApp</span>
+                                        </a>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleDelete(req)}
+                                            className="flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-rose-50 text-rose-700 dark:bg-rose-950/80 dark:text-rose-300 text-xs font-bold hover:bg-rose-100 transition cursor-pointer"
+                                        >
+                                            <Trash2 className="h-4 w-4" />
+                                            <span>Hapus</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="p-8 text-center text-xs text-slate-400">
+                                Belum ada pengajuan layanan yang sesuai filter.
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Desktop Table View (>= 768px) */}
+                    <div className="hidden md:block overflow-x-auto">
                         <table className="w-full text-left text-xs">
                             <thead className="border-b border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-800 dark:bg-slate-950/60 uppercase font-bold tracking-wider">
                                 <tr>
@@ -179,7 +260,7 @@ export default function ServiceRequestsIndex({ requests, filters }: ServiceReque
                                                         href={getWhatsAppLink(req.phone, `Halo Bapak/Ibu ${req.name}, kami dari tim teknisi Dodolan Store ingin menindaklanjuti pengajuan layanan ${req.service_type} di lokasi ${req.location}.`)}
                                                         target="_blank"
                                                         rel="noreferrer"
-                                                        className="inline-flex items-center gap-1 rounded-lg bg-emerald-50 text-emerald-700 px-2.5 py-1 font-bold hover:bg-emerald-100 dark:bg-emerald-950 dark:text-emerald-400"
+                                                        className="inline-flex min-h-[36px] items-center gap-1 rounded-xl bg-emerald-50 text-emerald-700 px-3 py-1.5 font-bold hover:bg-emerald-100 dark:bg-emerald-950 dark:text-emerald-400 transition"
                                                         title="Follow up WhatsApp"
                                                     >
                                                         <Phone className="h-3.5 w-3.5" />
@@ -188,7 +269,7 @@ export default function ServiceRequestsIndex({ requests, filters }: ServiceReque
                                                     <button
                                                         type="button"
                                                         onClick={() => handleDelete(req)}
-                                                        className="p-1 text-slate-400 hover:text-rose-600 transition"
+                                                        className="p-2 text-slate-400 hover:text-rose-600 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
                                                         title="Hapus Pengajuan"
                                                     >
                                                         <Trash2 className="h-4 w-4" />
@@ -208,15 +289,16 @@ export default function ServiceRequestsIndex({ requests, filters }: ServiceReque
                         </table>
                     </div>
 
+                    {/* Pagination */}
                     {requests.last_page > 1 && (
-                        <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex justify-center gap-2">
+                        <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex flex-wrap justify-center gap-1.5 sm:gap-2">
                             {requests.links.map((link, idx) => link.url ? (
                                 <Link
                                     key={idx}
                                     href={link.url}
                                     dangerouslySetInnerHTML={{ __html: link.label }}
-                                    className={`px-3 py-1 rounded-lg text-xs font-semibold ${
-                                        link.active ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
+                                    className={`min-h-[40px] min-w-[40px] flex items-center justify-center px-3 py-2 rounded-xl text-xs font-semibold transition ${
+                                        link.active ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200'
                                     }`}
                                 />
                             ) : null)}

@@ -112,9 +112,91 @@ export default function ProductIndex({ products, categories, filters }: ProductI
                     </div>
                 </div>
 
-                {/* Table */}
+                {/* Hybrid Responsive Table & Mobile Cards */}
                 <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-                    <div className="overflow-x-auto">
+                    {/* Mobile Cards View (< 768px) */}
+                    <div className="block md:hidden divide-y divide-slate-100 dark:divide-slate-800">
+                        {products.data.length > 0 ? (
+                            products.data.map((product) => (
+                                <div key={product.id} className="p-4 space-y-3">
+                                    <div className="flex items-start gap-3">
+                                        <img
+                                            src={product.image_url}
+                                            alt={product.name}
+                                            className="h-16 w-16 shrink-0 rounded-xl object-cover bg-slate-900 border border-slate-200 dark:border-slate-800"
+                                        />
+                                        <div className="min-w-0 flex-1 space-y-1">
+                                            <div className="flex items-center justify-between gap-2">
+                                                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                                                    {product.category?.name || 'Umum'}
+                                                </span>
+                                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                                                    product.status
+                                                        ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400'
+                                                        : 'bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+                                                }`}>
+                                                    {product.status ? 'Aktif' : 'Nonaktif'}
+                                                </span>
+                                            </div>
+                                            <h3 className="font-bold text-xs text-slate-900 dark:text-white line-clamp-2">
+                                                {product.name}
+                                            </h3>
+                                            <div className="font-black text-sm text-slate-900 dark:text-white">
+                                                {formatRupiah(product.price)}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800/60 text-xs">
+                                        <span className="text-slate-400 text-[11px]">Sisa Stok:</span>
+                                        <span className={`font-bold px-2 py-0.5 rounded-md text-[11px] ${
+                                            product.stock <= 0
+                                                ? 'bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-400'
+                                                : product.stock <= 5
+                                                ? 'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-400'
+                                                : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400'
+                                        }`}>
+                                            {product.stock} unit
+                                        </span>
+                                    </div>
+
+                                    {/* Action Buttons with 44px Touch Targets */}
+                                    <div className="grid grid-cols-3 gap-2 pt-1">
+                                        <Link
+                                            href={`/produk/${product.slug}`}
+                                            target="_blank"
+                                            className="flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100"
+                                        >
+                                            <Eye className="h-4 w-4" />
+                                            <span>Lihat</span>
+                                        </Link>
+                                        <Link
+                                            href={`/admin/products/${product.id}/edit`}
+                                            className="flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-blue-50 text-blue-700 dark:bg-blue-950/80 dark:text-blue-300 text-xs font-bold hover:bg-blue-100"
+                                        >
+                                            <Edit2 className="h-4 w-4" />
+                                            <span>Edit</span>
+                                        </Link>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleDelete(product)}
+                                            className="flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-rose-50 text-rose-700 dark:bg-rose-950/80 dark:text-rose-300 text-xs font-bold hover:bg-rose-100 cursor-pointer"
+                                        >
+                                            <Trash2 className="h-4 w-4" />
+                                            <span>Hapus</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="p-8 text-center text-xs text-slate-400">
+                                Tidak ada produk yang sesuai dengan kriteria filter.
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Desktop Table View (>= 768px) */}
+                    <div className="hidden md:block overflow-x-auto">
                         <table className="w-full text-left text-xs">
                             <thead className="border-b border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-800 dark:bg-slate-950/60 uppercase font-bold tracking-wider">
                                 <tr>
@@ -174,18 +256,18 @@ export default function ProductIndex({ products, categories, filters }: ProductI
                                                 </span>
                                             </td>
                                             <td className="px-5 py-4 text-right">
-                                                <div className="flex items-center justify-end gap-2">
+                                                <div className="flex items-center justify-end gap-1.5">
                                                     <Link
                                                         href={`/produk/${product.slug}`}
                                                         target="_blank"
-                                                        className="p-1.5 text-slate-400 hover:text-emerald-600 transition"
+                                                        className="p-2 text-slate-400 hover:text-emerald-600 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
                                                         title="Lihat Halaman Publik"
                                                     >
                                                         <Eye className="h-4 w-4" />
                                                     </Link>
                                                     <Link
                                                         href={`/admin/products/${product.id}/edit`}
-                                                        className="p-1.5 text-slate-400 hover:text-blue-600 transition"
+                                                        className="p-2 text-slate-400 hover:text-blue-600 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
                                                         title="Edit Produk"
                                                     >
                                                         <Edit2 className="h-4 w-4" />
@@ -193,7 +275,7 @@ export default function ProductIndex({ products, categories, filters }: ProductI
                                                     <button
                                                         type="button"
                                                         onClick={() => handleDelete(product)}
-                                                        className="p-1.5 text-slate-400 hover:text-rose-600 transition"
+                                                        className="p-2 text-slate-400 hover:text-rose-600 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
                                                         title="Hapus/Arsipkan"
                                                     >
                                                         <Trash2 className="h-4 w-4" />
@@ -215,14 +297,14 @@ export default function ProductIndex({ products, categories, filters }: ProductI
 
                     {/* Pagination */}
                     {products.last_page > 1 && (
-                        <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex justify-center gap-2">
+                        <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex flex-wrap justify-center gap-1.5 sm:gap-2">
                             {products.links.map((link, idx) => link.url ? (
                                 <Link
                                     key={idx}
                                     href={link.url}
                                     dangerouslySetInnerHTML={{ __html: link.label }}
-                                    className={`px-3 py-1 rounded-lg text-xs font-semibold ${
-                                        link.active ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
+                                    className={`min-h-[40px] min-w-[40px] flex items-center justify-center px-3 py-2 rounded-xl text-xs font-semibold transition ${
+                                        link.active ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200'
                                     }`}
                                 />
                             ) : null)}

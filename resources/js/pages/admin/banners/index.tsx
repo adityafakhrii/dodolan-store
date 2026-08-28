@@ -119,7 +119,7 @@ export default function BannersIndex({ banners }: BannersIndexProps) {
                 </div>
 
                 {/* Banners Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     {banners.map((banner) => (
                         <div
                             key={banner.id}
@@ -141,7 +141,7 @@ export default function BannersIndex({ banners }: BannersIndexProps) {
                                 </div>
                             </div>
 
-                            <div className="p-5 space-y-2 flex-1 flex flex-col justify-between">
+                            <div className="p-4 sm:p-5 space-y-2 flex-1 flex flex-col justify-between">
                                 <div>
                                     <h3 className="font-bold text-sm text-slate-900 dark:text-white line-clamp-1">
                                         {banner.title || '(Tanpa Judul)'}
@@ -161,18 +161,20 @@ export default function BannersIndex({ banners }: BannersIndexProps) {
                                     <button
                                         type="button"
                                         onClick={() => openEditModal(banner)}
-                                        className="p-1.5 text-slate-400 hover:text-blue-600 transition"
+                                        className="flex min-h-[40px] items-center gap-1 px-3 py-1.5 rounded-xl bg-blue-50 text-blue-700 dark:bg-blue-950/80 dark:text-blue-300 text-xs font-bold hover:bg-blue-100 transition"
                                         title="Edit Banner"
                                     >
-                                        <Edit2 className="h-4 w-4" />
+                                        <Edit2 className="h-3.5 w-3.5" />
+                                        <span>Edit</span>
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => handleDelete(banner)}
-                                        className="p-1.5 text-slate-400 hover:text-rose-600 transition"
+                                        className="flex min-h-[40px] items-center gap-1 px-3 py-1.5 rounded-xl bg-rose-50 text-rose-700 dark:bg-rose-950/80 dark:text-rose-300 text-xs font-bold hover:bg-rose-100 transition cursor-pointer"
                                         title="Hapus Banner"
                                     >
-                                        <Trash2 className="h-4 w-4" />
+                                        <Trash2 className="h-3.5 w-3.5" />
+                                        <span>Hapus</span>
                                     </button>
                                 </div>
                             </div>
@@ -182,18 +184,19 @@ export default function BannersIndex({ banners }: BannersIndexProps) {
 
                 {/* Banner Create/Edit Modal */}
                 {(isCreating || editingBanner) && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
-                        <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xl space-y-5 animate-in fade-in zoom-in-95">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-xs">
+                        <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-2xl space-y-5 max-h-[90dvh] overflow-y-auto animate-in fade-in zoom-in-95">
                             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-                                <h3 className="font-bold text-base text-slate-900 dark:text-white">
+                                <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white">
                                     {editingBanner ? 'Edit Banner Promo' : 'Tambah Banner Baru'}
                                 </h3>
                                 <button
+                                    type="button"
                                     onClick={() => {
                                         setIsCreating(false);
                                         setEditingBanner(null);
                                     }}
-                                    className="text-slate-400 hover:text-slate-700 dark:hover:text-white"
+                                    className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-white"
                                 >
                                     <X className="h-5 w-5" />
                                 </button>
@@ -223,7 +226,7 @@ export default function BannersIndex({ banners }: BannersIndexProps) {
                                         value={data.title}
                                         onChange={(e) => setData('title', e.target.value)}
                                         placeholder="Contoh: Solusi IoT Fleet Management"
-                                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                     />
                                 </div>
 
@@ -236,11 +239,11 @@ export default function BannersIndex({ banners }: BannersIndexProps) {
                                         value={data.subtitle}
                                         onChange={(e) => setData('subtitle', e.target.value)}
                                         placeholder="Keterangan singkat..."
-                                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                     />
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                     <div>
                                         <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
                                             Teks Tombol CTA
@@ -250,7 +253,7 @@ export default function BannersIndex({ banners }: BannersIndexProps) {
                                             value={data.cta_text}
                                             onChange={(e) => setData('cta_text', e.target.value)}
                                             placeholder="Jelajahi Produk"
-                                            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         />
                                     </div>
                                     <div>
@@ -262,12 +265,12 @@ export default function BannersIndex({ banners }: BannersIndexProps) {
                                             value={data.cta_url}
                                             onChange={(e) => setData('cta_url', e.target.value)}
                                             placeholder="/produk"
-                                            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         />
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4 pt-2">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-2">
                                     <div>
                                         <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
                                             Urutan Tampil
@@ -277,16 +280,16 @@ export default function BannersIndex({ banners }: BannersIndexProps) {
                                             min="0"
                                             value={data.display_order}
                                             onChange={(e) => setData('display_order', parseInt(e.target.value) || 0)}
-                                            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                         />
                                     </div>
-                                    <div className="flex items-center gap-2 pt-6">
+                                    <div className="flex items-center gap-3 pt-0 sm:pt-6">
                                         <input
                                             type="checkbox"
                                             id="banner-status"
                                             checked={data.is_active}
                                             onChange={(e) => setData('is_active', e.target.checked)}
-                                            className="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                                            className="h-5 w-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
                                         />
                                         <label htmlFor="banner-status" className="text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer">
                                             Aktifkan Banner
@@ -294,21 +297,21 @@ export default function BannersIndex({ banners }: BannersIndexProps) {
                                     </div>
                                 </div>
 
-                                <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+                                <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
                                     <button
                                         type="button"
                                         onClick={() => {
                                             setIsCreating(false);
                                             setEditingBanner(null);
                                         }}
-                                        className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                                        className="w-full sm:w-auto min-h-[44px] flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                                     >
                                         Batal
                                     </button>
                                     <button
                                         type="submit"
                                         disabled={processing}
-                                        className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2 text-xs font-bold text-white hover:bg-emerald-500 disabled:opacity-50"
+                                        className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2 text-xs font-bold text-white hover:bg-emerald-500 disabled:opacity-50"
                                     >
                                         {processing && <Loader2 className="h-4 w-4 animate-spin" />}
                                         <span>Simpan Banner</span>

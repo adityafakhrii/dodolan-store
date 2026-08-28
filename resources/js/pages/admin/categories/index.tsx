@@ -98,37 +98,22 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
                     </button>
                 </div>
 
-                {/* Categories Table */}
+                {/* Hybrid Responsive Table & Mobile Cards */}
                 <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900 shadow-xs">
-                    <table className="w-full text-left text-xs">
-                        <thead className="border-b border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-800 dark:bg-slate-950/60 uppercase font-bold tracking-wider">
-                            <tr>
-                                <th className="px-5 py-3.5">Nama Kategori</th>
-                                <th className="px-5 py-3.5">Slug URL</th>
-                                <th className="px-5 py-3.5">Deskripsi Singkat</th>
-                                <th className="px-5 py-3.5">Jumlah Produk</th>
-                                <th className="px-5 py-3.5">Status</th>
-                                <th className="px-5 py-3.5 text-right">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                            {categories.map((cat) => (
-                                <tr key={cat.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition">
-                                    <td className="px-5 py-4 font-bold text-slate-900 dark:text-white">
-                                        {cat.name}
-                                    </td>
-                                    <td className="px-5 py-4 font-mono text-slate-500">
-                                        /{cat.slug}
-                                    </td>
-                                    <td className="px-5 py-4 text-slate-500 max-w-sm truncate">
-                                        {cat.description || '-'}
-                                    </td>
-                                    <td className="px-5 py-4">
-                                        <span className="font-bold bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md text-slate-700 dark:text-slate-300">
-                                            {cat.products_count} produk
-                                        </span>
-                                    </td>
-                                    <td className="px-5 py-4">
+                    {/* Mobile Cards View (< 768px) */}
+                    <div className="block md:hidden divide-y divide-slate-100 dark:divide-slate-800">
+                        {categories.length > 0 ? (
+                            categories.map((cat) => (
+                                <div key={cat.id} className="p-4 space-y-3">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <div>
+                                            <h3 className="font-bold text-sm text-slate-900 dark:text-white">
+                                                {cat.name}
+                                            </h3>
+                                            <span className="text-[10px] font-mono text-slate-400 block">
+                                                /{cat.slug}
+                                            </span>
+                                        </div>
                                         <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                                             cat.status
                                                 ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400'
@@ -136,47 +121,128 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
                                         }`}>
                                             {cat.status ? 'Aktif' : 'Nonaktif'}
                                         </span>
-                                    </td>
-                                    <td className="px-5 py-4 text-right">
-                                        <div className="flex items-center justify-end gap-2">
+                                    </div>
+
+                                    {cat.description && (
+                                        <p className="text-xs text-slate-500 line-clamp-2">
+                                            {cat.description}
+                                        </p>
+                                    )}
+
+                                    <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800/60">
+                                        <span className="font-semibold text-xs text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">
+                                            {cat.products_count} Produk
+                                        </span>
+
+                                        <div className="flex items-center gap-2">
                                             <button
                                                 type="button"
                                                 onClick={() => openEditModal(cat)}
-                                                className="p-1.5 text-slate-400 hover:text-blue-600 transition"
-                                                title="Edit Kategori"
+                                                className="flex min-h-[40px] items-center gap-1 px-3 py-1.5 rounded-xl bg-blue-50 text-blue-700 dark:bg-blue-950/80 dark:text-blue-300 text-xs font-bold hover:bg-blue-100 transition"
                                             >
-                                                <Edit2 className="h-4 w-4" />
+                                                <Edit2 className="h-3.5 w-3.5" />
+                                                <span>Edit</span>
                                             </button>
                                             <button
                                                 type="button"
                                                 onClick={() => handleDelete(cat)}
-                                                className="p-1.5 text-slate-400 hover:text-rose-600 transition"
-                                                title="Hapus Kategori"
+                                                className="flex min-h-[40px] items-center gap-1 px-3 py-1.5 rounded-xl bg-rose-50 text-rose-700 dark:bg-rose-950/80 dark:text-rose-300 text-xs font-bold hover:bg-rose-100 transition cursor-pointer"
                                             >
-                                                <Trash2 className="h-4 w-4" />
+                                                <Trash2 className="h-3.5 w-3.5" />
+                                                <span>Hapus</span>
                                             </button>
                                         </div>
-                                    </td>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="p-8 text-center text-xs text-slate-400">
+                                Belum ada kategori yang ditambahkan.
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Desktop Table View (>= 768px) */}
+                    <div className="hidden md:block overflow-x-auto">
+                        <table className="w-full text-left text-xs">
+                            <thead className="border-b border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-800 dark:bg-slate-950/60 uppercase font-bold tracking-wider">
+                                <tr>
+                                    <th className="px-5 py-3.5">Nama Kategori</th>
+                                    <th className="px-5 py-3.5">Slug URL</th>
+                                    <th className="px-5 py-3.5">Deskripsi Singkat</th>
+                                    <th className="px-5 py-3.5">Jumlah Produk</th>
+                                    <th className="px-5 py-3.5">Status</th>
+                                    <th className="px-5 py-3.5 text-right">Aksi</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                                {categories.map((cat) => (
+                                    <tr key={cat.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition">
+                                        <td className="px-5 py-4 font-bold text-slate-900 dark:text-white">
+                                            {cat.name}
+                                        </td>
+                                        <td className="px-5 py-4 font-mono text-slate-500">
+                                            /{cat.slug}
+                                        </td>
+                                        <td className="px-5 py-4 text-slate-500 max-w-sm truncate">
+                                            {cat.description || '-'}
+                                        </td>
+                                        <td className="px-5 py-4">
+                                            <span className="font-bold bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md text-slate-700 dark:text-slate-300">
+                                                {cat.products_count} produk
+                                            </span>
+                                        </td>
+                                        <td className="px-5 py-4">
+                                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                                                cat.status
+                                                    ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400'
+                                                    : 'bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+                                            }`}>
+                                                {cat.status ? 'Aktif' : 'Nonaktif'}
+                                            </span>
+                                        </td>
+                                        <td className="px-5 py-4 text-right">
+                                            <div className="flex items-center justify-end gap-1.5">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => openEditModal(cat)}
+                                                    className="p-2 text-slate-400 hover:text-blue-600 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                                                    title="Edit Kategori"
+                                                >
+                                                    <Edit2 className="h-4 w-4" />
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleDelete(cat)}
+                                                    className="p-2 text-slate-400 hover:text-rose-600 transition rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                                                    title="Hapus Kategori"
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 {/* Create/Edit Modal */}
                 {(isCreating || editingCategory) && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
-                        <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xl space-y-5 animate-in fade-in zoom-in-95">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-xs">
+                        <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900 shadow-2xl space-y-5 max-h-[90dvh] overflow-y-auto animate-in fade-in zoom-in-95">
                             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-                                <h3 className="font-bold text-base text-slate-900 dark:text-white">
+                                <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white">
                                     {editingCategory ? `Edit Kategori: ${editingCategory.name}` : 'Tambah Kategori Baru'}
                                 </h3>
                                 <button
+                                    type="button"
                                     onClick={() => {
                                         setIsCreating(false);
                                         setEditingCategory(null);
                                     }}
-                                    className="text-slate-400 hover:text-slate-700 dark:hover:text-white"
+                                    className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-white"
                                 >
                                     <X className="h-5 w-5" />
                                 </button>
@@ -193,7 +259,7 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
                                         value={data.name}
                                         onChange={(e) => setData('name', e.target.value)}
                                         placeholder="Contoh: AI Camera"
-                                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                     />
                                     {errors.name && <p className="mt-1 text-xs text-rose-500">{errors.name}</p>}
                                 </div>
@@ -207,38 +273,38 @@ export default function CategoryIndex({ categories }: CategoryIndexProps) {
                                         value={data.description}
                                         onChange={(e) => setData('description', e.target.value)}
                                         placeholder="Penjelasan ringkas fungsi kategori..."
-                                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs text-slate-900 focus:border-emerald-500 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                                     />
                                 </div>
 
-                                <div className="flex items-center gap-2 pt-2">
+                                <div className="flex items-center gap-3 pt-2">
                                     <input
                                         type="checkbox"
                                         id="cat-status"
                                         checked={data.status}
                                         onChange={(e) => setData('status', e.target.checked)}
-                                        className="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                                        className="h-5 w-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
                                     />
                                     <label htmlFor="cat-status" className="text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer">
                                         Aktifkan Kategori
                                     </label>
                                 </div>
 
-                                <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
+                                <div className="flex flex-col-reverse sm:flex-row justify-end gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
                                     <button
                                         type="button"
                                         onClick={() => {
                                             setIsCreating(false);
                                             setEditingCategory(null);
                                         }}
-                                        className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                                        className="w-full sm:w-auto min-h-[44px] flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                                     >
                                         Batal
                                     </button>
                                     <button
                                         type="submit"
                                         disabled={processing}
-                                        className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2 text-xs font-bold text-white hover:bg-emerald-500 disabled:opacity-50"
+                                        className="w-full sm:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2 text-xs font-bold text-white hover:bg-emerald-500 disabled:opacity-50"
                                     >
                                         {processing && <Loader2 className="h-4 w-4 animate-spin" />}
                                         <span>Simpan Kategori</span>
