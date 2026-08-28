@@ -89,7 +89,7 @@ export function StoreHeader() {
             <div className="bg-slate-950 border-b border-slate-800 text-xs text-slate-300">
                 <div className="mx-auto flex max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8 py-2">
                     <div className="flex items-center gap-2 text-[11px] sm:text-xs">
-                        <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                        <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0" />
                         <span className="truncate max-w-[280px] sm:max-w-none">Promo Spesial: Diskon Hardware IoT &amp; Gratis Biaya Survey Armada di Jawa Timur</span>
                         <Link href="/produk" className="hidden sm:inline-block font-bold text-white underline hover:text-emerald-400 ml-1">
                             Belanja Sekarang

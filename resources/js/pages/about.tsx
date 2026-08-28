@@ -45,44 +45,42 @@ export default function About() {
                             
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                                 <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
-                                    <Target className="h-6 w-6 text-emerald-600 mb-2" />
-                                    <h4 className="font-bold text-slate-900 dark:text-white text-base">Visi</h4>
-                                    <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                                        Menjadi mitra teknologi IoT dan telematika armada nomor satu di Indonesia yang terpercaya dan inovatif.
+                                    <h4 className="font-bold text-slate-900 dark:text-white text-sm uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Visi</h4>
+                                    <p className="text-xs text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed">
+                                        Menjadi penyedia hardware IoT dan ekosistem telematika armada kendaraan komersial paling terpercaya di Indonesia.
                                     </p>
                                 </div>
                                 <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
-                                    <Award className="h-6 w-6 text-blue-600 mb-2" />
-                                    <h4 className="font-bold text-slate-900 dark:text-white text-base">Misi</h4>
-                                    <p className="text-xs text-slate-500 mt-1 leading-relaxed">
-                                        Menyediakan hardware IoT berkualitas tinggi, layanan instalasi berstandar industri, serta edukasi teknologi telemetri.
+                                    <h4 className="font-bold text-slate-900 dark:text-white text-sm uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Misi</h4>
+                                    <p className="text-xs text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed">
+                                        Menyediakan perangkat bersertifikasi resmi, instalasi kelistrikan berstandar otomotif, dan pendampingan integrasi sistem telemetri.
                                     </p>
                                 </div>
                             </div>
                         </div>
 
                         {/* Visual Brand Card */}
-                        <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-900 to-slate-950 p-8 text-white shadow-xl dark:border-slate-800">
-                            <div className="flex items-center gap-3 border-b border-slate-800 pb-6 mb-6">
-                                <img src="/assets/logo/logo-white.png" alt="Dodolan Logo" className="h-10 w-auto" />
+                        <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6 sm:p-8 text-white shadow-xl">
+                            <div className="flex items-center gap-3 border-b border-slate-800 pb-5 mb-5">
+                                <img src="/assets/logo/logo-white.png" alt="Dodolan Logo" className="h-8 w-auto" />
                             </div>
-                            <h3 className="text-xl font-bold mb-4 text-emerald-400">Komitmen Kualitas Dodolan</h3>
-                            <ul className="space-y-3.5 text-sm text-slate-300">
-                                <li className="flex items-start gap-3">
-                                    <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400 mt-0.5" />
-                                    <span>Hardware tersertifikasi resmi SDPPI Kominfo dan bergaransi unit.</span>
+                            <h3 className="text-lg font-bold mb-4 text-white">Standar &amp; Jaminan Layanan</h3>
+                            <ul className="space-y-3 text-xs sm:text-sm text-slate-300">
+                                <li className="flex items-start gap-2.5">
+                                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400 mt-0.5" />
+                                    <span>Hardware tersertifikasi resmi SDPPI Kominfo dan bergaransi unit 1 tahun.</span>
                                 </li>
-                                <li className="flex items-start gap-3">
-                                    <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400 mt-0.5" />
-                                    <span>Kesiapan integrasi API, protokol telemetri MQTT, HTTP, dan TCP/IP.</span>
+                                <li className="flex items-start gap-2.5">
+                                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400 mt-0.5" />
+                                    <span>Protokol komunikasi terbuka: REST API, MQTT, TCP/IP, dan integrasi GPS Tracker.</span>
                                 </li>
-                                <li className="flex items-start gap-3">
-                                    <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400 mt-0.5" />
-                                    <span>Teknisi lapangan terlatih untuk instalasi kelistrikan kendaraan komersial.</span>
+                                <li className="flex items-start gap-2.5">
+                                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400 mt-0.5" />
+                                    <span>Teknisi lapangan bersertifikat untuk instalasi rapi armada 12V &amp; 24V.</span>
                                 </li>
-                                <li className="flex items-start gap-3">
-                                    <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400 mt-0.5" />
-                                    <span>Layanan purna jual, suku cadang, dan kalibrasi sensor terjamin.</span>
+                                <li className="flex items-start gap-2.5">
+                                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400 mt-0.5" />
+                                    <span>Dukungan purna jual, suku cadang, dan klaim unit pengganti cepat.</span>
                                 </li>
                             </ul>
                         </div>
