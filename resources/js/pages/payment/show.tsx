@@ -8,7 +8,11 @@ import {
     PhoneCall, 
     RefreshCw, 
     ExternalLink,
-    CreditCard
+    CreditCard,
+    Package,
+    LayoutDashboard,
+    ChevronRight,
+    ArrowRight
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
@@ -110,13 +114,26 @@ export default function PaymentShow({ order }: PaymentShowProps) {
             <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 space-y-8">
                 {/* Status Alert Banner */}
                 {isPaid ? (
-                    <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 flex items-start gap-4 shadow-xs">
-                        <CheckCircle2 className="h-6 w-6 text-emerald-600 shrink-0 mt-0.5" />
-                        <div className="space-y-1 text-sm text-emerald-900">
-                            <h3 className="font-bold">Pesanan Anda Telah Lunas &amp; Masuk Antrean Proses</h3>
-                            <p className="text-xs text-emerald-800 leading-relaxed">
-                                Terima kasih atas pembayaran Anda. Tim operasional Dodolan Store sedang memverifikasi dan menyiapkan perangkat IoT Anda untuk segera diproses dan dikirim.
-                            </p>
+                    <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs">
+                        <div className="flex items-start gap-3.5">
+                            <CheckCircle2 className="h-6 w-6 text-emerald-600 shrink-0 mt-0.5" />
+                            <div className="space-y-1 text-sm text-emerald-900">
+                                <h3 className="font-bold">Pesanan Anda Telah Lunas &amp; Masuk Antrean Proses</h3>
+                                <p className="text-xs text-emerald-800 leading-relaxed">
+                                    Terima kasih atas pembayaran Anda. Tim operasional Dodolan Store sedang menyiapkan perangkat IoT Anda untuk segera diproses dan dikirim.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 shrink-0 w-full sm:w-auto">
+                            <Link
+                                href={`/akun/pesanan/${order.order_number}`}
+                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-xs hover:bg-emerald-500 transition active:scale-95"
+                            >
+                                <Package className="h-4 w-4" />
+                                <span>Lacak Pesanan</span>
+                                <ArrowRight className="h-3.5 w-3.5" />
+                            </Link>
                         </div>
                     </div>
                 ) : (
@@ -253,25 +270,43 @@ export default function PaymentShow({ order }: PaymentShowProps) {
                     </div>
                 </div>
 
-                {/* WhatsApp Support & Catalog CTAs */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
-                    <a
-                        href={getWhatsAppLink('6281234567890', waConfirmationMessage)}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3.5 text-xs font-bold text-white shadow-md hover:bg-emerald-500 transition"
-                    >
-                        <PhoneCall className="h-4 w-4" />
-                        <span>Konfirmasi / Tanya Status ke WhatsApp</span>
-                    </a>
+                {/* Navigation & Action CTAs */}
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="flex items-center gap-2.5 w-full sm:w-auto flex-wrap">
+                        <Link
+                            href={`/akun/pesanan/${order.order_number}`}
+                            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-xs font-bold text-white shadow-xs hover:bg-emerald-500 transition active:scale-95"
+                        >
+                            <Package className="h-4 w-4" />
+                            <span>Pantau Pesanan Ini</span>
+                        </Link>
+                        <Link
+                            href="/akun/pesanan"
+                            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-3 text-xs font-bold text-slate-700 hover:bg-slate-50 shadow-xs transition"
+                        >
+                            <LayoutDashboard className="h-4 w-4 text-slate-500" />
+                            <span>Semua Pesanan Saya</span>
+                        </Link>
+                    </div>
 
-                    <Link
-                        href="/produk"
-                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-xs"
-                    >
-                        <ShoppingBag className="h-4 w-4" />
-                        <span>Kembali ke Katalog Produk</span>
-                    </Link>
+                    <div className="flex items-center gap-2.5 w-full sm:w-auto flex-wrap justify-end">
+                        <a
+                            href={getWhatsAppLink('6281234567890', waConfirmationMessage)}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50/70 px-4 py-3 text-xs font-bold text-emerald-800 hover:bg-emerald-100 transition"
+                        >
+                            <PhoneCall className="h-4 w-4 text-emerald-600" />
+                            <span>Chat WhatsApp CS</span>
+                        </a>
+                        <Link
+                            href="/produk"
+                            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-xs transition"
+                        >
+                            <ShoppingBag className="h-4 w-4 text-slate-400" />
+                            <span>Katalog Produk</span>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </PublicLayout>

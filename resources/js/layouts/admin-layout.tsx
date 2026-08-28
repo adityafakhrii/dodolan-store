@@ -63,11 +63,18 @@ export function AdminLayout({ children, title }: AdminLayoutProps) {
                 <div>
                     {/* Brand Header */}
                     <div className="flex h-16 items-center justify-between px-6 border-b border-slate-800">
-                        <Link href="/admin/dashboard" className="flex items-center gap-2.5 font-black tracking-tight text-white">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600 text-white">
-                                <Shield className="h-4 w-4" />
-                            </div>
-                            <span className="text-sm tracking-wider uppercase font-bold">DODOLAN ADMIN</span>
+                        <Link href="/admin/dashboard" className="flex items-center gap-2.5 font-black tracking-tight text-white group">
+                            <img
+                                src="/assets/logo/logo-white.png"
+                                alt="Dodolan Store"
+                                className="h-7 w-auto object-contain"
+                                onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                }}
+                            />
+                            <span className="rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-1.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider">
+                                Admin
+                            </span>
                         </Link>
                         <button
                             onClick={() => setSidebarOpen(false)}

@@ -25,7 +25,7 @@ class DashboardTest extends TestCase
         $response->assertForbidden();
 
         $dashboardResponse = $this->get(route('dashboard'));
-        $dashboardResponse->assertRedirect(route('home'));
+        $dashboardResponse->assertRedirect(route('customer.dashboard'));
     }
 
     public function test_admin_users_can_visit_the_dashboard()

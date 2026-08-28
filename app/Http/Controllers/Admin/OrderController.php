@@ -56,12 +56,21 @@ class OrderController extends Controller
     {
         $validated = $request->validate([
             'order_status' => ['required', 'string', 'in:Menunggu Pembayaran,Dibayar,Diproses,Dikirim,Selesai'],
+            'shipping_courier' => ['nullable', 'string', 'max:100'],
+            'tracking_number' => ['nullable', 'string', 'max:100'],
         ]);
 
-        $order->update([
-            'order_status' => $validated['order_status'],
-        ]);
+        $updateData = ['order_status' => $validated['order_status']];
 
-        return back()->with('success', "Status pesanan #{$order->order_number} berhasil diperbarui menjadi '{$validated['order_status']}'.");
+        if ($request->has('shipping_courier')) {
+            $updateData['shipping_courier'] = $validated['shipping_courier'];
+        }
+        if ($request->has('tracking_number')) {
+            $updateData['tracking_number'] = $validated['tracking_number'];
+        }
+
+        $order->update($updateData);
+
+        return back()->with('success', "Pesanan #{$order->order_number} berhasil diperbarui.");
     }
 }

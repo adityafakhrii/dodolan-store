@@ -12,8 +12,15 @@ class ServiceRequestController extends Controller
 {
     public function index(Request $request): Response
     {
+        $user = $request->user();
+
         return Inertia::render('services/index', [
             'selectedType' => $request->input('type', 'Instalasi'),
+            'customer' => $user ? [
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => $user->phone ?? '',
+            ] : null,
         ]);
     }
 
@@ -30,6 +37,7 @@ class ServiceRequestController extends Controller
         ]);
 
         ServiceRequest::create([
+            'user_id' => $request->user()?->id,
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'],

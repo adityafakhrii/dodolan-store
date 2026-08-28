@@ -30,6 +30,8 @@ interface Order {
     customer_email: string;
     customer_phone: string;
     customer_address: string;
+    shipping_courier?: string;
+    tracking_number?: string;
     note?: string;
     subtotal: number;
     total: number;
@@ -46,21 +48,27 @@ interface OrderShowProps {
 
 export default function OrderShow({ order }: OrderShowProps) {
     const [status, setStatus] = useState(order.order_status);
+    const [shippingCourier, setShippingCourier] = useState(order.shipping_courier || '');
+    const [trackingNumber, setTrackingNumber] = useState(order.tracking_number || '');
     const [updating, setUpdating] = useState(false);
 
     const handleUpdateStatus = (e: React.FormEvent) => {
         e.preventDefault();
         setUpdating(true);
-        router.patch(`/admin/orders/${order.id}/status`, { order_status: status }, {
+        router.patch(`/admin/orders/${order.id}/status`, { 
+            order_status: status,
+            shipping_courier: shippingCourier,
+            tracking_number: trackingNumber,
+        }, {
             onSuccess: () => {
                 setUpdating(false);
-                toast.success('Status pesanan berhasil diperbarui.');
+                toast.success('Status dan data pengiriman pesanan berhasil diperbarui.');
             },
             onError: () => setUpdating(false),
         });
     };
 
-    const waCustomerMessage = `Halo ${order.customer_name}, kami dari Dodolan Store ingin menginfokan bahwa pesanan Anda #${order.order_number} saat ini berstatus "${order.order_status}".`;
+    const waCustomerMessage = `Halo ${order.customer_name}, kami dari Dodolan Store ingin menginfokan bahwa pesanan Anda #${order.order_number} saat ini berstatus "${order.order_status}"${order.tracking_number ? ` dengan nomor resi ${order.shipping_courier || 'kurir'}: ${order.tracking_number}` : ''}.`;
 
     return (
         <AdminLayout title={`Detail Pesanan #${order.order_number}`}>
@@ -113,6 +121,18 @@ export default function OrderShow({ order }: OrderShowProps) {
                                     <span className="text-slate-400 block">Alamat Pengiriman:</span>
                                     <span className="text-slate-700 dark:text-slate-300 leading-relaxed">{order.customer_address}</span>
                                 </div>
+                                {order.shipping_courier && (
+                                    <div>
+                                        <span className="text-slate-400 block">Ekspedisi:</span>
+                                        <span className="font-bold text-purple-600 dark:text-purple-400">{order.shipping_courier}</span>
+                                    </div>
+                                )}
+                                {order.tracking_number && (
+                                    <div>
+                                        <span className="text-slate-400 block">Nomor Resi:</span>
+                                        <span className="font-mono font-bold text-purple-600 dark:text-purple-400">{order.tracking_number}</span>
+                                    </div>
+                                )}
                                 {order.note && (
                                     <div className="sm:col-span-2">
                                         <span className="text-slate-400 block">Catatan Pesanan:</span>
@@ -166,13 +186,13 @@ export default function OrderShow({ order }: OrderShowProps) {
                         {/* Order Status Transition Form */}
                         <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-4">
                             <h3 className="font-bold text-sm text-slate-900 dark:text-white uppercase tracking-wider border-b border-slate-100 dark:border-slate-800 pb-3">
-                                Update Status Pesanan
+                                Update Status &amp; Pengiriman
                             </h3>
 
                             <form onSubmit={handleUpdateStatus} className="space-y-4">
                                 <div>
                                     <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
-                                        Status Progres Saat Ini
+                                        Status Progres
                                     </label>
                                     <CustomSelect
                                         value={status}
@@ -188,12 +208,38 @@ export default function OrderShow({ order }: OrderShowProps) {
                                     />
                                 </div>
 
+                                <div>
+                                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                        Nama Ekspedisi / Kurir
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={shippingCourier}
+                                        onChange={(e) => setShippingCourier(e.target.value)}
+                                        placeholder="Contoh: JNE / J&T / Armada Dodolan"
+                                        className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                        Nomor Resi Pelacakan
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={trackingNumber}
+                                        onChange={(e) => setTrackingNumber(e.target.value)}
+                                        placeholder="Contoh: JNE1234567890"
+                                        className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs font-mono text-slate-900 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                    />
+                                </div>
+
                                 <button
                                     type="submit"
                                     disabled={updating}
                                     className="w-full rounded-xl bg-emerald-600 py-2.5 px-4 text-xs font-bold text-white hover:bg-emerald-500 disabled:opacity-50 transition"
                                 >
-                                    {updating ? 'Menyimpan...' : 'Perbarui Status Pesanan'}
+                                    {updating ? 'Menyimpan...' : 'Perbarui Status & Resi'}
                                 </button>
                             </form>
                         </div>

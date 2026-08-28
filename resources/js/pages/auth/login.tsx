@@ -1,4 +1,4 @@
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, Link } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
 import TextLink from '@/components/text-link';
@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
-import { LogIn } from 'lucide-react';
+import { LogIn, UserPlus } from 'lucide-react';
 
 type Props = {
     status?: string;
@@ -19,7 +19,7 @@ type Props = {
 export default function Login({ status, canResetPassword }: Props) {
     return (
         <>
-            <Head title="Masuk ke Panel Administrator — Dodolan Store" />
+            <Head title="Masuk ke Akun — Dodolan Store" />
 
             <Form
                 {...store.form()}
@@ -41,7 +41,7 @@ export default function Login({ status, canResetPassword }: Props) {
                                     autoFocus
                                     tabIndex={1}
                                     autoComplete="email"
-                                    placeholder="admin@dodolan.store"
+                                    placeholder="nama@email.com"
                                     className="rounded-xl border-slate-300 dark:border-slate-700 text-xs py-2"
                                 />
                                 <InputError message={errors.email} />
@@ -97,8 +97,20 @@ export default function Login({ status, canResetPassword }: Props) {
                                 ) : (
                                     <LogIn className="h-4 w-4" />
                                 )}
-                                <span>Masuk ke Admin Portal</span>
+                                <span>Masuk ke Akun</span>
                             </button>
+                        </div>
+
+                        {/* Register Link for Customers */}
+                        <div className="text-center text-xs text-slate-500 dark:text-slate-400 pt-3 border-t border-slate-100 dark:border-slate-800">
+                            Belum memiliki akun?{' '}
+                            <Link
+                                href="/register"
+                                className="font-bold text-emerald-600 hover:text-emerald-500 transition underline underline-offset-2"
+                                tabIndex={6}
+                            >
+                                Daftar Sekarang
+                            </Link>
                         </div>
                     </>
                 )}
@@ -114,6 +126,6 @@ export default function Login({ status, canResetPassword }: Props) {
 }
 
 Login.layout = {
-    title: 'Masuk ke Administrator',
-    description: 'Masukkan email dan kata sandi akun resmi Dodolan Store',
+    title: 'Masuk ke Akun',
+    description: 'Masukkan email dan kata sandi akun Dodolan Store Anda',
 };

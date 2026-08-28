@@ -1,15 +1,23 @@
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { PublicLayout } from '@/layouts/public-layout';
 import { useCart } from '@/hooks/use-cart';
 import { formatRupiah } from '@/lib/format';
-import { ShoppingBag, Trash2, Minus, Plus, ArrowRight, ShieldCheck, ChevronLeft } from 'lucide-react';
+import { ShoppingBag, Trash2, Minus, Plus, ArrowRight, ShieldCheck, ChevronLeft, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function Cart() {
+    const { auth } = usePage<{ auth?: { user?: any } }>().props;
     const { items, updateQuantity, removeItem, clearCart, subtotal, itemCount } = useCart();
 
     const handleProceedToCheckout = () => {
         if (items.length === 0) return;
+
+        if (!auth?.user) {
+            toast.info('Silakan masuk atau daftar akun terlebih dahulu untuk melanjutkan ke checkout.');
+            router.visit('/login');
+            return;
+        }
+
         router.visit('/checkout');
     };
 

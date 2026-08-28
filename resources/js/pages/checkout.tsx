@@ -12,14 +12,23 @@ import {
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
-export default function Checkout() {
+interface Props {
+    customer?: {
+        name: string;
+        email: string;
+        phone: string;
+        address: string;
+    };
+}
+
+export default function Checkout({ customer }: Props) {
     const { items, itemCount, subtotal, clearCart } = useCart();
 
     const [form, setForm] = useState({
-        customer_name: '',
-        customer_email: '',
-        customer_phone: '',
-        customer_address: '',
+        customer_name: customer?.name || '',
+        customer_email: customer?.email || '',
+        customer_phone: customer?.phone || '',
+        customer_address: customer?.address || '',
         note: '',
     });
 
@@ -75,7 +84,7 @@ export default function Checkout() {
 
             // Success! Clear cart
             clearCart();
-            toast.success('Pesanan berhasil dibuat! Membuka halaman pembayaran di tab baru...');
+            toast.success('Pesanan berhasil dibuat! Membuka halaman pembayaran...');
             
             // Open Mayar payment link in a NEW TAB if available
             if (result.redirect_url && !result.redirect_url.includes(`/pembayaran/${result.order_number}`)) {
@@ -117,9 +126,21 @@ export default function Checkout() {
                     {/* Left: Customer Information Form */}
                     <div className="lg:col-span-7 space-y-6">
                         <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs space-y-6">
-                            <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">
-                                1. Data Pemesan &amp; Pengiriman
-                            </h2>
+                            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                                <h2 className="text-lg font-bold text-slate-900">
+                                    1. Data Pemesan &amp; Pengiriman
+                                </h2>
+                            </div>
+
+                            {customer && (
+                                <div className="flex items-center gap-3 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs">
+                                    <ShieldCheck className="h-5 w-5 text-emerald-600 shrink-0" />
+                                    <div>
+                                        <p className="font-bold">Terhubung dengan Akun Anda ({customer.email})</p>
+                                        <p className="text-emerald-700 mt-0.5">Data kontak dan alamat pengiriman Anda terisi secara otomatis.</p>
+                                    </div>
+                                </div>
+                            )}
 
                             <div className="space-y-4">
                                 <div>

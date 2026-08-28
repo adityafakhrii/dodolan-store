@@ -17,9 +17,18 @@ use Inertia\Response;
 
 class CheckoutController extends Controller
 {
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return Inertia::render('checkout');
+        $user = $request->user();
+
+        return Inertia::render('checkout', [
+            'customer' => $user ? [
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => $user->phone ?? '',
+                'address' => $user->address ?? '',
+            ] : null,
+        ]);
     }
 
     public function store(Request $request, MayarService $mayarService): JsonResponse|RedirectResponse
@@ -36,6 +45,24 @@ class CheckoutController extends Controller
         ]);
 
         return DB::transaction(function () use ($validated, $mayarService, $request) {
+            $user = $request->user();
+
+            // Auto-update user's default phone/address if currently empty
+            if ($user) {
+                $userNeedsUpdate = false;
+                if (empty($user->phone) && ! empty($validated['customer_phone'])) {
+                    $user->phone = $validated['customer_phone'];
+                    $userNeedsUpdate = true;
+                }
+                if (empty($user->address) && ! empty($validated['customer_address'])) {
+                    $user->address = $validated['customer_address'];
+                    $userNeedsUpdate = true;
+                }
+                if ($userNeedsUpdate) {
+                    $user->save();
+                }
+            }
+
             $totalSubtotal = 0;
             $itemsData = [];
 
@@ -69,6 +96,7 @@ class CheckoutController extends Controller
 
             // 3. Create Order
             $order = Order::create([
+                'user_id' => $user?->id,
                 'order_number' => $orderNumber,
                 'customer_name' => $validated['customer_name'],
                 'customer_email' => $validated['customer_email'],

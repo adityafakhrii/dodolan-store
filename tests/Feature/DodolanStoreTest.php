@@ -61,6 +61,9 @@ class DodolanStoreTest extends TestCase
 
     public function test_checkout_creates_order_and_decrements_stock(): void
     {
+        $user = User::factory()->create(['is_admin' => false]);
+        $this->actingAs($user);
+
         $product = Product::first();
         $initialStock = $product->stock;
 
@@ -87,6 +90,7 @@ class DodolanStoreTest extends TestCase
         // Verify Order snapshot
         $this->assertDatabaseHas('orders', [
             'order_number' => $orderNumber,
+            'user_id' => $user->id,
             'customer_name' => 'Budi Setiawan',
             'payment_status' => 'Pending',
             'order_status' => 'Menunggu Pembayaran',
@@ -112,6 +116,9 @@ class DodolanStoreTest extends TestCase
 
     public function test_payment_status_page_and_simulation(): void
     {
+        $user = User::factory()->create(['is_admin' => false]);
+        $this->actingAs($user);
+
         $product = Product::first();
 
         $payload = [
@@ -142,6 +149,9 @@ class DodolanStoreTest extends TestCase
 
     public function test_mayar_webhook_idempotency(): void
     {
+        $user = User::factory()->create(['is_admin' => false]);
+        $this->actingAs($user);
+
         $product = Product::first();
 
         $checkoutRes = $this->postJson('/checkout', [
@@ -218,6 +228,9 @@ class DodolanStoreTest extends TestCase
 
     public function test_checkout_validation_bounds(): void
     {
+        $user = User::factory()->create(['is_admin' => false]);
+        $this->actingAs($user);
+
         $product = Product::first();
 
         // 1. Excessive item quantity (> 100)
