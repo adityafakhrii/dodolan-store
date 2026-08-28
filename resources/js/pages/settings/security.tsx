@@ -2,21 +2,15 @@ import { Form, Head } from '@inertiajs/react';
 import { useRef } from 'react';
 import SecurityController from '@/actions/App/Http/Controllers/Settings/SecurityController';
 import InputError from '@/components/input-error';
-import type { Props as ManagePasskeysProps } from '@/components/manage-passkeys';
-import ManagePasskeys from '@/components/manage-passkeys';
-import type { Props as ManageTwoFactorProps } from '@/components/manage-two-factor';
-import ManageTwoFactor from '@/components/manage-two-factor';
 import PasswordInput from '@/components/password-input';
-import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { CustomerLayout } from '@/layouts/customer-layout';
-import { KeyRound, ShieldCheck, Lock, Save } from 'lucide-react';
+import { KeyRound, Save } from 'lucide-react';
 
-type Props = {
+interface Props {
     passwordRules: string;
-} & ManagePasskeysProps &
-    ManageTwoFactorProps;
+}
 
 export default function Security(props: Props) {
     const passwordInput = useRef<HTMLInputElement>(null);
@@ -25,7 +19,7 @@ export default function Security(props: Props) {
     return (
         <CustomerLayout
             title="Keamanan & Kata Sandi"
-            description="Kelola kata sandi akun, otentikasi dua faktor (2FA), dan login biometrik (Passkeys)."
+            description="Kelola dan perbarui kata sandi akun pelanggan Anda untuk menjaga keamanan transaksi."
         >
             <div className="space-y-6">
                 {/* Update Password Card */}
@@ -131,23 +125,6 @@ export default function Security(props: Props) {
                             </>
                         )}
                     </Form>
-                </div>
-
-                {/* Two-Factor Authentication Card */}
-                <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs dark:border-slate-800 dark:bg-slate-900 space-y-4">
-                    <ManageTwoFactor
-                        canManageTwoFactor={props.canManageTwoFactor}
-                        requiresConfirmation={props.requiresConfirmation}
-                        twoFactorEnabled={props.twoFactorEnabled}
-                    />
-                </div>
-
-                {/* Passkeys Card */}
-                <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xs dark:border-slate-800 dark:bg-slate-900 space-y-4">
-                    <ManagePasskeys
-                        canManagePasskeys={props.canManagePasskeys}
-                        passkeys={props.passkeys}
-                    />
                 </div>
             </div>
         </CustomerLayout>

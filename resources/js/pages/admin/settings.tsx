@@ -1,7 +1,6 @@
 import { Head, useForm } from '@inertiajs/react';
 import { AdminLayout } from '@/layouts/admin-layout';
 import { 
-    Shield, 
     KeyRound, 
     User, 
     Mail, 
@@ -9,9 +8,7 @@ import {
     Save, 
     Server, 
     CheckCircle2, 
-    Lock,
-    ShieldCheck,
-    Cpu
+    ShieldCheck
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { FormEventHandler, useRef } from 'react';
@@ -19,12 +16,8 @@ import PasswordInput from '@/components/password-input';
 import InputError from '@/components/input-error';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
-import type { Props as ManagePasskeysProps } from '@/components/manage-passkeys';
-import ManagePasskeys from '@/components/manage-passkeys';
-import type { Props as ManageTwoFactorProps } from '@/components/manage-two-factor';
-import ManageTwoFactor from '@/components/manage-two-factor';
 
-interface AdminSettingsProps extends ManagePasskeysProps, ManageTwoFactorProps {
+interface AdminSettingsProps {
     user: {
         id: number;
         name: string;
@@ -36,11 +29,6 @@ interface AdminSettingsProps extends ManagePasskeysProps, ManageTwoFactorProps {
 
 export default function AdminSettings({
     user,
-    canManageTwoFactor,
-    requiresConfirmation,
-    twoFactorEnabled,
-    canManagePasskeys,
-    passkeys,
     passwordRules,
 }: AdminSettingsProps) {
     // Profile Form
@@ -100,7 +88,7 @@ export default function AdminSettings({
                         Pengaturan &amp; Keamanan Akun
                     </h2>
                     <p className="text-xs text-slate-500 mt-0.5">
-                        Kelola informasi profil administrator, kata sandi, otentikasi dua faktor (2FA), dan integrasi sistem toko.
+                        Kelola informasi profil administrator, kata sandi akses kontrol panel, dan integrasi sistem toko.
                     </p>
                 </div>
 
@@ -123,11 +111,11 @@ export default function AdminSettings({
 
                     <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700">
                         <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-                        <span>Akses Penuh Manajemen Toko</span>
+                        <span>Akses Penuh Kontrol Panel</span>
                     </div>
                 </div>
 
-                {/* 2-Column Grid: Profile (Left) & Security (Right) */}
+                {/* 2-Column Grid: Profile (Left) & Password (Right) */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
                     {/* Left Column: Admin Profile */}
                     <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-5">
@@ -208,101 +196,81 @@ export default function AdminSettings({
                         </form>
                     </div>
 
-                    {/* Right Column: Password & 2FA */}
-                    <div className="space-y-6">
-                        {/* Update Password Card */}
-                        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-5">
-                            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-                                <div>
-                                    <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                                        Perbarui Kata Sandi Administrator
-                                    </h3>
-                                    <p className="text-xs text-slate-400 mt-0.5">
-                                        Gunakan kombinasi kata sandi yang kuat.
-                                    </p>
-                                </div>
-                                <KeyRound className="h-5 w-5 text-emerald-600" />
+                    {/* Right Column: Update Password Card */}
+                    <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-5">
+                        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                            <div>
+                                <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                                    Perbarui Kata Sandi Administrator
+                                </h3>
+                                <p className="text-xs text-slate-400 mt-0.5">
+                                    Gunakan kombinasi kata sandi yang aman.
+                                </p>
+                            </div>
+                            <KeyRound className="h-5 w-5 text-emerald-600" />
+                        </div>
+
+                        <form onSubmit={handlePasswordSubmit} className="space-y-4">
+                            <div>
+                                <Label htmlFor="current_password" className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                                    Kata Sandi Saat Ini
+                                </Label>
+                                <PasswordInput
+                                    id="current_password"
+                                    ref={currentPasswordInput}
+                                    value={passwordForm.data.current_password}
+                                    onChange={(e) => passwordForm.setData('current_password', e.target.value)}
+                                    className="rounded-xl border-slate-300 dark:border-slate-700 text-xs mt-1.5"
+                                    placeholder="Masukkan kata sandi lama"
+                                    autoComplete="current-password"
+                                />
+                                <InputError message={passwordForm.errors.current_password} className="mt-1" />
                             </div>
 
-                            <form onSubmit={handlePasswordSubmit} className="space-y-4">
-                                <div>
-                                    <Label htmlFor="current_password" className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                                        Kata Sandi Saat Ini
-                                    </Label>
-                                    <PasswordInput
-                                        id="current_password"
-                                        ref={currentPasswordInput}
-                                        value={passwordForm.data.current_password}
-                                        onChange={(e) => passwordForm.setData('current_password', e.target.value)}
-                                        className="rounded-xl border-slate-300 dark:border-slate-700 text-xs mt-1.5"
-                                        placeholder="Masukkan kata sandi lama"
-                                        autoComplete="current-password"
-                                    />
-                                    <InputError message={passwordForm.errors.current_password} className="mt-1" />
-                                </div>
+                            <div>
+                                <Label htmlFor="password" className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                                    Kata Sandi Baru
+                                </Label>
+                                <PasswordInput
+                                    id="password"
+                                    ref={passwordInput}
+                                    value={passwordForm.data.password}
+                                    onChange={(e) => passwordForm.setData('password', e.target.value)}
+                                    className="rounded-xl border-slate-300 dark:border-slate-700 text-xs mt-1.5"
+                                    placeholder="Minimal 8 karakter"
+                                    autoComplete="new-password"
+                                    passwordrules={passwordRules}
+                                />
+                                <InputError message={passwordForm.errors.password} className="mt-1" />
+                            </div>
 
-                                <div>
-                                    <Label htmlFor="password" className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                                        Kata Sandi Baru
-                                    </Label>
-                                    <PasswordInput
-                                        id="password"
-                                        ref={passwordInput}
-                                        value={passwordForm.data.password}
-                                        onChange={(e) => passwordForm.setData('password', e.target.value)}
-                                        className="rounded-xl border-slate-300 dark:border-slate-700 text-xs mt-1.5"
-                                        placeholder="Minimal 8 karakter"
-                                        autoComplete="new-password"
-                                        passwordrules={passwordRules}
-                                    />
-                                    <InputError message={passwordForm.errors.password} className="mt-1" />
-                                </div>
+                            <div>
+                                <Label htmlFor="password_confirmation" className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                                    Konfirmasi Kata Sandi Baru
+                                </Label>
+                                <PasswordInput
+                                    id="password_confirmation"
+                                    value={passwordForm.data.password_confirmation}
+                                    onChange={(e) => passwordForm.setData('password_confirmation', e.target.value)}
+                                    className="rounded-xl border-slate-300 dark:border-slate-700 text-xs mt-1.5"
+                                    placeholder="Ulangi kata sandi baru"
+                                    autoComplete="new-password"
+                                    passwordrules={passwordRules}
+                                />
+                                <InputError message={passwordForm.errors.password_confirmation} className="mt-1" />
+                            </div>
 
-                                <div>
-                                    <Label htmlFor="password_confirmation" className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                                        Konfirmasi Kata Sandi Baru
-                                    </Label>
-                                    <PasswordInput
-                                        id="password_confirmation"
-                                        value={passwordForm.data.password_confirmation}
-                                        onChange={(e) => passwordForm.setData('password_confirmation', e.target.value)}
-                                        className="rounded-xl border-slate-300 dark:border-slate-700 text-xs mt-1.5"
-                                        placeholder="Ulangi kata sandi baru"
-                                        autoComplete="new-password"
-                                        passwordrules={passwordRules}
-                                    />
-                                    <InputError message={passwordForm.errors.password_confirmation} className="mt-1" />
-                                </div>
-
-                                <div className="pt-3 border-t border-slate-100 dark:border-slate-800">
-                                    <button
-                                        type="submit"
-                                        disabled={passwordForm.processing}
-                                        className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-xs font-bold text-white hover:bg-emerald-500 disabled:opacity-50 transition active:scale-95 cursor-pointer shadow-xs"
-                                    >
-                                        {passwordForm.processing ? <Spinner className="h-4 w-4" /> : <Save className="h-4 w-4" />}
-                                        <span>Simpan Kata Sandi Baru</span>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-
-                        {/* Two-Factor Authentication Card */}
-                        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-4">
-                            <ManageTwoFactor
-                                canManageTwoFactor={canManageTwoFactor}
-                                requiresConfirmation={requiresConfirmation}
-                                twoFactorEnabled={twoFactorEnabled}
-                            />
-                        </div>
-
-                        {/* Passkeys Card */}
-                        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-4">
-                            <ManagePasskeys
-                                canManagePasskeys={canManagePasskeys}
-                                passkeys={passkeys}
-                            />
-                        </div>
+                            <div className="pt-3 border-t border-slate-100 dark:border-slate-800">
+                                <button
+                                    type="submit"
+                                    disabled={passwordForm.processing}
+                                    className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-xs font-bold text-white hover:bg-emerald-500 disabled:opacity-50 transition active:scale-95 cursor-pointer shadow-xs"
+                                >
+                                    {passwordForm.processing ? <Spinner className="h-4 w-4" /> : <Save className="h-4 w-4" />}
+                                    <span>Simpan Kata Sandi Baru</span>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -349,9 +317,9 @@ export default function AdminSettings({
 
                         <div className="p-4 rounded-xl border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-800/40 space-y-2">
                             <div className="font-bold text-slate-900 dark:text-white flex items-center justify-between">
-                                <span>Keamanan</span>
+                                <span>Keamanan Akses</span>
                                 <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
-                                    <ShieldCheck className="h-3.5 w-3.5" /> 2FA &amp; Passkeys
+                                    <ShieldCheck className="h-3.5 w-3.5" /> Terproteksi
                                 </span>
                             </div>
                             <div className="text-slate-500">Strict Admin Authorization</div>

@@ -166,7 +166,7 @@ export default function CustomerProfile({ user, status }: Props) {
                                 Keamanan &amp; Kata Sandi
                             </h2>
                             <p className="text-xs text-slate-400 mt-0.5">
-                                Lindungi akun Anda dengan otentikasi dua faktor (2FA) dan Passkeys.
+                                Jaga keamanan akun Anda dengan memperbarui kata sandi secara berkala.
                             </p>
                         </div>
                         <ShieldCheck className="h-6 w-6 text-emerald-600" />
@@ -176,8 +176,8 @@ export default function CustomerProfile({ user, status }: Props) {
                         <div className="flex items-center gap-3">
                             <KeyRound className="h-5 w-5 text-slate-400" />
                             <div className="text-xs">
-                                <p className="font-bold text-slate-800 dark:text-slate-200">Ubah Kata Sandi &amp; Passkeys</p>
-                                <p className="text-slate-400">Atur password baru atau aktifkan login biometrik.</p>
+                                <p className="font-bold text-slate-800 dark:text-slate-200">Ubah Kata Sandi</p>
+                                <p className="text-slate-400">Atur kata sandi baru untuk akses akun pelanggan Anda.</p>
                             </div>
                         </div>
 
@@ -185,7 +185,7 @@ export default function CustomerProfile({ user, status }: Props) {
                             href="/settings/security"
                             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800 transition"
                         >
-                            <span>Buka Pengaturan Keamanan</span>
+                            <span>Ubah Kata Sandi</span>
                             <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                     </div>
