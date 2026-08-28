@@ -10,10 +10,11 @@ import {
     Server, 
     CheckCircle2, 
     Lock,
-    ShieldCheck
+    ShieldCheck,
+    Cpu
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { FormEventHandler, useRef, useState } from 'react';
+import { FormEventHandler, useRef } from 'react';
 import PasswordInput from '@/components/password-input';
 import InputError from '@/components/input-error';
 import { Label } from '@/components/ui/label';
@@ -42,8 +43,6 @@ export default function AdminSettings({
     passkeys,
     passwordRules,
 }: AdminSettingsProps) {
-    const [activeTab, setActiveTab] = useState<'profile' | 'security' | 'system'>('profile');
-
     // Profile Form
     const profileForm = useForm({
         name: user.name || '',
@@ -94,7 +93,17 @@ export default function AdminSettings({
         <AdminLayout title="Pengaturan & Keamanan Admin">
             <Head title="Pengaturan & Keamanan — Admin Dodolan Store" />
 
-            <div className="mx-auto max-w-5xl space-y-6">
+            <div className="space-y-6">
+                {/* Page Heading */}
+                <div>
+                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+                        Pengaturan &amp; Keamanan Akun
+                    </h2>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                        Kelola informasi profil administrator, kata sandi, otentikasi dua faktor (2FA), dan integrasi sistem toko.
+                    </p>
+                </div>
+
                 {/* Header Profile Badge */}
                 <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
@@ -112,57 +121,29 @@ export default function AdminSettings({
                         </div>
                     </div>
 
-                    {/* Navigation Tabs */}
-                    <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/60 p-1 rounded-xl border border-slate-200 dark:border-slate-700 w-full sm:w-auto">
-                        <button
-                            type="button"
-                            onClick={() => setActiveTab('profile')}
-                            className={`flex-1 sm:flex-initial px-3.5 py-2 rounded-lg text-xs font-bold transition ${
-                                activeTab === 'profile'
-                                    ? 'bg-white text-emerald-700 shadow-xs dark:bg-slate-900 dark:text-emerald-400'
-                                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
-                            }`}
-                        >
-                            Profil Admin
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => setActiveTab('security')}
-                            className={`flex-1 sm:flex-initial px-3.5 py-2 rounded-lg text-xs font-bold transition ${
-                                activeTab === 'security'
-                                    ? 'bg-white text-emerald-700 shadow-xs dark:bg-slate-900 dark:text-emerald-400'
-                                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
-                            }`}
-                        >
-                            Keamanan &amp; 2FA
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => setActiveTab('system')}
-                            className={`flex-1 sm:flex-initial px-3.5 py-2 rounded-lg text-xs font-bold transition ${
-                                activeTab === 'system'
-                                    ? 'bg-white text-emerald-700 shadow-xs dark:bg-slate-900 dark:text-emerald-400'
-                                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
-                            }`}
-                        >
-                            Sistem Toko
-                        </button>
+                    <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700">
+                        <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                        <span>Akses Penuh Manajemen Toko</span>
                     </div>
                 </div>
 
-                {/* Tab 1: Profile Form */}
-                {activeTab === 'profile' && (
-                    <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-6">
-                        <div className="border-b border-slate-100 dark:border-slate-800 pb-3">
-                            <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                                Informasi Profil Administrator
-                            </h3>
-                            <p className="text-xs text-slate-400 mt-0.5">
-                                Informasi ini digunakan untuk identitas pengelola platform Dodolan Store.
-                            </p>
+                {/* 2-Column Grid: Profile (Left) & Security (Right) */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+                    {/* Left Column: Admin Profile */}
+                    <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-5">
+                        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                            <div>
+                                <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                                    Informasi Profil Administrator
+                                </h3>
+                                <p className="text-xs text-slate-400 mt-0.5">
+                                    Identitas pengelola platform Dodolan Store.
+                                </p>
+                            </div>
+                            <User className="h-5 w-5 text-emerald-600" />
                         </div>
 
-                        <form onSubmit={handleProfileSubmit} className="space-y-5 max-w-xl">
+                        <form onSubmit={handleProfileSubmit} className="space-y-4">
                             <div>
                                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
                                     Nama Lengkap Administrator <span className="text-rose-500">*</span>
@@ -226,26 +207,24 @@ export default function AdminSettings({
                             </div>
                         </form>
                     </div>
-                )}
 
-                {/* Tab 2: Security & Password */}
-                {activeTab === 'security' && (
+                    {/* Right Column: Password & 2FA */}
                     <div className="space-y-6">
                         {/* Update Password Card */}
-                        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-6">
+                        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-5">
                             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
                                 <div>
                                     <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                                         Perbarui Kata Sandi Administrator
                                     </h3>
                                     <p className="text-xs text-slate-400 mt-0.5">
-                                        Gunakan kombinasi kata sandi yang kuat untuk menjaga keamanan akses kontrol panel.
+                                        Gunakan kombinasi kata sandi yang kuat.
                                     </p>
                                 </div>
                                 <KeyRound className="h-5 w-5 text-emerald-600" />
                             </div>
 
-                            <form onSubmit={handlePasswordSubmit} className="space-y-5 max-w-xl">
+                            <form onSubmit={handlePasswordSubmit} className="space-y-4">
                                 <div>
                                     <Label htmlFor="current_password" className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                                         Kata Sandi Saat Ini
@@ -309,7 +288,7 @@ export default function AdminSettings({
                         </div>
 
                         {/* Two-Factor Authentication Card */}
-                        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-4">
+                        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-4">
                             <ManageTwoFactor
                                 canManageTwoFactor={canManageTwoFactor}
                                 requiresConfirmation={requiresConfirmation}
@@ -318,69 +297,67 @@ export default function AdminSettings({
                         </div>
 
                         {/* Passkeys Card */}
-                        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-4">
+                        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-4">
                             <ManagePasskeys
                                 canManagePasskeys={canManagePasskeys}
                                 passkeys={passkeys}
                             />
                         </div>
                     </div>
-                )}
+                </div>
 
-                {/* Tab 3: System Status */}
-                {activeTab === 'system' && (
-                    <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-6">
-                        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-                            <div>
-                                <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                                    Informasi Sistem &amp; Integrasi Toko
-                                </h3>
-                                <p className="text-xs text-slate-400 mt-0.5">
-                                    Status lingkungan runtime aplikasi Dodolan Store dan gateway pihak ketiga.
-                                </p>
+                {/* Bottom Row: System Status (Full Width) */}
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-7 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-5">
+                    <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                        <div>
+                            <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                                Informasi Sistem &amp; Integrasi Toko
+                            </h3>
+                            <p className="text-xs text-slate-400 mt-0.5">
+                                Status lingkungan runtime aplikasi Dodolan Store dan gateway pihak ketiga.
+                            </p>
+                        </div>
+                        <Server className="h-5 w-5 text-emerald-600" />
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                        <div className="p-4 rounded-xl border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-800/40 space-y-2">
+                            <div className="font-bold text-slate-900 dark:text-white flex items-center justify-between">
+                                <span>Versi Aplikasi</span>
+                                <span className="font-mono text-emerald-600 dark:text-emerald-400 font-black">v1.1 (Hybrid)</span>
                             </div>
-                            <Server className="h-5 w-5 text-emerald-600" />
+                            <div className="text-slate-500">Laravel 12 + Inertia React 2.0</div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                            <div className="p-4 rounded-xl border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-800/40 space-y-2">
-                                <div className="font-bold text-slate-900 dark:text-white flex items-center justify-between">
-                                    <span>Versi Dodolan Store</span>
-                                    <span className="font-mono text-emerald-600 dark:text-emerald-400 font-black">v1.1 (Hybrid)</span>
-                                </div>
-                                <div className="text-slate-500">Framework: Laravel 12 + Inertia React 2.0</div>
+                        <div className="p-4 rounded-xl border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-800/40 space-y-2">
+                            <div className="font-bold text-slate-900 dark:text-white flex items-center justify-between">
+                                <span>Payment Gateway</span>
+                                <span className="font-mono text-emerald-600 dark:text-emerald-400 font-bold">Mayar API v2</span>
                             </div>
+                            <div className="text-slate-500">QRIS, VA Bank &amp; E-Wallet</div>
+                        </div>
 
-                            <div className="p-4 rounded-xl border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-800/40 space-y-2">
-                                <div className="font-bold text-slate-900 dark:text-white flex items-center justify-between">
-                                    <span>Payment Gateway</span>
-                                    <span className="font-mono text-emerald-600 dark:text-emerald-400 font-bold">Mayar API v2</span>
-                                </div>
-                                <div className="text-slate-500">Metode: QRIS, VA BCA/Mandiri/BNI/BRI, E-Wallet</div>
+                        <div className="p-4 rounded-xl border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-800/40 space-y-2">
+                            <div className="font-bold text-slate-900 dark:text-white flex items-center justify-between">
+                                <span>Customer Portal</span>
+                                <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
+                                    <CheckCircle2 className="h-3.5 w-3.5" /> Aktif
+                                </span>
                             </div>
+                            <div className="text-slate-500">Pelacakan Resi &amp; IoT Tracker</div>
+                        </div>
 
-                            <div className="p-4 rounded-xl border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-800/40 space-y-2">
-                                <div className="font-bold text-slate-900 dark:text-white flex items-center justify-between">
-                                    <span>Customer Portal Architecture</span>
-                                    <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
-                                        <CheckCircle2 className="h-3.5 w-3.5" /> Aktif
-                                    </span>
-                                </div>
-                                <div className="text-slate-500">Fitur: Tracking Resi, Riwayat IoT, Pengajuan Layanan</div>
+                        <div className="p-4 rounded-xl border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-800/40 space-y-2">
+                            <div className="font-bold text-slate-900 dark:text-white flex items-center justify-between">
+                                <span>Keamanan</span>
+                                <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
+                                    <ShieldCheck className="h-3.5 w-3.5" /> 2FA &amp; Passkeys
+                                </span>
                             </div>
-
-                            <div className="p-4 rounded-xl border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-800/40 space-y-2">
-                                <div className="font-bold text-slate-900 dark:text-white flex items-center justify-between">
-                                    <span>Keamanan &amp; Hardening</span>
-                                    <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
-                                        <ShieldCheck className="h-3.5 w-3.5" /> 2FA &amp; Passkeys
-                                    </span>
-                                </div>
-                                <div className="text-slate-500">Otentikasi: Role-based redirect &amp; strict admin authorization</div>
-                            </div>
+                            <div className="text-slate-500">Strict Admin Authorization</div>
                         </div>
                     </div>
-                )}
+                </div>
             </div>
         </AdminLayout>
     );
