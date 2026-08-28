@@ -121,12 +121,15 @@ export default function CustomerOrderShow({ order }: Props) {
             }
         >
             {/* Visual Order Timeline Tracker */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900 space-y-6">
-                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-                    <h2 className="text-sm font-bold text-slate-900 dark:text-white">
-                        Status Pengiriman &amp; Pemrosesan
-                    </h2>
-                    <span className="text-xs font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950 dark:text-emerald-300 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900 space-y-5 sm:space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3 gap-2">
+                    <div>
+                        <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
+                            Status Pengiriman &amp; Pemrosesan
+                        </h2>
+                        <p className="text-[11px] text-slate-400">Tahapan progres perakitan, QC, dan kurir ekspedisi.</p>
+                    </div>
+                    <span className="self-start sm:self-auto text-xs font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950 dark:text-emerald-300 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
                         {order.order_status}
                     </span>
                 </div>
@@ -134,12 +137,12 @@ export default function CustomerOrderShow({ order }: Props) {
                 {/* Progress Tracker Steps */}
                 <div className="relative">
                     <div className="hidden sm:block absolute top-1/2 left-4 right-4 h-0.5 -translate-y-1/2 bg-slate-200 dark:bg-slate-800 z-0" />
-                    <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 relative z-10">
+                    <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 sm:gap-4 relative z-10">
                         {steps.map((step, idx) => {
                             const isCompleted = idx <= currentStepIndex;
                             const isCurrent = idx === currentStepIndex;
                             return (
-                                <div key={step.key} className="flex sm:flex-col items-center sm:text-center gap-3 sm:gap-2">
+                                <div key={step.key} className="flex sm:flex-col items-center sm:text-center gap-3 sm:gap-2 p-2 sm:p-0 rounded-xl bg-slate-50/70 sm:bg-transparent dark:bg-slate-800/40 sm:dark:bg-transparent">
                                     <div
                                         className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-extrabold transition shadow-sm ${
                                             isCompleted
@@ -149,7 +152,7 @@ export default function CustomerOrderShow({ order }: Props) {
                                     >
                                         {isCompleted ? <Check className="h-4 w-4" /> : idx + 1}
                                     </div>
-                                    <div>
+                                    <div className="text-left sm:text-center">
                                         <p className={`text-xs font-bold ${isCurrent ? 'text-emerald-600 dark:text-emerald-400' : isCompleted ? 'text-slate-900 dark:text-white' : 'text-slate-400'}`}>
                                             {step.label}
                                         </p>
@@ -163,7 +166,7 @@ export default function CustomerOrderShow({ order }: Props) {
 
             {/* Courier & Tracking Number Card */}
             {order.tracking_number && (
-                <div className="rounded-2xl border border-purple-200 bg-purple-50/70 p-6 dark:border-purple-900 dark:bg-purple-950/40 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="rounded-2xl border border-purple-200 bg-purple-50/70 p-4 sm:p-6 dark:border-purple-900 dark:bg-purple-950/40 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div className="flex items-start gap-3.5">
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-purple-600 text-white shadow-sm">
                             <Truck className="h-5 w-5" />
@@ -175,7 +178,7 @@ export default function CustomerOrderShow({ order }: Props) {
                             <p className="text-sm font-extrabold text-slate-900 dark:text-white">
                                 {order.shipping_courier || 'Kurir Ekspedisi'}
                             </p>
-                            <p className="text-xs font-mono font-bold text-purple-900 dark:text-purple-200 mt-0.5">
+                            <p className="text-xs font-mono font-bold text-purple-900 dark:text-purple-200 mt-0.5 break-all">
                                 Resi: {order.tracking_number}
                             </p>
                         </div>
@@ -184,7 +187,7 @@ export default function CustomerOrderShow({ order }: Props) {
                     <button
                         type="button"
                         onClick={handleCopyTracking}
-                        className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-white border border-purple-200 text-xs font-bold text-purple-700 hover:bg-purple-50 dark:bg-purple-900 dark:border-purple-800 dark:text-white transition shadow-xs"
+                        className="w-full sm:w-auto inline-flex min-h-[44px] items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-white border border-purple-200 text-xs font-bold text-purple-700 hover:bg-purple-50 dark:bg-purple-900 dark:border-purple-800 dark:text-white transition shadow-xs cursor-pointer"
                     >
                         {copied ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
                         <span>{copied ? 'Tersalin' : 'Salin Nomor Resi'}</span>
@@ -193,23 +196,23 @@ export default function CustomerOrderShow({ order }: Props) {
             )}
 
             {/* Order Items Table */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900 space-y-4">
-                <h2 className="text-sm font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900 space-y-4">
+                <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3">
                     Rincian Produk Pesanan
                 </h2>
 
                 <div className="divide-y divide-slate-100 dark:divide-slate-800">
                     {order.items.map((item) => (
-                        <div key={item.id} className="py-3.5 flex items-center justify-between gap-4">
+                        <div key={item.id} className="py-3.5 flex items-center justify-between gap-3 text-xs">
                             <div className="min-w-0 flex-1">
-                                <p className="text-xs font-bold text-slate-900 dark:text-white line-clamp-1">
+                                <p className="font-bold text-slate-900 dark:text-white line-clamp-2">
                                     {item.product_name}
                                 </p>
-                                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                                     {formatRupiah(item.unit_price)} &times; {item.quantity} unit
                                 </p>
                             </div>
-                            <div className="text-right text-xs font-extrabold text-slate-900 dark:text-white">
+                            <div className="text-right font-extrabold text-slate-900 dark:text-white shrink-0">
                                 {formatRupiah(item.subtotal)}
                             </div>
                         </div>
@@ -228,18 +231,18 @@ export default function CustomerOrderShow({ order }: Props) {
                     </div>
                     <div className="flex justify-between text-sm font-extrabold text-slate-900 dark:text-white pt-2 border-t border-slate-100 dark:border-slate-800">
                         <span>Total Tagihan</span>
-                        <span className="text-emerald-600 dark:text-emerald-400 text-base">{formatRupiah(order.total)}</span>
+                        <span className="text-emerald-600 dark:text-emerald-400 text-base sm:text-lg">{formatRupiah(order.total)}</span>
                     </div>
                 </div>
             </div>
 
             {/* 2-Column: Customer Details & Payment Details */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 {/* Customer Address Info */}
-                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900 space-y-3">
+                <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900 space-y-3">
                     <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                        <MapPin className="h-4 w-4 text-emerald-600" />
-                        <h2 className="text-sm font-bold text-slate-900 dark:text-white">
+                        <MapPin className="h-4 w-4 text-emerald-600 shrink-0" />
+                        <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
                             Alamat Pengiriman
                         </h2>
                     </div>
@@ -257,10 +260,10 @@ export default function CustomerOrderShow({ order }: Props) {
                 </div>
 
                 {/* Payment Gateway Summary */}
-                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900 space-y-3">
+                <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900 space-y-3">
                     <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                        <CreditCard className="h-4 w-4 text-emerald-600" />
-                        <h2 className="text-sm font-bold text-slate-900 dark:text-white">
+                        <CreditCard className="h-4 w-4 text-emerald-600 shrink-0" />
+                        <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
                             Status Pembayaran
                         </h2>
                     </div>
@@ -277,7 +280,7 @@ export default function CustomerOrderShow({ order }: Props) {
                                     ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                                     : 'bg-amber-50 text-amber-700 border-amber-200'
                             }`}>
-                                {order.payment_status === 'Paid' ? 'Lunas (Paid)' : 'Menunggu Pembayaran (Pending)'}
+                                {order.payment_status === 'Paid' ? 'Lunas (Paid)' : 'Menunggu Pembayaran'}
                             </span>
                         </div>
 
@@ -285,7 +288,7 @@ export default function CustomerOrderShow({ order }: Props) {
                             <div className="pt-2">
                                 <Link
                                     href={`/pembayaran/${order.order_number}`}
-                                    className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-xs transition"
+                                    className="w-full min-h-[44px] inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-xs transition"
                                 >
                                     <span>Buka Instruksi Pembayaran Mayar</span>
                                     <ExternalLink className="h-3.5 w-3.5" />
