@@ -7,7 +7,6 @@ import {
     PhoneCall, 
     ChevronRight, 
     Search, 
-    Heart, 
     User, 
     LayoutDashboard, 
     Package, 
@@ -155,15 +154,6 @@ export function StoreHeader() {
                         />
                         <Search className="absolute left-2.5 top-2 h-3.5 w-3.5 text-slate-400" />
                     </form>
-
-                    {/* Wishlist Link */}
-                    <Link
-                        href="/produk"
-                        className="hidden sm:flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-slate-700 hover:text-rose-600 hover:border-rose-300 transition dark:border-slate-800 dark:text-slate-300"
-                        title="Katalog Produk"
-                    >
-                        <Heart className="h-4 w-4" />
-                    </Link>
 
                     {/* Cart Button */}
                     <Link

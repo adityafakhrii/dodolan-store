@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { ShoppingBag, Eye, Heart, Check, ShieldCheck } from 'lucide-react';
+import { ShoppingBag, Check, ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
 import { formatRupiah } from '@/lib/format';
 import { useCart } from '@/hooks/use-cart';
@@ -28,7 +28,6 @@ export interface ProductCardProps {
 export function ProductCard({ product, showBadge, discountPercent }: ProductCardProps) {
     const { addItem } = useCart();
     const [added, setAdded] = useState(false);
-    const [liked, setLiked] = useState(false);
 
     const isOutOfStock = product.stock <= 0;
     const discount = discountPercent || 0;
@@ -43,13 +42,6 @@ export function ProductCard({ product, showBadge, discountPercent }: ProductCard
         setAdded(true);
         toast.success(`${product.name} berhasil ditambahkan ke keranjang.`);
         setTimeout(() => setAdded(false), 1500);
-    };
-
-    const handleToggleLike = (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setLiked(!liked);
-        toast.info(liked ? 'Dihapus dari wishlist' : 'Ditambahkan ke wishlist');
     };
 
     return (
@@ -87,27 +79,6 @@ export function ProductCard({ product, showBadge, discountPercent }: ProductCard
                             Habis
                         </span>
                     )}
-                </div>
-
-                {/* Top-Right Action Buttons */}
-                <div className="absolute top-1.5 right-1.5 sm:top-2.5 sm:right-2.5 flex flex-col gap-1 sm:gap-1.5 z-10">
-                    <button
-                        type="button"
-                        onClick={handleToggleLike}
-                        className={`flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white/90 backdrop-blur-xs shadow-xs border border-slate-200 transition hover:bg-slate-50 dark:bg-slate-900/90 dark:border-slate-700 ${
-                            liked ? 'text-rose-600' : 'text-slate-600 hover:text-rose-600 dark:text-slate-300'
-                        }`}
-                        title="Simpan ke Wishlist"
-                    >
-                        <Heart className={`h-3 w-3 sm:h-3.5 sm:w-3.5 ${liked ? 'fill-rose-600' : ''}`} />
-                    </button>
-                    <Link
-                        href={`/produk/${product.slug}`}
-                        className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-white/90 backdrop-blur-xs text-slate-600 shadow-xs border border-slate-200 transition hover:bg-slate-50 hover:text-emerald-600 dark:bg-slate-900/90 dark:border-slate-700 dark:text-slate-300"
-                        title="Lihat Detail Produk"
-                    >
-                        <Eye className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-                    </Link>
                 </div>
 
                 {/* Slide-Up Add To Cart Bar */}
