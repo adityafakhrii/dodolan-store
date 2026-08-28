@@ -208,38 +208,44 @@ export default function OrderShow({ order }: OrderShowProps) {
                                     />
                                 </div>
 
-                                <div>
-                                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
-                                        Nama Ekspedisi / Kurir
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={shippingCourier}
-                                        onChange={(e) => setShippingCourier(e.target.value)}
-                                        placeholder="Contoh: JNE / J&T / Armada Dodolan"
-                                        className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-                                    />
-                                </div>
+                                {(status === 'Dikirim' || status === 'Selesai') && (
+                                    <div className="space-y-4 pt-1 border-t border-slate-100 dark:border-slate-800 animate-in fade-in-50 duration-200">
+                                        <div>
+                                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                                Nama Ekspedisi / Kurir
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={shippingCourier}
+                                                onChange={(e) => setShippingCourier(e.target.value)}
+                                                placeholder="Contoh: JNE / J&T / Armada Dodolan"
+                                                className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                            />
+                                        </div>
 
-                                <div>
-                                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
-                                        Nomor Resi Pelacakan
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={trackingNumber}
-                                        onChange={(e) => setTrackingNumber(e.target.value)}
-                                        placeholder="Contoh: JNE1234567890"
-                                        className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs font-mono text-slate-900 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-                                    />
-                                </div>
+                                        <div>
+                                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
+                                                Nomor Resi Pelacakan
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={trackingNumber}
+                                                onChange={(e) => setTrackingNumber(e.target.value)}
+                                                placeholder="Contoh: JNE1234567890"
+                                                className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs font-mono text-slate-900 focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                                            />
+                                        </div>
+                                    </div>
+                                )}
 
                                 <button
                                     type="submit"
                                     disabled={updating}
                                     className="w-full rounded-xl bg-emerald-600 py-2.5 px-4 text-xs font-bold text-white hover:bg-emerald-500 disabled:opacity-50 transition"
                                 >
-                                    {updating ? 'Menyimpan...' : 'Perbarui Status & Resi'}
+                                    {updating 
+                                        ? 'Menyimpan...' 
+                                        : (status === 'Dikirim' || status === 'Selesai' ? 'Perbarui Status & Resi' : 'Perbarui Status Pesanan')}
                                 </button>
                             </form>
                         </div>
