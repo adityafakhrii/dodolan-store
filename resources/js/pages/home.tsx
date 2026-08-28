@@ -180,9 +180,9 @@ export default function Home({ banners, featuredProducts, categories }: HomeProp
 
                             {/* Content */}
                             <div className="relative z-10 max-w-lg space-y-3 sm:space-y-4">
-                                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 sm:px-3 sm:py-1 text-[10px] sm:text-xs font-semibold text-emerald-400">
-                                    <span>Enterprise IoT &amp; Telematics</span>
-                                </div>
+                                <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-emerald-400">
+                                    Enterprise IoT &amp; Telematics
+                                </p>
                                 <h1 className="text-xl sm:text-4xl font-extrabold tracking-tight leading-snug sm:leading-tight">
                                     {activeBanner.title}
                                 </h1>

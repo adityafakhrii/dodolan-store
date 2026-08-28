@@ -22,9 +22,9 @@ export default function Contact() {
             <div className="bg-slate-900 text-white py-16 border-b border-slate-800">
                 <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
                     <div className="max-w-3xl space-y-3">
-                        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1 text-xs font-semibold text-emerald-400">
+                        <p className="text-xs font-bold uppercase tracking-widest text-emerald-400">
                             Pusat Layanan &amp; Informasi
-                        </div>
+                        </p>
                         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
                             Hubungi Tim Dodolan Store
                         </h1>
