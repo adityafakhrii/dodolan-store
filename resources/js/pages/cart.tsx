@@ -8,11 +8,13 @@ import { toast } from 'sonner';
 
 export default function Cart() {
     const { auth } = usePage<{ auth?: { user?: any } }>().props;
-    const { items, updateQuantity, removeItem, clearCart, syncCart, subtotal, itemCount } = useCart();
+    const { items, updateQuantity, removeItem, clearCart, syncCart, subtotal, itemCount, isMounted } = useCart();
 
     useEffect(() => {
-        syncCart();
-    }, [syncCart]);
+        if (isMounted) {
+            syncCart();
+        }
+    }, [isMounted, syncCart]);
 
     const handleProceedToCheckout = () => {
         if (items.length === 0) return;
@@ -43,7 +45,12 @@ export default function Cart() {
             </div>
 
             <div className="mx-auto max-w-[1440px] px-3 sm:px-6 lg:px-8 py-6 sm:py-12">
-                {items.length > 0 ? (
+                {!isMounted ? (
+                    <div className="py-20 text-center space-y-3">
+                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-emerald-600 border-t-transparent"></div>
+                        <p className="text-xs text-slate-400">Memuat keranjang belanja...</p>
+                    </div>
+                ) : items.length > 0 ? (
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
                         {/* Cart Items List */}
                         <div className="lg:col-span-8 space-y-4">

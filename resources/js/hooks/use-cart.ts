@@ -36,9 +36,13 @@ function saveStoredCart(items: CartItem[]) {
 }
 
 export function useCart() {
-    const [items, setItems] = useState<CartItem[]>(getStoredCart);
+    const [isMounted, setIsMounted] = useState(false);
+    const [items, setItems] = useState<CartItem[]>([]);
 
     useEffect(() => {
+        setIsMounted(true);
+        setItems(getStoredCart());
+
         const handleCartChange = (e: Event) => {
             const customEvent = e as CustomEvent<CartItem[]>;
             if (customEvent.detail) {
@@ -228,8 +232,8 @@ export function useCart() {
         }
     }, []);
 
-    const itemCount = items.reduce((total, item) => total + item.quantity, 0);
-    const subtotal = items.reduce((total, item) => total + item.price * item.quantity, 0);
+    const itemCount = isMounted ? items.reduce((total, item) => total + item.quantity, 0) : 0;
+    const subtotal = isMounted ? items.reduce((total, item) => total + item.price * item.quantity, 0) : 0;
 
     return {
         items,
@@ -240,5 +244,6 @@ export function useCart() {
         syncCart,
         itemCount,
         subtotal,
+        isMounted,
     };
 }

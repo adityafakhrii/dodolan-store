@@ -22,12 +22,14 @@ interface Props {
 }
 
 export default function Checkout({ customer }: Props) {
-    const { items, itemCount, subtotal, clearCart, syncCart } = useCart();
+    const { items, itemCount, subtotal, clearCart, syncCart, isMounted } = useCart();
     const isCompletedRef = useRef(false);
 
     useEffect(() => {
-        syncCart();
-    }, [syncCart]);
+        if (isMounted) {
+            syncCart();
+        }
+    }, [isMounted, syncCart]);
 
     const [form, setForm] = useState({
         customer_name: customer?.name || '',
@@ -41,10 +43,10 @@ export default function Checkout({ customer }: Props) {
     const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
-        if (!isCompletedRef.current && items.length === 0) {
+        if (isMounted && !isCompletedRef.current && items.length === 0) {
             router.visit('/keranjang');
         }
-    }, [items]);
+    }, [isMounted, items]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -118,7 +120,7 @@ export default function Checkout({ customer }: Props) {
         }
     };
 
-    if (!isCompletedRef.current && items.length === 0) {
+    if (!isMounted || (!isCompletedRef.current && items.length === 0)) {
         return null;
     }
 
