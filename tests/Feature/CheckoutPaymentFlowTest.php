@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Services\MayarService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class CheckoutPaymentFlowTest extends TestCase
@@ -162,5 +163,143 @@ class CheckoutPaymentFlowTest extends TestCase
         ]);
 
         $response->assertSessionHas('status');
+    }
+
+    public function test_checkout_fails_and_rolls_back_when_mayar_api_fails(): void
+    {
+        $user = User::factory()->create(['is_admin' => false]);
+        $product = Product::first();
+        $initialStock = $product->stock;
+
+        // Mock MayarService to simulate API failure/exception
+        $mockMayar = $this->mock(MayarService::class);
+        $mockMayar->shouldReceive('createPayment')
+            ->once()
+            ->andThrow(new \RuntimeException('Pembayaran gagal dibuat, silakan coba lagi.'));
+
+        $payload = [
+            'customer_name' => $user->name,
+            'customer_email' => $user->email,
+            'customer_phone' => '081234567890',
+            'customer_address' => 'Surabaya',
+            'items' => [
+                ['id' => $product->id, 'quantity' => 2],
+            ],
+        ];
+
+        $response = $this->actingAs($user)->postJson('/checkout', $payload);
+
+        // Response must be 422 with the exact error message
+        $response->assertStatus(422)
+            ->assertJson([
+                'message' => 'Pembayaran gagal dibuat, silakan coba lagi.',
+            ]);
+
+        // Database rollback assertions: No order, no payment created
+        $this->assertDatabaseMissing('orders', [
+            'customer_email' => $user->email,
+        ]);
+        $this->assertDatabaseCount('payments', 0);
+
+        // Stock must remain unchanged (rollback successful)
+        $product->refresh();
+        $this->assertEquals($initialStock, $product->stock);
+    }
+
+    public function test_checkout_fails_and_rolls_back_when_mayar_api_times_out(): void
+    {
+        $user = User::factory()->create(['is_admin' => false]);
+        $product = Product::first();
+        $initialStock = $product->stock;
+
+        // Mock MayarService to throw connection exception
+        $mockMayar = $this->mock(MayarService::class);
+        $mockMayar->shouldReceive('createPayment')
+            ->once()
+            ->andThrow(new \Illuminate\Http\Client\ConnectionException('cURL error 28: Operation timed out'));
+
+        $payload = [
+            'customer_name' => $user->name,
+            'customer_email' => $user->email,
+            'customer_phone' => '081234567890',
+            'customer_address' => 'Surabaya',
+            'items' => [
+                ['id' => $product->id, 'quantity' => 1],
+            ],
+        ];
+
+        $response = $this->actingAs($user)->postJson('/checkout', $payload);
+
+        $response->assertStatus(422)
+            ->assertJson([
+                'message' => 'Pembayaran gagal dibuat, silakan coba lagi.',
+            ]);
+
+        // Verify no order or payment created
+        $this->assertDatabaseMissing('orders', [
+            'customer_email' => $user->email,
+        ]);
+        $this->assertDatabaseCount('payments', 0);
+
+        // Stock is preserved
+        $product->refresh();
+        $this->assertEquals($initialStock, $product->stock);
+    }
+
+    public function test_mayar_service_throws_exception_when_api_response_is_not_successful(): void
+    {
+        Http::fake([
+            '*/invoices/create' => Http::response(['message' => 'Invalid API Key'], 401),
+        ]);
+
+        $order = Order::create([
+            'order_number' => 'DDL-TEST-FAIL-01',
+            'customer_name' => 'Test User',
+            'customer_email' => 'test@example.com',
+            'customer_phone' => '081234567890',
+            'customer_address' => 'Surabaya',
+            'subtotal' => 100000,
+            'total' => 100000,
+            'payment_status' => Order::PAYMENT_PENDING,
+            'order_status' => Order::STATUS_PENDING_PAYMENT,
+        ]);
+
+        $mayarService = new MayarService();
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Pembayaran gagal dibuat, silakan coba lagi.');
+
+        $mayarService->createPayment($order, 'http://localhost/pesanan/DDL-TEST-FAIL-01');
+    }
+
+    public function test_mayar_service_returns_payment_details_when_api_succeeds(): void
+    {
+        Http::fake([
+            '*/invoices/create' => Http::response([
+                'data' => [
+                    'id' => 'inv_mayar_999',
+                    'link' => 'https://mayar.id/inv/test-999',
+                ],
+            ], 200),
+        ]);
+
+        $order = Order::create([
+            'order_number' => 'DDL-TEST-SUCCESS-01',
+            'customer_name' => 'Test User',
+            'customer_email' => 'test@example.com',
+            'customer_phone' => '081234567890',
+            'customer_address' => 'Surabaya',
+            'subtotal' => 100000,
+            'total' => 100000,
+            'payment_status' => Order::PAYMENT_PENDING,
+            'order_status' => Order::STATUS_PENDING_PAYMENT,
+        ]);
+
+        $mayarService = new MayarService();
+        $result = $mayarService->createPayment($order, 'http://localhost/pesanan/DDL-TEST-SUCCESS-01');
+
+        $this->assertTrue($result['success']);
+        $this->assertEquals('inv_mayar_999', $result['payment_reference']);
+        $this->assertEquals('https://mayar.id/inv/test-999', $result['payment_url']);
     }
 }

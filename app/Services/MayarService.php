@@ -101,34 +101,33 @@ class MayarService
                 $data = $response->json();
                 $dataPayload = $data['data'] ?? [];
 
-                $ref = $dataPayload['id'] ?? $dataPayload['transactionId'] ?? $paymentReference;
-                $link = $dataPayload['link'] ?? route('payment.show', ['orderNumber' => $order->order_number]);
+                $ref = $dataPayload['id'] ?? $dataPayload['transactionId'] ?? null;
+                $link = $dataPayload['link'] ?? null;
 
-                Log::info("Mayar API v2 Invoice Created successfully for order {$order->order_number}", [
-                    'id' => $ref,
-                    'link' => $link,
-                ]);
+                if (! empty($link)) {
+                    Log::info("Mayar API v2 Invoice Created successfully for order {$order->order_number}", [
+                        'id' => $ref,
+                        'link' => $link,
+                    ]);
 
-                return [
-                    'success' => true,
-                    'payment_reference' => (string) $ref,
-                    'payment_url' => (string) $link,
-                    'raw_response' => $data,
-                ];
+                    return [
+                        'success' => true,
+                        'payment_reference' => (string) ($ref ?? $paymentReference),
+                        'payment_url' => (string) $link,
+                        'raw_response' => $data,
+                    ];
+                }
+
+                Log::error("Mayar API response missing payment link for order {$order->order_number}: ".json_encode($data));
+            } else {
+                Log::error('Mayar API Error Response: '.$response->status().' - '.$response->body());
             }
 
-            Log::error('Mayar API Error Response: '.$response->status().' - '.$response->body());
+            throw new \RuntimeException('Pembayaran gagal dibuat, silakan coba lagi.');
         } catch (\Throwable $e) {
             Log::error('Mayar Payment Exception: '.$e->getMessage());
+            throw new \RuntimeException('Pembayaran gagal dibuat, silakan coba lagi.', 0, $e);
         }
-
-        // Graceful fallback to store payment page if remote API call fails
-        return [
-            'success' => true,
-            'payment_reference' => $paymentReference,
-            'payment_url' => route('payment.show', ['orderNumber' => $order->order_number]),
-            'raw_response' => ['fallback' => true],
-        ];
     }
 
     /**

@@ -125,7 +125,18 @@ class CheckoutController extends Controller
 
             // 5. Create Mayar Payment transaction
             $returnUrl = route('orders.show', ['orderNumber' => $order->order_number]);
-            $paymentResult = $mayarService->createPayment($order, $returnUrl);
+
+            try {
+                $paymentResult = $mayarService->createPayment($order, $returnUrl);
+
+                if (empty($paymentResult['success']) || empty($paymentResult['payment_url'])) {
+                    abort(422, 'Pembayaran gagal dibuat, silakan coba lagi.');
+                }
+            } catch (\Symfony\Component\HttpKernel\Exception\HttpExceptionInterface $e) {
+                throw $e;
+            } catch (\Throwable $e) {
+                abort(422, 'Pembayaran gagal dibuat, silakan coba lagi.');
+            }
 
             Payment::create([
                 'order_id' => $order->id,
