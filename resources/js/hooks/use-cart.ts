@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { toast } from 'sonner';
 
 export interface CartItem {
     id: number;
@@ -128,6 +129,105 @@ export function useCart() {
         setItems([]);
     }, []);
 
+    const syncCart = useCallback(async (options?: { notify?: boolean }) => {
+        const current = getStoredCart();
+        if (current.length === 0) {
+            return { hasChanges: false, priceChanged: false, stockClamped: false, inactiveRemoved: false };
+        }
+
+        try {
+            const ids = current.map((item) => item.id).join(',');
+            const response = await fetch(`/keranjang/sync?ids=${ids}`, {
+                headers: {
+                    'Accept': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                return { hasChanges: false, priceChanged: false, stockClamped: false, inactiveRemoved: false };
+            }
+
+            const data = await response.json();
+            const serverItems: Array<{
+                id: number;
+                name: string;
+                slug: string;
+                price: number;
+                stock: number;
+                status: boolean;
+                image_url: string;
+            }> = data.items || [];
+
+            if (serverItems.length === 0) {
+                return { hasChanges: false, priceChanged: false, stockClamped: false, inactiveRemoved: false };
+            }
+
+            const serverMap = new Map(serverItems.map((p) => [p.id, p]));
+            let hasChanges = false;
+            let priceChanged = false;
+            let stockClamped = false;
+            let inactiveRemoved = false;
+
+            const updated: CartItem[] = [];
+
+            for (const item of current) {
+                const serverProduct = serverMap.get(item.id);
+
+                // If product deleted or marked inactive or out of stock
+                if (!serverProduct || !serverProduct.status || serverProduct.stock <= 0) {
+                    hasChanges = true;
+                    inactiveRemoved = true;
+                    continue;
+                }
+
+                // Check if price changed
+                if (serverProduct.price !== item.price) {
+                    hasChanges = true;
+                    priceChanged = true;
+                }
+
+                // Check if stock changed and exceeds available stock
+                let newQty = item.quantity;
+                if (item.quantity > serverProduct.stock) {
+                    newQty = serverProduct.stock;
+                    hasChanges = true;
+                    stockClamped = true;
+                }
+
+                updated.push({
+                    ...item,
+                    name: serverProduct.name,
+                    slug: serverProduct.slug,
+                    price: serverProduct.price,
+                    stock: serverProduct.stock,
+                    image_url: serverProduct.image_url || item.image_url,
+                    quantity: newQty,
+                });
+            }
+
+            if (hasChanges) {
+                saveStoredCart(updated);
+                setItems(updated);
+
+                if (options?.notify !== false) {
+                    if (priceChanged) {
+                        toast.info('Harga produk di keranjang Anda telah disesuaikan dengan data terkini.');
+                    }
+                    if (stockClamped) {
+                        toast.warning('Jumlah pesanan disesuaikan dengan sisa stok yang tersedia.');
+                    }
+                    if (inactiveRemoved) {
+                        toast.warning('Produk yang sudah tidak aktif atau habis telah dihapus dari keranjang.');
+                    }
+                }
+            }
+
+            return { hasChanges, priceChanged, stockClamped, inactiveRemoved };
+        } catch {
+            return { hasChanges: false, priceChanged: false, stockClamped: false, inactiveRemoved: false };
+        }
+    }, []);
+
     const itemCount = items.reduce((total, item) => total + item.quantity, 0);
     const subtotal = items.reduce((total, item) => total + item.price * item.quantity, 0);
 
@@ -137,6 +237,7 @@ export function useCart() {
         updateQuantity,
         removeItem,
         clearCart,
+        syncCart,
         itemCount,
         subtotal,
     };

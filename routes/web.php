@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ServiceRequestController as AdminServiceRequestController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
@@ -45,6 +46,9 @@ Route::post('/layanan', [ServiceRequestController::class, 'store'])->middleware(
 
 // Shopping Cart (Public)
 Route::get('/keranjang', fn () => Inertia::render('cart'))->name('cart.index');
+Route::match(['get', 'post'], '/keranjang/sync', [CartController::class, 'sync'])
+    ->withoutMiddleware([ValidateCsrfToken::class])
+    ->name('cart.sync');
 
 // QA & Testing Checklist Tool (Internal QA Review)
 Route::get('/test', fn () => Inertia::render('qa-checklist'))->name('qa.test');

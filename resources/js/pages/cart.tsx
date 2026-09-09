@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import { PublicLayout } from '@/layouts/public-layout';
 import { useCart } from '@/hooks/use-cart';
@@ -7,7 +8,11 @@ import { toast } from 'sonner';
 
 export default function Cart() {
     const { auth } = usePage<{ auth?: { user?: any } }>().props;
-    const { items, updateQuantity, removeItem, clearCart, subtotal, itemCount } = useCart();
+    const { items, updateQuantity, removeItem, clearCart, syncCart, subtotal, itemCount } = useCart();
+
+    useEffect(() => {
+        syncCart();
+    }, [syncCart]);
 
     const handleProceedToCheckout = () => {
         if (items.length === 0) return;

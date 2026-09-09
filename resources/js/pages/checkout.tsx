@@ -22,8 +22,12 @@ interface Props {
 }
 
 export default function Checkout({ customer }: Props) {
-    const { items, itemCount, subtotal, clearCart } = useCart();
+    const { items, itemCount, subtotal, clearCart, syncCart } = useCart();
     const isCompletedRef = useRef(false);
+
+    useEffect(() => {
+        syncCart();
+    }, [syncCart]);
 
     const [form, setForm] = useState({
         customer_name: customer?.name || '',
