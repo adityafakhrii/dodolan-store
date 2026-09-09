@@ -50,10 +50,14 @@ Route::get('/keranjang', fn () => Inertia::render('cart'))->name('cart.index');
 Route::get('/test', fn () => Inertia::render('qa-checklist'))->name('qa.test');
 Route::get('/qa-checklist', fn () => redirect()->route('qa.test'))->name('qa.checklist');
 
-// Authenticated Checkout (Throttled to 10 checkouts per minute)
+// CSRF Token for SPA fetch requests
+Route::get('/csrf-token', fn () => response()->json(['token' => csrf_token()]))->name('csrf.token');
+
+// Authenticated Checkout & Order Status (Throttled checkout)
 Route::middleware(['auth'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'store'])->middleware('throttle:10,1')->name('checkout.store');
+    Route::get('/pesanan/{orderNumber}', [CustomerOrderController::class, 'show'])->name('orders.show');
 });
 
 // Payment Gateway & Status

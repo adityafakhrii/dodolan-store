@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Payment;
+use App\Services\MayarService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -48,17 +51,38 @@ class OrderController extends Controller
         ]);
     }
 
-    public function show(Request $request, string $orderNumber): Response
+    public function show(Request $request, string $orderNumber, MayarService $mayarService): Response
     {
         $user = $request->user();
 
         $order = Order::where('order_number', $orderNumber)
-            ->with(['items', 'payments'])
+            ->with(['items', 'payments', 'latestPayment'])
             ->firstOrFail();
 
         // Ensure user can only view their own orders
         if ($order->user_id !== $user->id && strtolower($order->customer_email) !== strtolower($user->email) && ! $user->is_admin) {
             abort(403, 'Anda tidak memiliki akses untuk melihat rincian pesanan ini.');
+        }
+
+        // Active server-side check with Mayar API if order is not yet marked as paid
+        if ($order->payment_status !== Order::PAYMENT_PAID && $order->latestPayment?->payment_reference) {
+            $status = $mayarService->checkInvoiceStatus($order->latestPayment->payment_reference);
+            if ($status && in_array(strtolower($status), ['paid', 'success', 'settlement'])) {
+                DB::transaction(function () use ($order) {
+                    $order->latestPayment->update([
+                        'status' => Payment::STATUS_PAID,
+                        'paid_at' => now(),
+                    ]);
+
+                    $order->update([
+                        'payment_status' => Order::PAYMENT_PAID,
+                        'order_status' => Order::STATUS_PAID,
+                    ]);
+                });
+
+                $order->refresh();
+                $order->load(['items', 'payments', 'latestPayment']);
+            }
         }
 
         return Inertia::render('customer/orders/show', [

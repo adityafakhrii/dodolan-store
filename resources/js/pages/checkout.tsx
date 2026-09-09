@@ -9,7 +9,7 @@ import {
     ArrowRight, 
     Loader2 
 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { toast } from 'sonner';
 
 interface Props {
@@ -23,6 +23,7 @@ interface Props {
 
 export default function Checkout({ customer }: Props) {
     const { items, itemCount, subtotal, clearCart } = useCart();
+    const isCompletedRef = useRef(false);
 
     const [form, setForm] = useState({
         customer_name: customer?.name || '',
@@ -36,7 +37,7 @@ export default function Checkout({ customer }: Props) {
     const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
-        if (items.length === 0) {
+        if (!isCompletedRef.current && items.length === 0) {
             router.visit('/keranjang');
         }
     }, [items]);
@@ -61,12 +62,25 @@ export default function Checkout({ customer }: Props) {
                 })),
             };
 
+            const csrfResponse = await fetch('/csrf-token', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                },
+            });
+
+            if (!csrfResponse.ok) {
+                throw new Error('Gagal mendapatkan CSRF token.');
+            }
+
+            const { token } = await csrfResponse.json();
+
             const response = await fetch('/checkout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '',
+                    'X-CSRF-TOKEN': token,
                 },
                 body: JSON.stringify(payload),
             });
@@ -82,24 +96,25 @@ export default function Checkout({ customer }: Props) {
                 return;
             }
 
-            // Success! Clear cart
+            // Success! Prevent empty cart redirect to /keranjang
+            isCompletedRef.current = true;
             clearCart();
             toast.success('Pesanan berhasil dibuat! Membuka halaman pembayaran...');
             
             // Open Mayar payment link in a NEW TAB if available
-            if (result.redirect_url && !result.redirect_url.includes(`/pembayaran/${result.order_number}`)) {
+            if (result.redirect_url && !result.redirect_url.includes(`/pesanan/${result.order_number}`) && !result.redirect_url.includes(`/pembayaran/${result.order_number}`)) {
                 window.open(result.redirect_url, '_blank');
             }
 
             // Navigate current tab to the order tracking status page
-            router.visit(`/pembayaran/${result.order_number}`);
+            router.visit(`/pesanan/${result.order_number}`);
         } catch (error) {
             toast.error('Terjadi kesalahan koneksi. Silakan coba lagi.');
             setSubmitting(false);
         }
     };
 
-    if (items.length === 0) {
+    if (!isCompletedRef.current && items.length === 0) {
         return null;
     }
 

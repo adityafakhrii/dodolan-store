@@ -16,7 +16,7 @@ function Toaster({ ...props }: ToasterProps) {
 
     return (
         <Sonner
-            theme={appearance === 'dark' ? 'dark' : 'light'}
+            theme={(appearance as string) === 'dark' ? 'dark' : 'light'}
             className="toaster group"
             position="bottom-right"
             closeButton

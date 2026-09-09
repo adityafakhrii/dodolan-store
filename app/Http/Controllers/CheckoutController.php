@@ -124,7 +124,7 @@ class CheckoutController extends Controller
             }
 
             // 5. Create Mayar Payment transaction
-            $returnUrl = route('payment.show', ['orderNumber' => $order->order_number]);
+            $returnUrl = route('orders.show', ['orderNumber' => $order->order_number]);
             $paymentResult = $mayarService->createPayment($order, $returnUrl);
 
             Payment::create([

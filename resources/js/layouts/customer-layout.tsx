@@ -32,6 +32,7 @@ export function CustomerLayout({ title, description, action, children }: Props) 
 
     const isActive = (href: string) => {
         if (href === '/akun/dashboard') return url === '/akun/dashboard';
+        if (href === '/akun/pesanan') return url.startsWith('/akun/pesanan') || url.startsWith('/pesanan');
         return url.startsWith(href);
     };
 

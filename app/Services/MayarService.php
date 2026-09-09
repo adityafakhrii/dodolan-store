@@ -84,6 +84,7 @@ class MayarService
                 'mobile' => ! empty($mobile) ? $mobile : '081234567890',
                 'description' => "Pembayaran Pesanan {$order->order_number} - Dodolan Store",
                 'expiredAt' => now()->addDays(2)->toIso8601String(),
+                'redirectUrl' => $returnUrl,
                 'items' => $items,
                 'extraData' => [
                     'order_number' => $order->order_number,
